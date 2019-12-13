@@ -1,0 +1,32 @@
+{
+  "name": "@vtaits/react-paginator",
+  "version": "0.1.0",
+  "description": "Simple customizable pagination component for react applications",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "files": [
+    "/es",
+    "/lib"
+  ],
+  "repository": "git@github.com:vtaits/react-paginator.git",
+  "author": "Vadim Taits",
+  "license": "MIT",
+  "scripts": {
+    "build": "yarn build:cjs && yarn build:es",
+    "build:cjs": "cross-env BABEL_ENV=cjs babel src --out-dir lib --ignore \"src/**/__tests__\",\"src/**/__stories__\"",
+    "build:es": "cross-env BABEL_ENV=es babel src --out-dir es --ignore \"src/**/__tests__\",\"src/**/__stories__\"",
+    "prepare": "yarn build"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.7.6",
+    "prop-types": "^15.7.2",
+    "styled-components": "^4.4.1"
+  },
+  "devDependencies": {
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  }
+}
