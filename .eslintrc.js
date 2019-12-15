@@ -19,19 +19,20 @@ module.exports = {
     'no-nested-ternary': 'off',
 
     'import/no-extraneous-dependencies': [
-      'error',
+      'off',
       {
         packageDir: [
           './packages/react-paginator',
         ],
 
         devDependencies: [
-          '**/__tests__/*',
-          '**/__stories__/*'
+          '**/__tests__/**/*',
+          '**/__stories__/**/*',
         ],
       },
     ],
 
     'react/jsx-props-no-spreading': 'off',
+    'react/no-array-index-key': 'off',
   },
 };

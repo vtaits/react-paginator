@@ -4,8 +4,8 @@
     "packages/*"
   ],
   "scripts": {
-    "storybook": "BABEL_ENV=es start-storybook",
-    "build": "yarn workspace react-paginator",
+    "start": "BABEL_ENV=es start-storybook",
+    "build": "yarn workspace @vtaits/react-paginator run build",
     "lint": "eslint packages --ext .js,.jsx --ignore-path .gitignore",
     "test:unit": "jest",
     "test": "yarn lint && yarn test:unit"
@@ -21,6 +21,7 @@
     "@babel/preset-react": "^7.7.4",
     "@storybook/react": "^5.2.8",
     "babel-eslint": "^10.0.3",
+    "babel-loader": "^8.0.6",
     "cross-env": "^6.0.3",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
