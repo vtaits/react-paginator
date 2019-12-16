@@ -8,6 +8,12 @@
     "/es",
     "/lib"
   ],
+  "keywords": [
+    "react",
+    "ui",
+    "pagination",
+    "paginator"
+  ],
   "repository": "git@github.com:vtaits/react-paginator.git",
   "author": "Vadim Taits",
   "license": "MIT",
