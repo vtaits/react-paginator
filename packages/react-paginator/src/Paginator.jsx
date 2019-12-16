@@ -89,8 +89,10 @@ const Paginator = memo((props) => {
               case BREAK:
                 return (
                   <Break
+                    Link={Link}
                     previous={pagesItem.previous}
                     next={pagesItem.next}
+                    onPageChange={onPageChange}
                     hrefBuilder={hrefBuilder}
                     rootProps={props}
                     key={index}

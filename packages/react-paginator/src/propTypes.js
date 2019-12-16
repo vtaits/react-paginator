@@ -7,7 +7,7 @@ const componentsShape = PropTypes.shape({
   NextLink: PropTypes.elementType,
   PageLink: PropTypes.elementType,
   PageLinkGroup: PropTypes.elementType,
-  Pages: PropTypes.elementType.isRequired,
+  Pages: PropTypes.elementType,
   PrevoiousLink: PropTypes.elementType,
 });
 
