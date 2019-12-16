@@ -151,6 +151,7 @@ Paginator.defaultProps = {
   hrefBuilder: null,
   getPages: defaultGetPages,
 
+  components: null,
   styles: {},
 };
 
