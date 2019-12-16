@@ -10,7 +10,6 @@ import {
 export const BreakComponent = styled.div((props) => getStyle(
   'break',
 
-  // TO DO
   {
     color: '#999',
     padding: '7px 14px',

@@ -10,7 +10,6 @@ import {
 export const PageLinkGroupComponent = styled.div((props) => getStyle(
   'pageLinkGroup',
 
-  // TO DO
   {
     display: 'flex',
   },
