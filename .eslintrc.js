@@ -19,9 +19,10 @@ module.exports = {
     'no-nested-ternary': 'off',
 
     'import/no-extraneous-dependencies': [
-      'off',
+      'error',
       {
         packageDir: [
+          __dirname,
           './packages/react-paginator',
         ],
 
