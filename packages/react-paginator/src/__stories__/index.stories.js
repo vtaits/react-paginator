@@ -1,5 +1,6 @@
 import { storiesOf } from '@storybook/react';
 
+import CustomStyles from './CustomStyles';
 import FewPages from './FewPages';
 import Simple from './Simple';
 import WithLinks from './WithLinks';
@@ -7,4 +8,5 @@ import WithLinks from './WithLinks';
 storiesOf('Examples')
   .add('Simple', Simple)
   .add('With links', WithLinks)
-  .add('Few pages', FewPages);
+  .add('Few pages', FewPages)
+  .add('Custom styles', CustomStyles);
