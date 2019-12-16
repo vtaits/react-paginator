@@ -28,7 +28,7 @@ export const PreviousLinkComponent = styled.a((props) => {
       minWidth: 40,
       textAlign: 'center',
       cursor: isDisabled ? 'default' : 'pointer',
-      backgroundColor: '#fff',
+      backgroundColor: 'transparent',
       color: isDisabled ? '#999' : '#466db5',
       paddingRight: 10,
     },
