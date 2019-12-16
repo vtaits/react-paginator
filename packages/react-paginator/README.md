@@ -33,7 +33,7 @@ yarn add @vtaits/react-paginator
 ```javascript
 import React, { useState } from 'react';
 
-import Paginator from '@vtaits/react-paginator';
+import { Paginator } from '@vtaits/react-paginator';
 
 const Example = () => {
   const [page, setPage] = useState(1);
@@ -73,7 +73,7 @@ Redefining like in [react-select](https://react-select.com/styles).
 ```javascript
 import React, { useState } from 'react';
 
-import Paginator from '../Paginator';
+import { Paginator } from '@vtaits/react-paginator';
 
 const styles = {
   container: (baseStyle, props) => ({
@@ -120,7 +120,7 @@ Redefining like in [react-select](https://react-select.com/components).
 ```
 import React, { useState } from 'react';
 
-import Paginator from '../Paginator';
+import { Paginator } from '@vtaits/react-paginator';
 
 const PageLink = ({
   page,
