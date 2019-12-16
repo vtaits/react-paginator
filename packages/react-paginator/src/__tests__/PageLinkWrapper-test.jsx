@@ -42,6 +42,14 @@ test('should render children', () => {
   expect(page.getProp('children')).toBe(5);
 });
 
+test('should provide current page', () => {
+  const page = setup({
+    pageForLink: 5,
+  });
+
+  expect(page.getProp('page')).toBe(5);
+});
+
 test('should provide rootProps', () => {
   const page = setup({});
 

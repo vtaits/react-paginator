@@ -39,6 +39,7 @@ const PageLinkWrapper = memo(({
       isCurrent={isCurrent}
       innerProps={innerProps}
       rootProps={rootProps}
+      page={pageForLink}
     >
       {pageForLink}
     </PageLink>
