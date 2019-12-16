@@ -143,7 +143,7 @@ Paginator.propTypes = paginatorPropTypes;
 Paginator.defaultProps = {
   pageRangeDisplayed: 5,
   marginPagesDisplayed: 2,
-  previousLabel: 'previous',
+  previousLabel: 'prev',
   nextLabel: 'next',
   breakLabel: '...',
   hrefBuilder: null,
