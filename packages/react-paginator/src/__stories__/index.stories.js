@@ -6,7 +6,7 @@ import FewPages from './FewPages';
 import Simple from './Simple';
 import WithLinks from './WithLinks';
 
-storiesOf('Examples')
+storiesOf('Examples', module)
   .add('Simple', Simple)
   .add('With links', WithLinks)
   .add('Few pages', FewPages)
