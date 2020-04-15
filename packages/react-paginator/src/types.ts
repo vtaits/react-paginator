@@ -4,6 +4,9 @@ import {
   SyntheticEvent,
 } from 'react';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type CSSObject = Record<string, any>;
+
 export type PAGES = 'PAGES';
 export type BREAK = 'BREAK';
 
@@ -52,7 +55,7 @@ export type LinkComponent = ComponentType<{
   onClick?: (event: SyntheticEvent) => void;
   children: ReactNode;
   className?: string;
-  style: Object;
+  style: CSSObject;
 }>;
 
 export type NextLinkComponent = ComponentType<{
@@ -85,7 +88,7 @@ export type WeakComponents = {
   Container?: ContainerComponent;
   Link?: LinkComponent;
   NextLink?: NextLinkComponent;
-  PageLink?: ComponentType;
+  PageLink?: PageLinkComponent;
   PageLinkGroup?: PageLinkGroupComponent;
   Pages?: PagesComponent;
   PreviousLink?: PreviousLinkComponent;
@@ -96,13 +99,17 @@ export type Components = {
   Container: ContainerComponent;
   Link: LinkComponent;
   NextLink: NextLinkComponent;
-  PageLink: ComponentType;
+  PageLink: PageLinkComponent;
   PageLinkGroup: PageLinkGroupComponent;
   Pages: PagesComponent;
   PreviousLink: PreviousLinkComponent;
 };
 
-export type GetComponentStyle = (baseStyle: Object, componentProps: Object) => Object;
+export type GetComponentStyle = (
+  baseStyle: CSSObject,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  componentProps: Record<string, any>,
+) => CSSObject;
 
 export type Styles = {
   break?: GetComponentStyle;

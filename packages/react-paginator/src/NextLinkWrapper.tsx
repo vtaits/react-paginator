@@ -1,15 +1,9 @@
 import React, {
   memo,
   FC,
-  ComponentType,
   ReactNode,
   SyntheticEvent,
 } from 'react';
-import PropTypes from 'prop-types';
-
-import {
-  rootPropsShape,
-} from './propTypes';
 
 import {
   OnPageChange,
@@ -71,17 +65,6 @@ const NextLinkWrapper: FC<Props> = memo(({
     </NextLink>
   );
 });
-
-NextLinkWrapper.propTypes = {
-  Link: PropTypes.elementType.isRequired,
-  NextLink: PropTypes.elementType.isRequired,
-  onPageChange: PropTypes.func.isRequired,
-  hrefBuilder: PropTypes.func,
-  nextLabel: PropTypes.node.isRequired,
-  page: PropTypes.number.isRequired,
-  pageCount: PropTypes.number.isRequired,
-  rootProps: rootPropsShape.isRequired,
-};
 
 NextLinkWrapper.defaultProps = {
   hrefBuilder: null,

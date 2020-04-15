@@ -17,10 +17,6 @@ import {
 } from './constants';
 
 import {
-  paginatorPropTypes,
-} from './propTypes';
-
-import {
   PagesBlock,
   PaginatorProps,
   Components,
@@ -129,6 +125,7 @@ const Paginator: FC<PaginatorProps> = memo((props) => {
                 );
 
               default:
+                // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
                 // @ts-ignore
                 throw new Error(`Unknown type "${pagesItem.type}"`);
             }
@@ -151,8 +148,6 @@ const Paginator: FC<PaginatorProps> = memo((props) => {
 });
 
 Paginator.displayName = 'Paginator';
-
-Paginator.propTypes = paginatorPropTypes;
 
 Paginator.defaultProps = {
   pageRangeDisplayed: 5,

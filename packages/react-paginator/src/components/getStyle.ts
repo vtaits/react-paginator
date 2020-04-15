@@ -1,14 +1,15 @@
 import {
   RootProps,
+  CSSObject,
 } from '../types';
 
 const getStyle = (
   componentName: string,
-  baseStyle: Object,
+  baseStyle: CSSObject,
   componentProps: {
     rootProps: RootProps;
   },
-): Object => {
+): CSSObject => {
   const componentStyles = componentProps.rootProps.styles[componentName];
 
   if (!componentStyles) {

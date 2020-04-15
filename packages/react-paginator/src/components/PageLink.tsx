@@ -1,11 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import getStyle from './getStyle';
-import {
-  rootPropsShape,
-} from '../propTypes';
 
 import {
   PageLinkComponent as PageLinkComponentType,
@@ -25,7 +21,7 @@ export const PageLinkComponent = styled.a((props) => {
       borderStyle: 'solid',
       fontFamily: 'Roboto,-apple-system,BlinkMacSystemFont,\'Helvetica Neue\',Helvetica,sans-serif',
       fontSize: '14px',
-      fontWeight: isCurrent ? '700' : '400',
+      fontWeight: isCurrent ? 700 : 400,
       lineHeight: '18px',
       padding: 7,
       textDecoration: 'none',
@@ -71,13 +67,5 @@ const PageLink: PageLinkComponentType = ({
     {children}
   </PageLinkComponent>
 );
-
-PageLink.propTypes = {
-  Link: PropTypes.elementType.isRequired,
-  isCurrent: PropTypes.bool.isRequired,
-  innerProps: PropTypes.objectOf(PropTypes.any).isRequired,
-  rootProps: rootPropsShape.isRequired,
-  children: PropTypes.node.isRequired,
-};
 
 export default PageLink;

@@ -1,11 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import getStyle from './getStyle';
-import {
-  rootPropsShape,
-} from '../propTypes';
 
 import {
   PageLinkGroupComponent as PageLinkGroupComponentType,
@@ -31,10 +27,5 @@ const PageLinkGroup: PageLinkGroupComponentType = ({
     {children}
   </PageLinkGroupComponent>
 );
-
-PageLinkGroup.propTypes = {
-  rootProps: rootPropsShape.isRequired,
-  children: PropTypes.node.isRequired,
-};
 
 export default PageLinkGroup;

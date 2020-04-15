@@ -1,16 +1,10 @@
 import React, {
   memo,
   FC,
-  ComponentType,
   ReactNode,
 } from 'react';
-import PropTypes from 'prop-types';
 
 import PageLinkWrapper from './PageLinkWrapper';
-
-import {
-  rootPropsShape,
-} from './propTypes';
 
 import {
   OnPageChange,
@@ -70,18 +64,6 @@ const PageLinkGroupWrapper: FC<Props> = memo(({
     </PageLinkGroup>
   );
 });
-
-PageLinkGroupWrapper.propTypes = {
-  Link: PropTypes.elementType.isRequired,
-  PageLink: PropTypes.elementType.isRequired,
-  PageLinkGroup: PropTypes.elementType.isRequired,
-  start: PropTypes.number.isRequired,
-  end: PropTypes.number.isRequired,
-  onPageChange: PropTypes.func.isRequired,
-  hrefBuilder: PropTypes.func,
-  page: PropTypes.number.isRequired,
-  rootProps: rootPropsShape.isRequired,
-};
 
 PageLinkGroupWrapper.defaultProps = {
   hrefBuilder: null,

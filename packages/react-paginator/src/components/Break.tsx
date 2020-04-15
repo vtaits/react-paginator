@@ -1,13 +1,7 @@
-import React, {
-  ReactNode,
-} from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import styled from 'styled-components';
 
 import getStyle from './getStyle';
-import {
-  rootPropsShape,
-} from '../propTypes';
 
 import {
   BreakComponent as BreakComponentType,
@@ -34,10 +28,5 @@ const Break: BreakComponentType = ({
     {children}
   </BreakComponent>
 );
-
-Break.propTypes = {
-  rootProps: rootPropsShape.isRequired,
-  children: PropTypes.node.isRequired,
-};
 
 export default Break;

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {
   LinkComponent,
@@ -51,15 +50,6 @@ const Link: LinkComponent = (props) => {
       {children}
     </a>
   );
-};
-
-Link.propTypes = {
-  disabled: PropTypes.bool,
-  href: PropTypes.string,
-  onClick: PropTypes.func,
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-  style: PropTypes.objectOf(PropTypes.any),
 };
 
 Link.defaultProps = {

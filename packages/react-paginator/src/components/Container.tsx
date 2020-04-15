@@ -1,11 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import getStyle from './getStyle';
-import {
-  rootPropsShape,
-} from '../propTypes';
 
 import {
   ContainerComponent as ContainerComponentType,
@@ -31,10 +27,5 @@ const Container: ContainerComponentType = ({
     {children}
   </ContainerComponent>
 );
-
-Container.propTypes = {
-  rootProps: rootPropsShape.isRequired,
-  children: PropTypes.node.isRequired,
-};
 
 export default Container;

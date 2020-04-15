@@ -1,6 +1,23 @@
 import {
+  BreakComponent,
+  ContainerComponent,
+  LinkComponent,
+  NextLinkComponent,
+  PageLinkComponent,
+  PageLinkGroupComponent,
+  PagesComponent,
+  PreviousLinkComponent,
   RootProps,
 } from '../types';
+
+const Break: BreakComponent = () => null;
+const Container: ContainerComponent = () => null;
+const Link: LinkComponent = () => null;
+const NextLink: NextLinkComponent = () => null;
+const PageLink: PageLinkComponent = () => null;
+const PageLinkGroup: PageLinkGroupComponent = () => null;
+const Pages: PagesComponent = () => null;
+const PreviousLink: PreviousLinkComponent = () => null;
 
 const rootProps: RootProps = {
   pageCount: 10,
@@ -14,14 +31,14 @@ const rootProps: RootProps = {
   hrefBuilder: null,
 
   components: {
-    Break: () => null,
-    Container: () => null,
-    Link: () => null,
-    NextLink: () => null,
-    PageLink: () => null,
-    PageLinkGroup: () => null,
-    Pages: () => null,
-    PreviousLink: () => null,
+    Break,
+    Container,
+    Link,
+    NextLink,
+    PageLink,
+    PageLinkGroup,
+    Pages,
+    PreviousLink,
   },
 
   styles: {},
