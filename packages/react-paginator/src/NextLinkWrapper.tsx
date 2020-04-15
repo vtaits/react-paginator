@@ -1,11 +1,37 @@
-import React, { memo } from 'react';
+import React, {
+  memo,
+  FC,
+  ComponentType,
+  ReactNode,
+  SyntheticEvent,
+} from 'react';
 import PropTypes from 'prop-types';
 
 import {
   rootPropsShape,
 } from './propTypes';
 
-const NextLinkWrapper = memo(({
+import {
+  OnPageChange,
+  HrefBuilder,
+  RootProps,
+  LinkInnerProps,
+  LinkComponent,
+  NextLinkComponent,
+} from './types';
+
+type Props = {
+  Link: LinkComponent;
+  NextLink: NextLinkComponent;
+  onPageChange: OnPageChange;
+  hrefBuilder?: HrefBuilder;
+  nextLabel: ReactNode;
+  page: number;
+  pageCount: number;
+  rootProps: RootProps;
+};
+
+const NextLinkWrapper: FC<Props> = memo(({
   Link,
   NextLink,
   onPageChange,
@@ -17,12 +43,12 @@ const NextLinkWrapper = memo(({
 }) => {
   const isDisabled = page === pageCount;
 
-  const onClick = (event) => {
+  const onClick = (event: SyntheticEvent): void => {
     event.preventDefault();
     onPageChange(page + 1);
   };
 
-  const innerProps = {};
+  const innerProps: LinkInnerProps = {};
 
   if (isDisabled) {
     innerProps.disabled = true;

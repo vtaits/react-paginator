@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Link = (props) => {
+import {
+  LinkComponent,
+} from '../types';
+
+const Link: LinkComponent = (props) => {
   const {
     disabled,
     href,

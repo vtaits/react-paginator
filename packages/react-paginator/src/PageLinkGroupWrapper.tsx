@@ -1,4 +1,9 @@
-import React, { memo } from 'react';
+import React, {
+  memo,
+  FC,
+  ComponentType,
+  ReactNode,
+} from 'react';
 import PropTypes from 'prop-types';
 
 import PageLinkWrapper from './PageLinkWrapper';
@@ -7,7 +12,28 @@ import {
   rootPropsShape,
 } from './propTypes';
 
-const PageLinkGroupWrapper = memo(({
+import {
+  OnPageChange,
+  HrefBuilder,
+  RootProps,
+  LinkComponent,
+  PageLinkComponent,
+  PageLinkGroupComponent,
+} from './types';
+
+type Props = {
+  Link: LinkComponent;
+  PageLink: PageLinkComponent;
+  PageLinkGroup: PageLinkGroupComponent;
+  start: number;
+  end: number;
+  onPageChange: OnPageChange;
+  hrefBuilder?: HrefBuilder;
+  page: number;
+  rootProps: RootProps;
+};
+
+const PageLinkGroupWrapper: FC<Props> = memo(({
   Link,
   PageLink,
   PageLinkGroup,
@@ -18,8 +44,8 @@ const PageLinkGroupWrapper = memo(({
   page,
   rootProps,
 }) => {
-  const renderedPages = [];
-  for (let pageForLink = start; pageForLink <= end; ++pageForLink) {
+  const renderedPages: ReactNode[] = [];
+  for (let pageForLink: number = start; pageForLink <= end; ++pageForLink) {
     renderedPages.push(
       <PageLinkWrapper
         Link={Link}

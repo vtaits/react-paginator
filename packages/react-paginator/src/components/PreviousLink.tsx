@@ -7,13 +7,17 @@ import {
   rootPropsShape,
 } from '../propTypes';
 
-export const NextLinkComponent = styled.a((props) => {
+import {
+  PreviousLinkComponent as PreviousLinkComponentType,
+} from '../types';
+
+export const PreviousLinkComponent = styled.a((props) => {
   const {
     isDisabled,
   } = props;
 
   return getStyle(
-    'nextLink',
+    'previousLink',
 
     {
       boxSizing: 'border-box',
@@ -30,36 +34,36 @@ export const NextLinkComponent = styled.a((props) => {
       cursor: isDisabled ? 'default' : 'pointer',
       backgroundColor: 'transparent',
       color: isDisabled ? '#999' : '#466db5',
-      paddingLeft: 10,
+      paddingRight: 10,
     },
 
     props,
   );
 });
 
-const NextLink = ({
+const PreviousLink: PreviousLinkComponentType = ({
   Link,
   isDisabled,
   rootProps,
   innerProps,
   children,
 }) => (
-  <NextLinkComponent
+  <PreviousLinkComponent
     as={Link}
     {...innerProps}
     isDisabled={isDisabled}
     rootProps={rootProps}
   >
     {children}
-  </NextLinkComponent>
+  </PreviousLinkComponent>
 );
 
-NextLink.propTypes = {
-  isDisabled: PropTypes.bool.isRequired,
+PreviousLink.propTypes = {
   Link: PropTypes.elementType.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
   innerProps: PropTypes.objectOf(PropTypes.any).isRequired,
   rootProps: rootPropsShape.isRequired,
   children: PropTypes.node.isRequired,
 };
 
-export default NextLink;
+export default PreviousLink;

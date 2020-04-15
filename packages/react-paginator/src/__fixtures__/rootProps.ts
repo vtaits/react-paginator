@@ -1,4 +1,8 @@
-const rootProps = {
+import {
+  RootProps,
+} from '../types';
+
+const rootProps: RootProps = {
   pageCount: 10,
   pageRangeDisplayed: 5,
   marginPagesDisplayed: 2,
@@ -6,7 +10,7 @@ const rootProps = {
   nextLabel: 'next',
   breakLabel: 'break',
   page: 3,
-  onPageChange: Function.prototype,
+  onPageChange: () => {},
   hrefBuilder: null,
 
   components: {
@@ -17,7 +21,7 @@ const rootProps = {
     PageLink: () => null,
     PageLinkGroup: () => null,
     Pages: () => null,
-    PrevoiousLink: () => null,
+    PreviousLink: () => null,
   },
 
   styles: {},

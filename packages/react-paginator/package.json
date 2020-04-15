@@ -4,9 +4,11 @@
   "description": "Simple customizable pagination component for react applications",
   "main": "lib/index.js",
   "module": "es/index.js",
+  "typings": "ts/index.d.ts",
   "files": [
     "/es",
-    "/lib"
+    "/lib",
+    "/ts"
   ],
   "keywords": [
     "react",
@@ -18,10 +20,15 @@
   "author": "Vadim Taits",
   "license": "MIT",
   "scripts": {
-    "build": "yarn build:cjs && yarn build:es",
-    "build:cjs": "cross-env BABEL_ENV=cjs babel src --out-dir lib --ignore \"src/**/__tests__\",\"src/**/__stories__\",\"src/**/__fixtures__\"",
-    "build:es": "cross-env BABEL_ENV=es babel src --out-dir es --ignore \"src/**/__tests__\",\"src/**/__stories__\",\"src/**/__fixtures__\"",
-    "prepare": "yarn build"
+    "clean": "rimraf lib es ts",
+    "build": "yarn build:cjs && yarn build:es && yarn build:ts",
+    "build:cjs": "cross-env BABEL_ENV=cjs babel --extensions '.ts,.tsx' src --out-dir lib --ignore \"src/**/__tests__\",\"src/**/__stories__\",\"src/**/__fixtures__\"",
+    "build:es": "cross-env BABEL_ENV=es babel --extensions '.ts,.tsx' src --out-dir es --ignore \"src/**/__tests__\",\"src/**/__stories__\",\"src/**/__fixtures__\"",
+    "build:ts": "tsc --declaration",
+    "lint": "eslint src --ext .ts,.tsx --ignore-path ../../.gitignore",
+    "test:unit": "jest",
+    "test": "yarn test:unit",
+    "prepare": "yarn clean && yarn build"
   },
   "peerDependencies": {
     "react": "^16.8.0"

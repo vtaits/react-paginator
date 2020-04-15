@@ -3,7 +3,12 @@ import {
   BREAK,
 } from './constants';
 
-const getPages = ({
+import {
+  GetPages,
+  PagesBlock,
+} from './types';
+
+const getPages: GetPages = ({
   pageCount,
   pageRangeDisplayed,
   marginPagesDisplayed,
@@ -19,16 +24,16 @@ const getPages = ({
     ];
   }
 
-  let startPageInMainRange = Math.max(1, Math.ceil(page - (pageRangeDisplayed / 2)));
-  let endPageInMainRange = startPageInMainRange + pageRangeDisplayed - 1;
+  let startPageInMainRange: number = Math.max(1, Math.ceil(page - (pageRangeDisplayed / 2)));
+  let endPageInMainRange: number = startPageInMainRange + pageRangeDisplayed - 1;
 
   if (endPageInMainRange > pageCount) {
     endPageInMainRange = pageCount;
     startPageInMainRange = pageCount - pageRangeDisplayed + 1;
   }
 
-  let hasBreakBefore;
-  let hasBreakAfter;
+  let hasBreakBefore: boolean;
+  let hasBreakAfter: boolean;
 
   if (startPageInMainRange <= marginPagesDisplayed + 2) {
     startPageInMainRange = 1;
@@ -44,7 +49,7 @@ const getPages = ({
     hasBreakAfter = true;
   }
 
-  const result = [];
+  const result: PagesBlock[] = [];
 
   if (hasBreakBefore) {
     result.push(

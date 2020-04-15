@@ -1,3 +1,7 @@
+import {
+  Components,
+} from '../types';
+
 import Break from './Break';
 import Container from './Container';
 import Link from './Link';
@@ -7,7 +11,7 @@ import PageLinkGroup from './PageLinkGroup';
 import Pages from './Pages';
 import PreviousLink from './PreviousLink';
 
-const components = {
+const components: Components = {
   Break,
   Container,
   Link,

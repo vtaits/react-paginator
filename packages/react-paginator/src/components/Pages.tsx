@@ -7,30 +7,35 @@ import {
   rootPropsShape,
 } from '../propTypes';
 
-export const PageLinkGroupComponent = styled.div((props) => getStyle(
-  'pageLinkGroup',
+import {
+  PagesComponent as PagesComponentType,
+} from '../types';
+
+export const PagesComponent = styled.div((props) => getStyle(
+  'pages',
 
   {
     display: 'flex',
+    alignItems: 'center',
   },
 
   props,
 ));
 
-const PageLinkGroup = ({
+const Pages: PagesComponentType = ({
   rootProps,
   children,
 }) => (
-  <PageLinkGroupComponent
+  <PagesComponent
     rootProps={rootProps}
   >
     {children}
-  </PageLinkGroupComponent>
+  </PagesComponent>
 );
 
-PageLinkGroup.propTypes = {
+Pages.propTypes = {
   rootProps: rootPropsShape.isRequired,
   children: PropTypes.node.isRequired,
 };
 
-export default PageLinkGroup;
+export default Pages;

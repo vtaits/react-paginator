@@ -1,4 +1,8 @@
-import React, { memo, useMemo } from 'react';
+import React, {
+  memo,
+  useMemo,
+  FC,
+} from 'react';
 
 import components from './components';
 import defaultGetPages from './getPages';
@@ -16,7 +20,14 @@ import {
   paginatorPropTypes,
 } from './propTypes';
 
-const Paginator = memo((props) => {
+import {
+  PagesBlock,
+  PaginatorProps,
+  Components,
+  RootProps,
+} from './types';
+
+const Paginator: FC<PaginatorProps> = memo((props) => {
   const {
     pageCount,
     pageRangeDisplayed,
@@ -32,7 +43,7 @@ const Paginator = memo((props) => {
     components: componentsProp,
   } = props;
 
-  const mergedComponents = useMemo(() => {
+  const mergedComponents: Components = useMemo(() => {
     if (componentsProp) {
       return {
         ...components,
@@ -43,7 +54,7 @@ const Paginator = memo((props) => {
     return components;
   }, [componentsProp]);
 
-  const pages = useMemo(() => getPages({
+  const pages: PagesBlock[] = useMemo(() => getPages({
     pageCount,
     pageRangeDisplayed,
     marginPagesDisplayed,
@@ -68,7 +79,7 @@ const Paginator = memo((props) => {
 
   return (
     <Container
-      rootProps={props}
+      rootProps={props as RootProps}
     >
       <PreviousLinkWrapper
         Link={Link}
@@ -77,14 +88,14 @@ const Paginator = memo((props) => {
         hrefBuilder={hrefBuilder}
         previousLabel={previousLabel}
         page={page}
-        rootProps={props}
+        rootProps={props as RootProps}
       />
 
       <Pages
-        rootProps={props}
+        rootProps={props as RootProps}
       >
         {
-          pages.map((pagesItem, index) => {
+          pages.map((pagesItem: PagesBlock, index) => {
             switch (pagesItem.type) {
               case BREAK:
                 return (
@@ -94,7 +105,7 @@ const Paginator = memo((props) => {
                     next={pagesItem.next}
                     onPageChange={onPageChange}
                     hrefBuilder={hrefBuilder}
-                    rootProps={props}
+                    rootProps={props as RootProps}
                     key={index}
                   >
                     {breakLabel}
@@ -112,12 +123,13 @@ const Paginator = memo((props) => {
                     onPageChange={onPageChange}
                     hrefBuilder={hrefBuilder}
                     page={page}
-                    rootProps={props}
+                    rootProps={props as RootProps}
                     key={index}
                   />
                 );
 
               default:
+                // @ts-ignore
                 throw new Error(`Unknown type "${pagesItem.type}"`);
             }
           })
@@ -132,7 +144,7 @@ const Paginator = memo((props) => {
         nextLabel={nextLabel}
         page={page}
         pageCount={pageCount}
-        rootProps={props}
+        rootProps={props as RootProps}
       />
     </Container>
   );

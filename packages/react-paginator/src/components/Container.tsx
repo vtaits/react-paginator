@@ -7,31 +7,34 @@ import {
   rootPropsShape,
 } from '../propTypes';
 
-export const BreakComponent = styled.div((props) => getStyle(
-  'break',
+import {
+  ContainerComponent as ContainerComponentType,
+} from '../types';
+
+export const ContainerComponent = styled.div((props) => getStyle(
+  'container',
 
   {
-    color: '#999',
-    padding: '7px 14px',
+    display: 'inline-flex',
   },
 
   props,
 ));
 
-const Break = ({
+const Container: ContainerComponentType = ({
   rootProps,
   children,
 }) => (
-  <BreakComponent
+  <ContainerComponent
     rootProps={rootProps}
   >
     {children}
-  </BreakComponent>
+  </ContainerComponent>
 );
 
-Break.propTypes = {
+Container.propTypes = {
   rootProps: rootPropsShape.isRequired,
   children: PropTypes.node.isRequired,
 };
 
-export default Break;
+export default Container;

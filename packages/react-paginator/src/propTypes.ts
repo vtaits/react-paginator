@@ -8,7 +8,7 @@ const componentsShape = PropTypes.shape({
   PageLink: PropTypes.elementType,
   PageLinkGroup: PropTypes.elementType,
   Pages: PropTypes.elementType,
-  PrevoiousLink: PropTypes.elementType,
+  PreviousLink: PropTypes.elementType,
 });
 
 const stylesShape = PropTypes.shape({
@@ -18,7 +18,7 @@ const stylesShape = PropTypes.shape({
   pageLink: PropTypes.func,
   pageLinkGroup: PropTypes.func,
   pages: PropTypes.func,
-  prevoiousLink: PropTypes.func,
+  previousLink: PropTypes.func,
 });
 
 export const paginatorPropTypes = {

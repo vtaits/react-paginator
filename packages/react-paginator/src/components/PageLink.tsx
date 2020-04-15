@@ -7,6 +7,10 @@ import {
   rootPropsShape,
 } from '../propTypes';
 
+import {
+  PageLinkComponent as PageLinkComponentType,
+} from '../types';
+
 export const PageLinkComponent = styled.a((props) => {
   const {
     isCurrent,
@@ -51,7 +55,7 @@ export const PageLinkComponent = styled.a((props) => {
   );
 });
 
-const PageLink = ({
+const PageLink: PageLinkComponentType = ({
   Link,
   isCurrent,
   rootProps,

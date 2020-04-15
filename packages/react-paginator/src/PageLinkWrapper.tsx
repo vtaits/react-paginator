@@ -1,11 +1,35 @@
-import React, { memo } from 'react';
+import React, {
+  memo,
+  FC,
+  ComponentType,
+  SyntheticEvent,
+} from 'react';
 import PropTypes from 'prop-types';
 
 import {
   rootPropsShape,
 } from './propTypes';
 
-const PageLinkWrapper = memo(({
+import {
+  OnPageChange,
+  HrefBuilder,
+  RootProps,
+  LinkInnerProps,
+  LinkComponent,
+  PageLinkComponent,
+} from './types';
+
+type Props = {
+  Link: LinkComponent;
+  PageLink: PageLinkComponent;
+  onPageChange: OnPageChange;
+  hrefBuilder?: HrefBuilder;
+  page: number;
+  pageForLink: number;
+  rootProps: RootProps;
+};
+
+const PageLinkWrapper: FC<Props> = memo(({
   Link,
   PageLink,
   onPageChange,
@@ -16,12 +40,12 @@ const PageLinkWrapper = memo(({
 }) => {
   const isCurrent = page === pageForLink;
 
-  const onClick = (event) => {
+  const onClick = (event: SyntheticEvent): void => {
     event.preventDefault();
     onPageChange(pageForLink);
   };
 
-  const innerProps = {};
+  const innerProps: LinkInnerProps = {};
 
   if (isCurrent) {
     innerProps.disabled = true;
