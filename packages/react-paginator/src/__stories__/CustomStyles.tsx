@@ -1,22 +1,29 @@
-import React, { useState } from 'react';
+import React, {
+  useState,
+  FC,
+} from 'react';
 
-import Paginator from '../Paginator';
+import {
+  Paginator,
+  Styles,
+  CSSObject,
+} from '..';
 
-const styles = {
-  container: (baseStyle) => ({
+const styles: Styles = {
+  container: (baseStyle: CSSObject): CSSObject => ({
     ...baseStyle,
     backgroundColor: '#EEE',
     padding: 10,
   }),
 
-  pageLink: (baseStyle) => ({
+  pageLink: (baseStyle: CSSObject): CSSObject => ({
     ...baseStyle,
     borderWidth: 0,
     marginLeft: 0,
   }),
 };
 
-const Example = () => {
+const Example: FC = () => {
   const [page, setPage] = useState(1);
 
   return (

@@ -1,10 +1,17 @@
 /* eslint-disable react/prop-types, jsx-a11y/label-has-associated-control */
 
-import React, { useState } from 'react';
+import React, {
+  useState,
+  FC,
+} from 'react';
 
-import Paginator from '../Paginator';
+import {
+  Paginator,
+  PageLinkComponent,
+  WeakComponents,
+} from '..';
 
-const PageLink = ({
+const PageLink: PageLinkComponent = ({
   page,
   isCurrent,
   rootProps,
@@ -22,7 +29,7 @@ const PageLink = ({
     <div>
       <input
         type="radio"
-        onChange={() => {
+        onChange={(): void => {
           rootProps.onPageChange(page);
         }}
         checked={isCurrent}
@@ -31,11 +38,11 @@ const PageLink = ({
   </label>
 );
 
-const components = {
+const components: WeakComponents = {
   PageLink,
 };
 
-const Example = () => {
+const Example: FC = () => {
   const [page, setPage] = useState(1);
 
   return (

@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, {
+  useState,
+  FC,
+} from 'react';
 
-import Paginator from '../Paginator';
+import {
+  Paginator,
+  HrefBuilder,
+} from '..';
 
-const hrefBuilder = (page) => `/url/?page=${page}`;
+const hrefBuilder: HrefBuilder = (page) => `/url/?page=${page}`;
 
-const Example = () => {
+const Example: FC = () => {
   const [page, setPage] = useState(1);
 
   return (

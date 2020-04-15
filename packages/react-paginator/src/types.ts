@@ -154,7 +154,7 @@ export type PaginatorProps = {
   hrefBuilder?: HrefBuilder;
   getPages?: GetPages;
 
-  components?: Components;
+  components?: WeakComponents;
   styles?: Styles;
 };
 

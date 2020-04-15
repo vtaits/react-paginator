@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, {
+  useState,
+  FC,
+} from 'react';
 
-import Paginator from '../Paginator';
+import {
+  Paginator,
+} from '..';
 
-const Example = () => {
+const Example: FC = () => {
   const [page, setPage] = useState(1);
 
   return (
     <Paginator
       page={page}
-      pageCount={5}
+      pageCount={15}
       onPageChange={setPage}
     />
   );
