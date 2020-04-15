@@ -1,12 +1,22 @@
 import getStyle from '../getStyle';
 
-test('should return base state if custom style not defined', () => {
-  const baseStyle = Symbol('baseStyle');
+import rootProps from '../../__fixtures__/rootProps';
+import {
+  CSSObject,
+} from '../../types';
 
-  const result = getStyle('component1', baseStyle, {
+test('should return base state if custom style not defined', () => {
+  const baseStyle: CSSObject = {
+    color: '#ff0000',
+  };
+
+  const result = getStyle('break', baseStyle, {
     rootProps: {
+      ...rootProps,
       styles: {
-        component2: () => ({}),
+        pageLink: (): CSSObject => ({
+          color: '#0000ff',
+        }),
       },
     },
   });
@@ -15,20 +25,25 @@ test('should return base state if custom style not defined', () => {
 });
 
 test('should return computed style', () => {
-  const computedStyle = Symbol('computedStyle');
+  const computedStyle: CSSObject = {
+    color: '#00ff00',
+  };
   const styleFn = jest.fn(() => computedStyle);
 
   const componentProps = {
     rootProps: {
+      ...rootProps,
       styles: {
-        component1: styleFn,
+        break: styleFn,
       },
     },
   };
 
-  const baseStyle = Symbol('baseStyle');
+  const baseStyle: CSSObject = {
+    color: '#ff0000',
+  };
 
-  const result = getStyle('component1', baseStyle, componentProps);
+  const result = getStyle('break', baseStyle, componentProps);
 
   expect(styleFn.mock.calls.length).toBe(1);
   expect(styleFn.mock.calls[0][0]).toBe(baseStyle);

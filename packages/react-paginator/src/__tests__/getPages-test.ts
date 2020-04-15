@@ -9,6 +9,8 @@ test('should render all pages if pageCount not bigger than pageRangeDisplayed', 
   expect(getPages({
     pageCount: 5,
     pageRangeDisplayed: 5,
+    page: 123,
+    marginPagesDisplayed: 345,
   })).toEqual([
     {
       type: PAGES,

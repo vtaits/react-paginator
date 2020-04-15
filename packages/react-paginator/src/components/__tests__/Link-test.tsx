@@ -1,5 +1,10 @@
+/* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
+
 import React from 'react';
-import { shallow } from 'enzyme';
+import {
+  shallow,
+  ShallowWrapper,
+} from 'enzyme';
 
 import rootProps from '../../__fixtures__/rootProps';
 
@@ -12,8 +17,13 @@ const defaultProps = {
   children: 'test',
 };
 
-const setup = (props) => {
-  const wrapper = shallow(
+type PageObject = {
+  getButtonProp: (propName: string) => any;
+  getLinkProp: (propName: string) => any;
+};
+
+const setup = (props: Record<string, any>): PageObject => {
+  const wrapper: ShallowWrapper = shallow(
     <Link
       rootProps={rootProps}
       {...defaultProps}
@@ -21,11 +31,11 @@ const setup = (props) => {
     />,
   );
 
-  const getButtonComponent = () => wrapper.find('button');
-  const getLinkComponent = () => wrapper.find('a');
+  const getButtonComponent = (): ShallowWrapper => wrapper.find('button');
+  const getLinkComponent = (): ShallowWrapper => wrapper.find('a');
 
-  const getButtonProp = (propName) => getButtonComponent().prop(propName);
-  const getLinkProp = (propName) => getLinkComponent().prop(propName);
+  const getButtonProp = (propName: string): any => getButtonComponent().prop(propName);
+  const getLinkProp = (propName: string): any => getLinkComponent().prop(propName);
 
   return {
     getButtonProp,

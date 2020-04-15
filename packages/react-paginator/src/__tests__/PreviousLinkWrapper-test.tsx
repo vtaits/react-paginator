@@ -1,34 +1,47 @@
+/* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
+
 import React from 'react';
-import { shallow } from 'enzyme';
+import {
+  shallow,
+  ShallowWrapper,
+} from 'enzyme';
 
 import rootProps from '../__fixtures__/rootProps';
 
-import NextLinkWrapper from '../NextLinkWrapper';
+import PreviousLinkWrapper from '../PreviousLinkWrapper';
 
-const Link = () => <div />;
-const NextLink = () => <div />;
+import {
+  LinkComponent,
+  PreviousLinkComponent,
+} from '../types';
+
+const Link: LinkComponent = () => <div />;
+const PreviousLink: PreviousLinkComponent = () => <div />;
+
+type PageObject = {
+  getProp: (propName: string) => any;
+};
 
 const defaultProps = {
   Link,
-  NextLink,
-  onPageChange: Function.prototype,
-  nextLabel: 'test',
+  PreviousLink,
+  onPageChange: (): void => {},
+  previousLabel: 'test',
   page: 3,
-  pageCount: 10,
   rootProps,
 };
 
-const setup = (props) => {
-  const wrapper = shallow(
-    <NextLinkWrapper
+const setup = (props): PageObject => {
+  const wrapper: ShallowWrapper = shallow(
+    <PreviousLinkWrapper
       {...defaultProps}
       {...props}
     />,
   );
 
-  const getComponent = () => wrapper.find(NextLink);
+  const getComponent = (): ShallowWrapper => wrapper.find(PreviousLink);
 
-  const getProp = (propName) => getComponent().prop(propName);
+  const getProp = (propName: string): any => getComponent().prop(propName);
 
   return {
     getProp,
@@ -37,10 +50,10 @@ const setup = (props) => {
 
 test('should render children', () => {
   const page = setup({
-    nextLabel: 'next',
+    previousLabel: 'prev',
   });
 
-  expect(page.getProp('children')).toBe('next');
+  expect(page.getProp('children')).toBe('prev');
 });
 
 test('should provide rootProps', () => {
@@ -55,11 +68,9 @@ test('should provide Link', () => {
   expect(page.getProp('Link')).toBe(Link);
 });
 
-
 test('should render enabled component', () => {
   const page = setup({
     page: 3,
-    pageCount: 10,
   });
 
   expect(page.getProp('isDisabled')).toBe(false);
@@ -68,15 +79,14 @@ test('should render enabled component', () => {
 
 test('should render disabled component', () => {
   const page = setup({
-    page: 10,
-    pageCount: 10,
+    page: 1,
   });
 
   expect(page.getProp('isDisabled')).toBe(true);
   expect(page.getProp('innerProps').disabled).toBe(true);
 });
 
-test('should set next page on click', () => {
+test('should set previous page on click', () => {
   const preventDefault = jest.fn();
   const onPageChange = jest.fn();
 
@@ -92,7 +102,7 @@ test('should set next page on click', () => {
   expect(preventDefault.mock.calls.length).toBe(1);
 
   expect(onPageChange.mock.calls.length).toBe(1);
-  expect(onPageChange.mock.calls[0][0]).toBe(4);
+  expect(onPageChange.mock.calls[0][0]).toBe(2);
 });
 
 test('should render disabled component', () => {
@@ -101,5 +111,5 @@ test('should render disabled component', () => {
     hrefBuilder: (pageNumber) => `/test/${pageNumber}/`,
   });
 
-  expect(page.getProp('innerProps').href).toBe('/test/4/');
+  expect(page.getProp('innerProps').href).toBe('/test/2/');
 });

@@ -1,5 +1,10 @@
+/* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
+
 import React from 'react';
-import { shallow } from 'enzyme';
+import {
+  shallow,
+  ShallowWrapper,
+} from 'enzyme';
 
 import rootProps from '../../__fixtures__/rootProps';
 
@@ -7,17 +12,21 @@ import Pages, {
   PagesComponent,
 } from '../Pages';
 
-const setup = (props) => {
-  const wrapper = shallow(
+type PageObject = {
+  getPagesComponentProp: (propName: string) => any;
+};
+
+const setup = (props: Record<string, any>): PageObject => {
+  const wrapper: ShallowWrapper = shallow(
     <Pages
       rootProps={rootProps}
       {...props}
     />,
   );
 
-  const getPagesComponent = () => wrapper.find(PagesComponent);
+  const getPagesComponent = (): ShallowWrapper => wrapper.find(PagesComponent);
 
-  const getPagesComponentProp = (propName) => getPagesComponent().prop(propName);
+  const getPagesComponentProp = (propName: string): any => getPagesComponent().prop(propName);
 
   return {
     getPagesComponentProp,

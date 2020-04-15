@@ -1,5 +1,10 @@
+/* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
+
 import React from 'react';
-import { shallow } from 'enzyme';
+import {
+  shallow,
+  ShallowWrapper,
+} from 'enzyme';
 
 import components from '../components';
 
@@ -14,28 +19,53 @@ import {
 
 import Paginator from '../Paginator';
 
+import {
+  LinkComponent,
+  PreviousLinkComponent,
+  ContainerComponent,
+  NextLinkComponent,
+  BreakComponent,
+  PageLinkComponent,
+  PageLinkGroupComponent,
+  GetPages,
+} from '../types';
+
 const defaultProps = {
   pageCount: 10,
   page: 3,
-  onPageChange: Function.prototype,
+  onPageChange: (): void => {},
 };
 
-const setup = (props) => {
-  const wrapper = shallow(
+type PageObject = {
+  wrapper: ShallowWrapper;
+  getPreviousLinkWrapperProp: (propName: string) => any;
+  getNextLinkWrapperProp: (propName: string) => any;
+  getPageLinkGroupWrapper: () => ShallowWrapper;
+  getPageLinkGroupWrapperProp: (propName: string) => any;
+};
+
+const setup = (props: Record<string, any>): PageObject => {
+  const wrapper: ShallowWrapper = shallow(
     <Paginator
       {...defaultProps}
       {...props}
     />,
   );
 
-  const getPreviousLinkWrapper = () => wrapper.find(PreviousLinkWrapper);
-  const getPreviousLinkWrapperProp = (propName) => getPreviousLinkWrapper().prop(propName);
+  const getPreviousLinkWrapper = (): ShallowWrapper => wrapper.find(PreviousLinkWrapper);
+  const getPreviousLinkWrapperProp = (
+    propName: string,
+  ): any => getPreviousLinkWrapper().prop(propName);
 
-  const getNextLinkWrapper = () => wrapper.find(NextLinkWrapper);
-  const getNextLinkWrapperProp = (propName) => getNextLinkWrapper().prop(propName);
+  const getNextLinkWrapper = (): ShallowWrapper => wrapper.find(NextLinkWrapper);
+  const getNextLinkWrapperProp = (
+    propName: string,
+  ): any => getNextLinkWrapper().prop(propName);
 
-  const getPageLinkGroupWrapper = () => wrapper.find(PageLinkGroupWrapper);
-  const getPageLinkGroupWrapperProp = (propName) => getPageLinkGroupWrapper().prop(propName);
+  const getPageLinkGroupWrapper = (): ShallowWrapper => wrapper.find(PageLinkGroupWrapper);
+  const getPageLinkGroupWrapperProp = (
+    propName: string,
+  ): any => getPageLinkGroupWrapper().prop(propName);
 
   return {
     wrapper,
@@ -55,7 +85,7 @@ test('should render default container', () => {
 });
 
 test('should render redefined container', () => {
-  const TestComponent = () => <div />;
+  const TestComponent: ContainerComponent = () => <div />;
 
   const page = setup({
     components: {
@@ -88,8 +118,8 @@ test('should render PreviousLinkWrapper with redefined components', () => {
   const onPageChange = jest.fn();
   const hrefBuilder = jest.fn();
 
-  const Link = () => <div />;
-  const PreviousLink = () => <div />;
+  const Link: LinkComponent = () => <div />;
+  const PreviousLink: PreviousLinkComponent = () => <div />;
 
   const page = setup({
     onPageChange,
@@ -132,8 +162,8 @@ test('should render NextLinkWrapper with redefined components', () => {
   const onPageChange = jest.fn();
   const hrefBuilder = jest.fn();
 
-  const Link = () => <div />;
-  const NextLink = () => <div />;
+  const Link: LinkComponent = () => <div />;
+  const NextLink: NextLinkComponent = () => <div />;
 
   const page = setup({
     onPageChange,
@@ -159,7 +189,7 @@ test('should render NextLinkWrapper with redefined components', () => {
 test('should render Break with default props', () => {
   const onPageChange = jest.fn();
 
-  const getPages = () => [
+  const getPages: GetPages = () => [
     {
       type: BREAK,
       previous: 4,
@@ -186,10 +216,10 @@ test('should render Break with redefined props', () => {
   const onPageChange = jest.fn();
   const hrefBuilder = jest.fn();
 
-  const Break = () => <div />;
-  const Link = () => <div />;
+  const Break: BreakComponent = () => <div />;
+  const Link: LinkComponent = () => <div />;
 
-  const getPages = () => [
+  const getPages: GetPages = () => [
     {
       type: BREAK,
       previous: 4,
@@ -221,7 +251,7 @@ test('should render Break with redefined props', () => {
 test('should render PageLinkGroupWrapper with default props', () => {
   const onPageChange = jest.fn();
 
-  const getPages = () => [
+  const getPages: GetPages = () => [
     {
       type: PAGES,
       start: 4,
@@ -249,7 +279,7 @@ test('should render PageLinkGroupWrapper with redefined props', () => {
   const onPageChange = jest.fn();
   const hrefBuilder = jest.fn();
 
-  const getPages = () => [
+  const getPages: GetPages = () => [
     {
       type: PAGES,
       start: 4,
@@ -257,9 +287,9 @@ test('should render PageLinkGroupWrapper with redefined props', () => {
     },
   ];
 
-  const Link = () => <div />;
-  const PageLink = () => <div />;
-  const PageLinkGroup = () => <div />;
+  const Link: LinkComponent = () => <div />;
+  const PageLink: PageLinkComponent = () => <div />;
+  const PageLinkGroup: PageLinkGroupComponent = () => <div />;
 
   const page = setup({
     onPageChange,
@@ -287,7 +317,7 @@ test('should render PageLinkGroupWrapper with redefined props', () => {
 test('should render multiple page groups and breaks', () => {
   const onPageChange = jest.fn();
 
-  const getPages = () => [
+  const getPages: GetPages = () => [
     {
       type: PAGES,
       start: 4,

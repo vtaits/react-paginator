@@ -11,6 +11,7 @@
   "exclude": [
     "node_modules",
     "src/__tests__",
+    "src/components/__tests__",
     "src/__stories__",
     "src/__fixtures__"
   ]

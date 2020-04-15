@@ -1,5 +1,10 @@
+/* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
+
 import React from 'react';
-import { shallow } from 'enzyme';
+import {
+  shallow,
+  ShallowWrapper,
+} from 'enzyme';
 
 import rootProps from '../../__fixtures__/rootProps';
 
@@ -7,10 +12,18 @@ import PageLink, {
   PageLinkComponent,
 } from '../PageLink';
 
-const Link = () => <div />;
+import {
+  LinkComponent,
+} from '../../types';
 
-const setup = (props) => {
-  const wrapper = shallow(
+const Link: LinkComponent = () => <div />;
+
+type PageObject = {
+  getPageLinkComponentProp: (propName: string) => any;
+};
+
+const setup = (props: Record<string, any>): PageObject => {
+  const wrapper: ShallowWrapper = shallow(
     <PageLink
       rootProps={rootProps}
       Link={Link}
@@ -18,9 +31,9 @@ const setup = (props) => {
     />,
   );
 
-  const getPageLinkComponent = () => wrapper.find(PageLinkComponent);
+  const getPageLinkComponent = (): ShallowWrapper => wrapper.find(PageLinkComponent);
 
-  const getPageLinkComponentProp = (propName) => getPageLinkComponent().prop(propName);
+  const getPageLinkComponentProp = (propName: string): any => getPageLinkComponent().prop(propName);
 
   return {
     getPageLinkComponentProp,

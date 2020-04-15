@@ -1,36 +1,52 @@
+/* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
+
 import React from 'react';
-import { shallow } from 'enzyme';
+import {
+  shallow,
+  ShallowWrapper,
+} from 'enzyme';
 
 import rootProps from '../__fixtures__/rootProps';
 
 import PageLinkWrapper from '../PageLinkWrapper';
 import PageLinkGroupWrapper from '../PageLinkGroupWrapper';
 
-const Link = () => <div />;
-const PageLink = () => <div />;
-const PageLinkGroup = () => <div />;
+import {
+  LinkComponent,
+  PageLinkComponent,
+  PageLinkGroupComponent,
+} from '../types';
+
+const Link: LinkComponent = () => <div />;
+const PageLink: PageLinkComponent = () => <div />;
+const PageLinkGroup: PageLinkGroupComponent = () => <div />;
+
+type PageObject = {
+  getPageLink: () => ShallowWrapper;
+  getPageLinkGroup: () => ShallowWrapper;
+};
 
 const defaultProps = {
   Link,
   PageLink,
   PageLinkGroup,
-  onPageChange: Function.prototype,
+  onPageChange: (): void => {},
   start: 4,
   end: 10,
   page: 8,
   rootProps,
 };
 
-const setup = (props) => {
-  const wrapper = shallow(
+const setup = (props: Record<string, any>): PageObject => {
+  const wrapper: ShallowWrapper = shallow(
     <PageLinkGroupWrapper
       {...defaultProps}
       {...props}
     />,
   );
 
-  const getPageLink = () => wrapper.find(PageLinkWrapper);
-  const getPageLinkGroup = () => wrapper.find(PageLinkGroup);
+  const getPageLink = (): ShallowWrapper => wrapper.find(PageLinkWrapper);
+  const getPageLinkGroup = (): ShallowWrapper => wrapper.find(PageLinkGroup);
 
   return {
     getPageLink,
