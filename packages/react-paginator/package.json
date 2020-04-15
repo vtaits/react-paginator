@@ -1,6 +1,6 @@
 {
   "name": "@vtaits/react-paginator",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Simple customizable pagination component for react applications",
   "main": "lib/index.js",
   "module": "es/index.js",
