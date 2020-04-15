@@ -1,4 +1,5 @@
 [![NPM](https://img.shields.io/npm/v/@vtaits/react-paginator.svg)](https://www.npmjs.com/package/@vtaits/react-paginator)
+[![Types](https://img.shields.io/npm/types/@vtaits/react-paginator.svg)](https://www.npmjs.com/package/@vtaits/react-paginator)
 
 # @vtaits/react-paginator
 
