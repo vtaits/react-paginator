@@ -12,8 +12,9 @@ import NextLink, {
   NextLinkComponent,
 } from '../NextLink';
 
-import {
+import type {
   LinkComponent,
+  NextLinkProps,
 } from '../../types';
 
 const Link: LinkComponent = () => <div />;
@@ -22,8 +23,8 @@ type PageObject = {
   getNextLinkComponentProp: (propName: string) => any;
 };
 
-const setup = (props: Record<string, any>): PageObject => {
-  const wrapper: ShallowWrapper = shallow(
+const setup = (props: Omit<NextLinkProps, 'rootProps'>): PageObject => {
+  const wrapper = shallow(
     <NextLink
       rootProps={rootProps}
       {...props}

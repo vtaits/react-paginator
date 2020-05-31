@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import getStyle from './getStyle';
 
-import {
+import type {
   PreviousLinkComponent as PreviousLinkComponentType,
 } from '../types';
 

@@ -5,6 +5,8 @@ import React, {
 
 import {
   Paginator,
+} from '..';
+import type {
   Styles,
   CSSObject,
 } from '..';

@@ -5,7 +5,7 @@ export {
   BREAK,
 } from './constants';
 
-export {
+export type {
   CSSObject,
   GetPages,
   HrefBuilder,
@@ -19,7 +19,6 @@ export {
   NextLinkComponent,
   PreviousLinkComponent,
   PageLinkComponent,
-  WeakComponents,
   Components,
   GetComponentStyle,
   Styles,

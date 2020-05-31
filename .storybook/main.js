@@ -1,5 +1,5 @@
 module.exports = {
-  stories: ['../packages/**/*.stories.ts'],
+  stories: ['../packages/**/*.stories.ts(x)'],
 
   webpackFinal: (config) => {
     config.module.rules.push({

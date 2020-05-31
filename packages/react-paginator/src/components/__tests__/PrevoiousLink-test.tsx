@@ -12,8 +12,9 @@ import PreviousLink, {
   PreviousLinkComponent,
 } from '../PreviousLink';
 
-import {
+import type {
   LinkComponent,
+  PreviousLinkProps,
 } from '../../types';
 
 const Link: LinkComponent = () => <div />;
@@ -22,7 +23,7 @@ type PageObject = {
   getPreviousLinkComponentProp: (propName: string) => any;
 };
 
-const setup = (props: Record<string, any>): PageObject => {
+const setup = (props: Omit<PreviousLinkProps, 'rootProps'>): PageObject => {
   const wrapper: ShallowWrapper = shallow(
     <PreviousLink
       rootProps={rootProps}

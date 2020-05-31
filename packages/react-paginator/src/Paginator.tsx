@@ -1,6 +1,8 @@
 import React, {
   memo,
   useMemo,
+} from 'react';
+import type {
   FC,
 } from 'react';
 
@@ -16,7 +18,7 @@ import {
   BREAK,
 } from './constants';
 
-import {
+import type {
   PagesBlock,
   PaginatorProps,
   Components,

@@ -1,4 +1,4 @@
-import {
+import type {
   RootProps,
   CSSObject,
 } from '../types';

@@ -1,11 +1,13 @@
 import React, {
   memo,
+} from 'react';
+import type {
   FC,
   ReactNode,
   SyntheticEvent,
 } from 'react';
 
-import {
+import type {
   OnPageChange,
   HrefBuilder,
   RootProps,

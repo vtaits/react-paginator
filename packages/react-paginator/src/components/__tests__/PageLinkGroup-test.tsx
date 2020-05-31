@@ -11,12 +11,15 @@ import rootProps from '../../__fixtures__/rootProps';
 import PageLinkGroup, {
   PageLinkGroupComponent,
 } from '../PageLinkGroup';
+import type {
+  PageLinkGroupProps,
+} from '../../types';
 
 type PageObject = {
   getPageLinkGroupComponentProp: (propName: string) => any;
 };
 
-const setup = (props: Record<string, any>): PageObject => {
+const setup = (props: Omit<PageLinkGroupProps, 'rootProps'>): PageObject => {
   const wrapper: ShallowWrapper = shallow(
     <PageLinkGroup
       rootProps={rootProps}
@@ -38,6 +41,8 @@ const setup = (props: Record<string, any>): PageObject => {
 test('should provide correct props to PageLinkGroupComponent', () => {
   const page = setup({
     children: 'test',
+    start: 0,
+    end: 1,
   });
 
   expect(page.getPageLinkGroupComponentProp('children')).toBe('test');

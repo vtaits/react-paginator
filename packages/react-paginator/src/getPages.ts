@@ -3,7 +3,7 @@ import {
   BREAK,
 } from './constants';
 
-import {
+import type {
   GetPages,
   PagesBlock,
 } from './types';

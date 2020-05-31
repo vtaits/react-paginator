@@ -3,6 +3,8 @@
 import React from 'react';
 import {
   shallow,
+} from 'enzyme';
+import type {
   ShallowWrapper,
 } from 'enzyme';
 
@@ -19,7 +21,7 @@ import {
 
 import Paginator from '../Paginator';
 
-import {
+import type {
   LinkComponent,
   PreviousLinkComponent,
   ContainerComponent,

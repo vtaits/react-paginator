@@ -15,6 +15,7 @@ const className = 'test-class-name';
 
 const defaultProps = {
   children: 'test',
+  style: {},
 };
 
 type PageObject = {

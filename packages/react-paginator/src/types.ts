@@ -1,4 +1,4 @@
-import {
+import type {
   ComponentType,
   ReactNode,
   SyntheticEvent,
@@ -37,19 +37,24 @@ export type ContainerComponent = ComponentType<{
   children?: ReactNode;
 }>;
 
-export type PageLinkGroupComponent = ComponentType<{
+export type PageLinkGroupProps = {
   rootProps: RootProps;
   children?: ReactNode;
   start: number;
   end: number;
-}>;
+};
 
-export type PagesComponent = ComponentType<{
+export type PageLinkGroupComponent = ComponentType<PageLinkGroupProps>;
+
+export type PagesProps = {
   rootProps: RootProps;
   children?: ReactNode;
-}>;
+};
+
+export type PagesComponent = ComponentType<PagesProps>;
 
 export type LinkComponent = ComponentType<{
+  rootProps: RootProps;
   disabled?: boolean;
   href?: string;
   onClick?: (event: SyntheticEvent) => void;
@@ -58,41 +63,36 @@ export type LinkComponent = ComponentType<{
   style: CSSObject;
 }>;
 
-export type NextLinkComponent = ComponentType<{
+export type NextLinkProps = {
   Link: LinkComponent;
   isDisabled: boolean;
   innerProps: LinkInnerProps;
   rootProps: RootProps;
   children: ReactNode;
-}>;
+};
 
-export type PreviousLinkComponent = ComponentType<{
+export type NextLinkComponent = ComponentType<NextLinkProps>;
+
+export type PreviousLinkProps = {
   Link: LinkComponent;
   isDisabled: boolean;
   innerProps: LinkInnerProps;
   rootProps: RootProps;
   children: ReactNode;
-}>;
+};
 
-export type PageLinkComponent = ComponentType<{
+export type PreviousLinkComponent = ComponentType<PreviousLinkProps>;
+
+export type PageLinkProps = {
   Link: LinkComponent;
   isCurrent: boolean;
   innerProps: LinkInnerProps;
   rootProps: RootProps;
   page: number;
   children: ReactNode;
-}>;
-
-export type WeakComponents = {
-  Break?: BreakComponent;
-  Container?: ContainerComponent;
-  Link?: LinkComponent;
-  NextLink?: NextLinkComponent;
-  PageLink?: PageLinkComponent;
-  PageLinkGroup?: PageLinkGroupComponent;
-  Pages?: PagesComponent;
-  PreviousLink?: PreviousLinkComponent;
 };
+
+export type PageLinkComponent = ComponentType<PageLinkProps>;
 
 export type Components = {
   Break: BreakComponent;
@@ -154,8 +154,11 @@ export type PaginatorProps = {
   hrefBuilder?: HrefBuilder;
   getPages?: GetPages;
 
-  components?: WeakComponents;
+  components?: Partial<Components>;
   styles?: Styles;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
 };
 
 export type RootProps = {
@@ -170,6 +173,9 @@ export type RootProps = {
   hrefBuilder?: HrefBuilder;
   getPages?: GetPages;
 
-  components?: WeakComponents;
+  components?: Partial<Components>;
   styles: Styles;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
 };

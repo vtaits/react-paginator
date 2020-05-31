@@ -1,4 +1,4 @@
-import {
+import type {
   PAGES as TypePAGES,
   BREAK as TypeBREAK,
 } from './types';

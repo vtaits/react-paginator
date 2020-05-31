@@ -1,7 +1,7 @@
 import getStyle from '../getStyle';
 
 import rootProps from '../../__fixtures__/rootProps';
-import {
+import type {
   CSSObject,
 } from '../../types';
 
@@ -45,9 +45,8 @@ test('should return computed style', () => {
 
   const result = getStyle('break', baseStyle, componentProps);
 
-  expect(styleFn.mock.calls.length).toBe(1);
-  expect(styleFn.mock.calls[0][0]).toBe(baseStyle);
-  expect(styleFn.mock.calls[0][1]).toBe(componentProps);
+  expect(styleFn).toHaveBeenCalledTimes(1);
+  expect(styleFn).toHaveBeenCalledWith(baseStyle, componentProps);
 
   expect(result).toBe(computedStyle);
 });

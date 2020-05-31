@@ -11,12 +11,15 @@ import rootProps from '../../__fixtures__/rootProps';
 import Pages, {
   PagesComponent,
 } from '../Pages';
+import type {
+  PagesProps,
+} from '../../types';
 
 type PageObject = {
   getPagesComponentProp: (propName: string) => any;
 };
 
-const setup = (props: Record<string, any>): PageObject => {
+const setup = (props: Omit<PagesProps, 'rootProps'>): PageObject => {
   const wrapper: ShallowWrapper = shallow(
     <Pages
       rootProps={rootProps}

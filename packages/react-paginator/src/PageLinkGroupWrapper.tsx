@@ -1,12 +1,14 @@
 import React, {
   memo,
+} from 'react';
+import type {
   FC,
   ReactNode,
 } from 'react';
 
 import PageLinkWrapper from './PageLinkWrapper';
 
-import {
+import type {
   OnPageChange,
   HrefBuilder,
   RootProps,

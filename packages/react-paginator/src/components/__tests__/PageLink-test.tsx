@@ -12,8 +12,9 @@ import PageLink, {
   PageLinkComponent,
 } from '../PageLink';
 
-import {
+import type {
   LinkComponent,
+  PageLinkProps,
 } from '../../types';
 
 const Link: LinkComponent = () => <div />;
@@ -22,7 +23,7 @@ type PageObject = {
   getPageLinkComponentProp: (propName: string) => any;
 };
 
-const setup = (props: Record<string, any>): PageObject => {
+const setup = (props: Omit<PageLinkProps, 'rootProps' | 'Link'>): PageObject => {
   const wrapper: ShallowWrapper = shallow(
     <PageLink
       rootProps={rootProps}
@@ -48,6 +49,8 @@ test('should provide correct props to PageLinkComponent', () => {
     innerProps: {
       href: '/test/',
     },
+
+    page: 1,
   });
 
   expect(page.getPageLinkComponentProp('children')).toBe('test');

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import getStyle from './getStyle';
 
-import {
+import type {
   PageLinkGroupComponent as PageLinkGroupComponentType,
 } from '../types';
 

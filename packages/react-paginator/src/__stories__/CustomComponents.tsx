@@ -7,8 +7,10 @@ import React, {
 
 import {
   Paginator,
+} from '..';
+import type {
   PageLinkComponent,
-  WeakComponents,
+  Components,
 } from '..';
 
 const PageLink: PageLinkComponent = ({
@@ -38,7 +40,7 @@ const PageLink: PageLinkComponent = ({
   </label>
 );
 
-const components: WeakComponents = {
+const components: Partial<Components> = {
   PageLink,
 };
 

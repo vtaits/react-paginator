@@ -3,6 +3,8 @@
 import React from 'react';
 import {
   shallow,
+} from 'enzyme';
+import type {
   ShallowWrapper,
 } from 'enzyme';
 
@@ -10,7 +12,7 @@ import rootProps from '../__fixtures__/rootProps';
 
 import NextLinkWrapper from '../NextLinkWrapper';
 
-import {
+import type {
   LinkComponent,
   NextLinkComponent,
 } from '../types';
