@@ -1,4 +1,6 @@
 [![NPM](https://img.shields.io/npm/v/@vtaits/react-paginator.svg)](https://www.npmjs.com/package/@vtaits/react-paginator)
+[![dependencies status](https://david-dm.org/vtaits/react-paginator/status.svg?path=packages/react-paginator)](https://david-dm.org/vtaits/react-paginator?path=packages/react-paginator)
+[![devDependencies status](https://david-dm.org/vtaits/react-paginator/dev-status.svg?path=packages/react-paginator)](https://david-dm.org/vtaits/react-paginator?path=packages/react-paginator&type=dev)
 [![Types](https://img.shields.io/npm/types/@vtaits/react-paginator.svg)](https://www.npmjs.com/package/@vtaits/react-paginator)
 
 # @vtaits/react-paginator
