@@ -125,7 +125,7 @@ const Paginator: FC<PaginatorProps> = memo((props) => {
                 );
 
               default:
-                // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 throw new Error(`Unknown type "${pagesItem.type}"`);
             }
