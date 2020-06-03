@@ -52,6 +52,7 @@ export const PageLinkComponent = styled.a((props) => {
 });
 
 const PageLink: PageLinkComponentType = ({
+  /* eslint-disable-next-line @typescript-eslint/naming-convention */
   Link,
   isCurrent,
   rootProps,

@@ -38,6 +38,7 @@ export const NextLinkComponent = styled.a((props) => {
 });
 
 const NextLink: NextLinkComponentType = ({
+  /* eslint-disable-next-line @typescript-eslint/naming-convention */
   Link,
   isDisabled,
   rootProps,

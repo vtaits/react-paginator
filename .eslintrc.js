@@ -60,8 +60,5 @@ module.exports = {
     ],
 
     'react/prop-types': 'off',
-
-    // https://github.com/iamturns/eslint-config-airbnb-typescript/issues/95
-    '@typescript-eslint/camelcase': 'off',
   }
 };

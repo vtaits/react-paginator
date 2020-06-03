@@ -38,6 +38,7 @@ export const PreviousLinkComponent = styled.a((props) => {
 });
 
 const PreviousLink: PreviousLinkComponentType = ({
+  /* eslint-disable-next-line @typescript-eslint/naming-convention */
   Link,
   isDisabled,
   rootProps,

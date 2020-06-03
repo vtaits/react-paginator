@@ -27,7 +27,9 @@ type Props = {
 };
 
 const PreviousLinkWrapper: FC<Props> = memo(({
+  /* eslint-disable-next-line @typescript-eslint/naming-convention */
   Link,
+  /* eslint-disable-next-line @typescript-eslint/naming-convention */
   PreviousLink,
   onPageChange,
   hrefBuilder,

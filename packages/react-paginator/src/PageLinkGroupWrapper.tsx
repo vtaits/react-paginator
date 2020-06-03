@@ -30,8 +30,11 @@ type Props = {
 };
 
 const PageLinkGroupWrapper: FC<Props> = memo(({
+  /* eslint-disable-next-line @typescript-eslint/naming-convention */
   Link,
+  /* eslint-disable-next-line @typescript-eslint/naming-convention */
   PageLink,
+  /* eslint-disable-next-line @typescript-eslint/naming-convention */
   PageLinkGroup,
   start,
   end,
