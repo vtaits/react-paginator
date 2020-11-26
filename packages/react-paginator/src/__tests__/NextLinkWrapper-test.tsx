@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
 
-import React from 'react';
 import {
   shallow,
 } from 'enzyme';
@@ -42,7 +41,7 @@ const setup = (props: Record<string, any>): PageObject => {
     />,
   );
 
-  const getComponent: ShallowWrapper = () => wrapper.find(NextLink);
+  const getComponent = (): ShallowWrapper => wrapper.find(NextLink);
 
   const getProp = (propName: string): any => getComponent().prop(propName);
 
@@ -70,7 +69,6 @@ test('should provide Link', () => {
 
   expect(page.getProp('Link')).toBe(Link);
 });
-
 
 test('should render enabled component', () => {
   const page = setup({

@@ -11,6 +11,7 @@ export type {
   HrefBuilder,
   OnPageChange,
   LinkInnerProps,
+  BreakComponentProps,
   BreakComponent,
   ContainerComponent,
   PageLinkGroupComponent,

@@ -19,7 +19,7 @@ module.exports = {
   ],
 
   parserOptions: {
-    project: './tsconfig.eslint.json',
+    project: './tsconfig.validate.json',
   },
 
   settings: {
@@ -60,5 +60,8 @@ module.exports = {
     ],
 
     'react/prop-types': 'off',
+
+    'react/jsx-uses-react': 'off',
+    'react/react-in-jsx-scope': 'off',
   }
 };

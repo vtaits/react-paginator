@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types, jsx-a11y/label-has-associated-control */
 
-import React, {
+import {
   useState,
   FC,
 } from 'react';

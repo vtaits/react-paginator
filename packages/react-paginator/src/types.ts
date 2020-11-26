@@ -22,15 +22,17 @@ export type LinkInnerProps = {
   href?: string;
 };
 
-export type BreakComponent = ComponentType<{
+export type BreakComponentProps = {
   Link: LinkComponent;
   previous: number;
   next: number;
   onPageChange: OnPageChange;
-  hrefBuilder: HrefBuilder;
+  hrefBuilder?: HrefBuilder;
   rootProps: RootProps;
   children?: ReactNode;
-}>;
+};
+
+export type BreakComponent = ComponentType<BreakComponentProps>;
 
 export type ContainerComponent = ComponentType<{
   rootProps: RootProps;

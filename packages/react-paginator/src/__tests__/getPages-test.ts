@@ -86,7 +86,6 @@ test('should render intervals without first break', () => {
   ]);
 });
 
-
 test('should render intervals without second break', () => {
   expect(getPages({
     pageCount: 25,
