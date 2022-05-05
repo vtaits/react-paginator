@@ -1,51 +1,58 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
-
-import {
-  shallow,
-} from 'enzyme';
 import type {
-  ShallowWrapper,
-} from 'enzyme';
+  FC,
+  SyntheticEvent,
+  ReactElement,
+} from 'react';
 
-import rootProps from '../__fixtures__/rootProps';
+import { createRenderer } from 'react-test-renderer/shallow';
 
-import PreviousLinkWrapper from '../PreviousLinkWrapper';
+import { rootProps } from '../__fixtures__/rootProps';
+
+import { PreviousLinkWrapper } from '../PreviousLinkWrapper';
+import type {
+  PreviousLinkWrapperProps,
+} from '../PreviousLinkWrapper';
 
 import type {
-  LinkComponent,
-  PreviousLinkComponent,
+  PreviousLinkProps,
 } from '../types';
 
-const Link: LinkComponent = () => <div />;
-const PreviousLink: PreviousLinkComponent = () => <div />;
+function Link(): ReactElement {
+  return <div />;
+}
+
+function PreviousLink(): ReactElement {
+  return <div />;
+}
 
 type PageObject = {
-  getProp: (propName: string) => any;
+  getProp: <Key extends keyof PreviousLinkProps>(propName: Key) => PreviousLinkProps[Key];
 };
 
-const defaultProps = {
+const defaultProps: PreviousLinkWrapperProps = {
   Link,
   PreviousLink,
-  onPageChange: (): void => {},
+  onPageChange: (): void => undefined,
   previousLabel: 'test',
   page: 3,
   rootProps,
 };
 
-const setup = (props): PageObject => {
-  const wrapper: ShallowWrapper = shallow(
+const setup = (props: Partial<PreviousLinkWrapperProps>): PageObject => {
+  const renderer = createRenderer();
+
+  renderer.render(
     <PreviousLinkWrapper
       {...defaultProps}
       {...props}
     />,
   );
 
-  const getComponent = (): ShallowWrapper => wrapper.find(PreviousLink);
-
-  const getProp = (propName: string): any => getComponent().prop(propName);
+  const result = renderer.getRenderOutput() as ReactElement<PreviousLinkProps, FC>;
 
   return {
-    getProp,
+    getProp: (propName) => result.props[propName],
   };
 };
 
@@ -98,12 +105,12 @@ test('should set previous page on click', () => {
 
   page.getProp('innerProps').onClick({
     preventDefault,
-  });
+  } as unknown as SyntheticEvent<Element, Event>);
 
-  expect(preventDefault.mock.calls.length).toBe(1);
+  expect(preventDefault).toHaveBeenCalledTimes(1);
 
-  expect(onPageChange.mock.calls.length).toBe(1);
-  expect(onPageChange.mock.calls[0][0]).toBe(2);
+  expect(onPageChange).toHaveBeenCalledTimes(1);
+  expect(onPageChange).toHaveBeenCalledWith(2);
 });
 
 test('should render disabled component', () => {

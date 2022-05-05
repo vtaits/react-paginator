@@ -1,13 +1,16 @@
-/* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
+/* eslint-disable react/jsx-props-no-spreading */
+import type {
+  ComponentProps,
+  FC,
+  ReactElement,
+} from 'react';
+
+import { createRenderer } from 'react-test-renderer/shallow';
+
+import { rootProps } from '../../__fixtures__/rootProps';
 
 import {
-  shallow,
-  ShallowWrapper,
-} from 'enzyme';
-
-import rootProps from '../../__fixtures__/rootProps';
-
-import PageLinkGroup, {
+  PageLinkGroup,
   PageLinkGroupComponent,
 } from '../PageLinkGroup';
 import type {
@@ -15,25 +18,26 @@ import type {
 } from '../../types';
 
 type PageObject = {
-  getPageLinkGroupComponentProp: (propName: string) => any;
+  getPageLinkGroupComponentProp: <Key extends keyof ComponentProps<typeof PageLinkGroupComponent>>(
+    propName: Key,
+  ) => ComponentProps<typeof PageLinkGroupComponent>[Key];
 };
 
 const setup = (props: Omit<PageLinkGroupProps, 'rootProps'>): PageObject => {
-  const wrapper: ShallowWrapper = shallow(
+  const renderer = createRenderer();
+
+  renderer.render(
     <PageLinkGroup
       rootProps={rootProps}
       {...props}
     />,
   );
 
-  const getPageLinkGroupComponent = (): ShallowWrapper => wrapper.find(PageLinkGroupComponent);
-
-  const getPageLinkGroupComponentProp = (
-    propName: string,
-  ): any => getPageLinkGroupComponent().prop(propName);
+  const result = renderer
+    .getRenderOutput() as ReactElement<ComponentProps<typeof PageLinkGroupComponent>, FC>;
 
   return {
-    getPageLinkGroupComponentProp,
+    getPageLinkGroupComponentProp: (propName) => result.props[propName],
   };
 };
 

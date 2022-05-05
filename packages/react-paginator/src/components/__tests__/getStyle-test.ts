@@ -1,6 +1,6 @@
-import getStyle from '../getStyle';
+import { getStyle } from '../getStyle';
 
-import rootProps from '../../__fixtures__/rootProps';
+import { rootProps } from '../../__fixtures__/rootProps';
 import type {
   CSSObject,
 } from '../../types';

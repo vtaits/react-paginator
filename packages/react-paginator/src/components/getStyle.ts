@@ -1,9 +1,12 @@
 import type {
-  RootProps,
   CSSObject,
+} from 'styled-components';
+
+import type {
+  RootProps,
 } from '../types';
 
-const getStyle = (
+export const getStyle = (
   componentName: string,
   baseStyle: CSSObject,
   componentProps: {
@@ -18,5 +21,3 @@ const getStyle = (
 
   return componentStyles(baseStyle, componentProps);
 };
-
-export default getStyle;

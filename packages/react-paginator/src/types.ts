@@ -4,11 +4,13 @@ import type {
   SyntheticEvent,
 } from 'react';
 
+import type {
+  PAGES,
+  BREAK,
+} from './constants';
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type CSSObject = Record<string, any>;
-
-export type PAGES = 'PAGES';
-export type BREAK = 'BREAK';
 
 export type GetPages = (params: GetPagesParams) => PagesBlock[];
 
@@ -34,10 +36,12 @@ export type BreakComponentProps = {
 
 export type BreakComponent = ComponentType<BreakComponentProps>;
 
-export type ContainerComponent = ComponentType<{
+export type ContainerComponentProps = {
   rootProps: RootProps;
   children?: ReactNode;
-}>;
+};
+
+export type ContainerComponent = ComponentType<ContainerComponentProps>;
 
 export type PageLinkGroupProps = {
   rootProps: RootProps;
@@ -55,15 +59,17 @@ export type PagesProps = {
 
 export type PagesComponent = ComponentType<PagesProps>;
 
-export type LinkComponent = ComponentType<{
+export type LinkComponentProps = {
   rootProps: RootProps;
   disabled?: boolean;
   href?: string;
   onClick?: (event: SyntheticEvent) => void;
   children: ReactNode;
   className?: string;
-  style: CSSObject;
-}>;
+  style?: CSSObject;
+};
+
+export type LinkComponent = ComponentType<LinkComponentProps>;
 
 export type NextLinkProps = {
   Link: LinkComponent;
@@ -131,13 +137,13 @@ export type GetPagesParams = {
 };
 
 export type LinksBlock = {
-  type: PAGES;
+  type: typeof PAGES;
   start: number;
   end: number;
 };
 
 export type BreakBlock = {
-  type: BREAK;
+  type: typeof BREAK;
   previous: number;
   next: number;
 };

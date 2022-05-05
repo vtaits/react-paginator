@@ -15,7 +15,7 @@ import type {
   PageLinkComponent,
 } from './types';
 
-type Props = {
+export type PageLinkWrapperProps = {
   Link: LinkComponent;
   PageLink: PageLinkComponent;
   onPageChange: OnPageChange;
@@ -25,7 +25,7 @@ type Props = {
   rootProps: RootProps;
 };
 
-const PageLinkWrapper: FC<Props> = memo(({
+export const PageLinkWrapper: FC<PageLinkWrapperProps> = memo(({
   /* eslint-disable-next-line @typescript-eslint/naming-convention */
   Link,
   /* eslint-disable-next-line @typescript-eslint/naming-convention */
@@ -71,5 +71,3 @@ const PageLinkWrapper: FC<Props> = memo(({
 PageLinkWrapper.defaultProps = {
   hrefBuilder: null,
 };
-
-export default PageLinkWrapper;

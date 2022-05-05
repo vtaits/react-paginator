@@ -1,30 +1,43 @@
+import type {
+  ReactElement,
+  ReactNode,
+} from 'react';
+
 import styled from 'styled-components';
 
-import getStyle from './getStyle';
+import { getStyle } from './getStyle';
 
 import type {
-  PageLinkGroupComponent as PageLinkGroupComponentType,
+  PageLinkGroupProps,
+  RootProps,
 } from '../types';
 
-export const PageLinkGroupComponent = styled.div((props) => getStyle(
-  'pageLinkGroup',
+export type InnerPageLinkGroupComponentProps = {
+  rootProps: RootProps;
+  children?: ReactNode;
+};
 
-  {
-    display: 'flex',
-  },
+export const PageLinkGroupComponent = styled.div<InnerPageLinkGroupComponentProps>(
+  (props) => getStyle(
+    'pageLinkGroup',
 
-  props,
-));
+    {
+      display: 'flex',
+    },
 
-const PageLinkGroup: PageLinkGroupComponentType = ({
-  rootProps,
-  children,
-}) => (
-  <PageLinkGroupComponent
-    rootProps={rootProps}
-  >
-    {children}
-  </PageLinkGroupComponent>
+    props,
+  ),
 );
 
-export default PageLinkGroup;
+export function PageLinkGroup({
+  rootProps,
+  children,
+}: PageLinkGroupProps): ReactElement {
+  return (
+    <PageLinkGroupComponent
+      rootProps={rootProps}
+    >
+      {children}
+    </PageLinkGroupComponent>
+  );
+}

@@ -1,25 +1,44 @@
 import type {
-  BreakComponent,
-  ContainerComponent,
-  LinkComponent,
-  NextLinkComponent,
-  PageLinkComponent,
-  PageLinkGroupComponent,
-  PagesComponent,
-  PreviousLinkComponent,
+  ReactElement,
+} from 'react';
+
+import type {
   RootProps,
 } from '../types';
 
-const Break: BreakComponent = () => null;
-const Container: ContainerComponent = () => null;
-const Link: LinkComponent = () => null;
-const NextLink: NextLinkComponent = () => null;
-const PageLink: PageLinkComponent = () => null;
-const PageLinkGroup: PageLinkGroupComponent = () => null;
-const Pages: PagesComponent = () => null;
-const PreviousLink: PreviousLinkComponent = () => null;
+function Break(): ReactElement {
+  return null;
+}
 
-const rootProps: RootProps = {
+function Container(): ReactElement {
+  return null;
+}
+
+function Link(): ReactElement {
+  return null;
+}
+
+function NextLink(): ReactElement {
+  return null;
+}
+
+function PageLink(): ReactElement {
+  return null;
+}
+
+function PageLinkGroup(): ReactElement {
+  return null;
+}
+
+function Pages(): ReactElement {
+  return null;
+}
+
+function PreviousLink(): ReactElement {
+  return null;
+}
+
+export const rootProps: RootProps = {
   pageCount: 10,
   pageRangeDisplayed: 5,
   marginPagesDisplayed: 2,
@@ -27,7 +46,7 @@ const rootProps: RootProps = {
   nextLabel: 'next',
   breakLabel: 'break',
   page: 3,
-  onPageChange: () => {},
+  onPageChange: () => undefined,
   hrefBuilder: null,
 
   components: {
@@ -43,5 +62,3 @@ const rootProps: RootProps = {
 
   styles: {},
 };
-
-export default rootProps;

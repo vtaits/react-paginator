@@ -1,52 +1,59 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
-
-import {
-  shallow,
-} from 'enzyme';
 import type {
-  ShallowWrapper,
-} from 'enzyme';
+  FC,
+  SyntheticEvent,
+  ReactElement,
+} from 'react';
 
-import rootProps from '../__fixtures__/rootProps';
+import { createRenderer } from 'react-test-renderer/shallow';
 
-import NextLinkWrapper from '../NextLinkWrapper';
+import { rootProps } from '../__fixtures__/rootProps';
+
+import { NextLinkWrapper } from '../NextLinkWrapper';
+import type {
+  NextLinkWrapperProps,
+} from '../NextLinkWrapper';
 
 import type {
-  LinkComponent,
-  NextLinkComponent,
+  NextLinkProps,
 } from '../types';
 
-const Link: LinkComponent = () => <div />;
-const NextLink: NextLinkComponent = () => <div />;
+function Link(): ReactElement {
+  return <div />;
+}
+
+function NextLink(): ReactElement {
+  return <div />;
+}
 
 type PageObject = {
-  getProp: (propName: string) => any;
+  getProp: <Key extends keyof NextLinkProps>(propName: Key) => NextLinkProps[Key];
 };
 
-const defaultProps = {
+const defaultProps: NextLinkWrapperProps = {
   Link,
   NextLink,
-  onPageChange: (): void => {},
+  onPageChange: (): void => undefined,
   nextLabel: 'test',
   page: 3,
   pageCount: 10,
   rootProps,
 };
 
-const setup = (props: Record<string, any>): PageObject => {
-  const wrapper: ShallowWrapper = shallow(
+const setup = (props: Partial<NextLinkWrapperProps>): PageObject => {
+  const renderer = createRenderer();
+
+  renderer.render(
     <NextLinkWrapper
       {...defaultProps}
       {...props}
     />,
   );
 
-  const getComponent = (): ShallowWrapper => wrapper.find(NextLink);
-
-  const getProp = (propName: string): any => getComponent().prop(propName);
+  const result = renderer.getRenderOutput() as ReactElement<NextLinkProps, FC>;
 
   return {
-    getProp,
+    getProp: (propName) => result.props[propName],
   };
 };
 
@@ -101,12 +108,12 @@ test('should set next page on click', () => {
 
   page.getProp('innerProps').onClick({
     preventDefault,
-  });
+  } as unknown as SyntheticEvent<Element, Event>);
 
-  expect(preventDefault.mock.calls.length).toBe(1);
+  expect(preventDefault).toHaveBeenCalledTimes(1);
 
-  expect(onPageChange.mock.calls.length).toBe(1);
-  expect(onPageChange.mock.calls[0][0]).toBe(4);
+  expect(onPageChange).toHaveBeenCalledTimes(1);
+  expect(onPageChange).toHaveBeenCalledWith(4);
 });
 
 test('should render disabled component', () => {

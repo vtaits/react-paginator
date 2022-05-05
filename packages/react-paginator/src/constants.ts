@@ -1,7 +1,2 @@
-import type {
-  PAGES as TypePAGES,
-  BREAK as TypeBREAK,
-} from './types';
-
-export const PAGES: TypePAGES = 'PAGES';
-export const BREAK: TypeBREAK = 'BREAK';
+export const PAGES = 'PAGES';
+export const BREAK = 'BREAK';

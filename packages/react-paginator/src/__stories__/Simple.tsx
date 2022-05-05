@@ -1,13 +1,15 @@
 import {
   useState,
-  FC,
+} from 'react';
+import type {
+  ReactElement,
 } from 'react';
 
 import {
   Paginator,
 } from '..';
 
-const Example: FC = () => {
+function Example(): ReactElement {
   const [page, setPage] = useState(1);
 
   return (
@@ -17,6 +19,6 @@ const Example: FC = () => {
       onPageChange={setPage}
     />
   );
-};
+}
 
 export default Example;

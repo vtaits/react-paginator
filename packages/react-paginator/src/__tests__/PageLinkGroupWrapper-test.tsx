@@ -1,37 +1,44 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
-
-import {
-  shallow,
-} from 'enzyme';
 import type {
-  ShallowWrapper,
-} from 'enzyme';
+  FC,
+  ReactElement,
+} from 'react';
 
-import rootProps from '../__fixtures__/rootProps';
+import { createRenderer } from 'react-test-renderer/shallow';
 
-import PageLinkWrapper from '../PageLinkWrapper';
-import PageLinkGroupWrapper from '../PageLinkGroupWrapper';
+import { rootProps } from '../__fixtures__/rootProps';
 
 import type {
-  LinkComponent,
-  PageLinkComponent,
-  PageLinkGroupComponent,
+  PageLinkWrapperProps,
+} from '../PageLinkWrapper';
+import { PageLinkGroupWrapper } from '../PageLinkGroupWrapper';
+
+import type {
+  PageLinkGroupProps,
 } from '../types';
 
-const Link: LinkComponent = () => <div />;
-const PageLink: PageLinkComponent = () => <div />;
-const PageLinkGroup: PageLinkGroupComponent = () => <div />;
+function Link(): ReactElement {
+  return <div />;
+}
+
+function PageLink(): ReactElement {
+  return <div />;
+}
+
+function PageLinkGroup(): ReactElement {
+  return <div />;
+}
 
 type PageObject = {
-  getPageLink: () => ShallowWrapper;
-  getPageLinkGroup: () => ShallowWrapper;
+  getPageLinkGroupProps: () => PageLinkGroupProps;
+  getPageLinks: () => Array<ReactElement<PageLinkWrapperProps, FC>>;
 };
 
 const defaultProps = {
   Link,
   PageLink,
   PageLinkGroup,
-  onPageChange: (): void => {},
+  onPageChange: (): void => undefined,
   start: 4,
   end: 10,
   page: 8,
@@ -39,19 +46,25 @@ const defaultProps = {
 };
 
 const setup = (props: Record<string, any>): PageObject => {
-  const wrapper: ShallowWrapper = shallow(
+  const renderer = createRenderer();
+
+  renderer.render(
     <PageLinkGroupWrapper
       {...defaultProps}
       {...props}
     />,
   );
 
-  const getPageLink = (): ShallowWrapper => wrapper.find(PageLinkWrapper);
-  const getPageLinkGroup = (): ShallowWrapper => wrapper.find(PageLinkGroup);
+  const result = renderer.getRenderOutput() as ReactElement<PageLinkGroupProps, FC>;
+
+  const getPageLinkGroupProps = () => result.props;
+
+  const getPageLinks = () => getPageLinkGroupProps()
+    .children as Array<ReactElement<PageLinkWrapperProps, FC>>;
 
   return {
-    getPageLink,
-    getPageLinkGroup,
+    getPageLinkGroupProps,
+    getPageLinks,
   };
 };
 
@@ -61,11 +74,11 @@ test('should render PageLinkGroup with correct props', () => {
     end: 10,
   });
 
-  const pageLinkGroupNode = page.getPageLinkGroup();
+  const pageLinkGroupProps = page.getPageLinkGroupProps();
 
-  expect(pageLinkGroupNode.prop('start')).toBe(4);
-  expect(pageLinkGroupNode.prop('end')).toBe(10);
-  expect(pageLinkGroupNode.prop('rootProps')).toBe(rootProps);
+  expect(pageLinkGroupProps.start).toBe(4);
+  expect(pageLinkGroupProps.end).toBe(10);
+  expect(pageLinkGroupProps.rootProps).toBe(rootProps);
 });
 
 test('should render links', () => {
@@ -80,16 +93,20 @@ test('should render links', () => {
     page: 6,
   });
 
-  const pageLinkNodes = page.getPageLink();
+  const pageLinkNodes = page.getPageLinks();
 
   expect(pageLinkNodes.length).toBe(7);
   pageLinkNodes.forEach((pageLinkNode, index) => {
-    expect(pageLinkNode.prop('Link')).toBe(Link);
-    expect(pageLinkNode.prop('PageLink')).toBe(PageLink);
-    expect(pageLinkNode.prop('onPageChange')).toBe(onPageChange);
-    expect(pageLinkNode.prop('hrefBuilder')).toBe(hrefBuilder);
-    expect(pageLinkNode.prop('page')).toBe(6);
-    expect(pageLinkNode.prop('pageForLink')).toBe(4 + index);
-    expect(pageLinkNode.prop('rootProps')).toBe(rootProps);
+    const {
+      props: pageLinkProps,
+    } = pageLinkNode;
+
+    expect(pageLinkProps.Link).toBe(Link);
+    expect(pageLinkProps.PageLink).toBe(PageLink);
+    expect(pageLinkProps.onPageChange).toBe(onPageChange);
+    expect(pageLinkProps.hrefBuilder).toBe(hrefBuilder);
+    expect(pageLinkProps.page).toBe(6);
+    expect(pageLinkProps.pageForLink).toBe(4 + index);
+    expect(pageLinkProps.rootProps).toBe(rootProps);
   });
 });

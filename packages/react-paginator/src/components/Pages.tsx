@@ -1,12 +1,23 @@
+import type {
+  ReactElement,
+  ReactNode,
+} from 'react';
+
 import styled from 'styled-components';
 
-import getStyle from './getStyle';
+import { getStyle } from './getStyle';
 
 import type {
-  PagesComponent as PagesComponentType,
+  PagesProps,
+  RootProps,
 } from '../types';
 
-export const PagesComponent = styled.div((props) => getStyle(
+export type InnerPagesComponentProps = {
+  rootProps: RootProps;
+  children?: ReactNode;
+};
+
+export const PagesComponent = styled.div<InnerPagesComponentProps>((props) => getStyle(
   'pages',
 
   {
@@ -17,15 +28,15 @@ export const PagesComponent = styled.div((props) => getStyle(
   props,
 ));
 
-const Pages: PagesComponentType = ({
+export function Pages({
   rootProps,
   children,
-}) => (
-  <PagesComponent
-    rootProps={rootProps}
-  >
-    {children}
-  </PagesComponent>
-);
-
-export default Pages;
+}: PagesProps): ReactElement {
+  return (
+    <PagesComponent
+      rootProps={rootProps}
+    >
+      {children}
+    </PagesComponent>
+  );
+}

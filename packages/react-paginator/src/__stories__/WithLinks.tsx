@@ -1,6 +1,8 @@
 import {
   useState,
-  FC,
+} from 'react';
+import type {
+  ReactElement,
 } from 'react';
 
 import {
@@ -12,7 +14,7 @@ import type {
 
 const hrefBuilder: HrefBuilder = (page) => `/url/?page=${page}`;
 
-const Example: FC = () => {
+function Example(): ReactElement {
   const [page, setPage] = useState(1);
 
   return (
@@ -23,6 +25,6 @@ const Example: FC = () => {
       hrefBuilder={hrefBuilder}
     />
   );
-};
+}
 
 export default Example;

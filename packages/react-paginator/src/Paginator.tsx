@@ -6,12 +6,12 @@ import type {
   FC,
 } from 'react';
 
-import components from './components';
+import { components } from './components';
 import defaultGetPages from './getPages';
 
-import NextLinkWrapper from './NextLinkWrapper';
-import PreviousLinkWrapper from './PreviousLinkWrapper';
-import PageLinkGroupWrapper from './PageLinkGroupWrapper';
+import { NextLinkWrapper } from './NextLinkWrapper';
+import { PreviousLinkWrapper } from './PreviousLinkWrapper';
+import { PageLinkGroupWrapper } from './PageLinkGroupWrapper';
 
 import {
   PAGES,
@@ -25,7 +25,7 @@ import type {
   RootProps,
 } from './types';
 
-const Paginator: FC<PaginatorProps> = memo((props) => {
+export const Paginator: FC<PaginatorProps> = memo((props) => {
   const {
     pageCount,
     pageRangeDisplayed,
@@ -163,5 +163,3 @@ Paginator.defaultProps = {
   components: null,
   styles: {},
 };
-
-export default Paginator;

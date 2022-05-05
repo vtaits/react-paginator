@@ -1,29 +1,37 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
+import type {
+  ComponentProps,
+  FC,
+  ReactElement,
+} from 'react';
+
+import { createRenderer } from 'react-test-renderer/shallow';
+
+import { rootProps } from '../../__fixtures__/rootProps';
 
 import {
-  shallow,
-  ShallowWrapper,
-} from 'enzyme';
-
-import rootProps from '../../__fixtures__/rootProps';
-
-import PageLink, {
+  PageLink,
   PageLinkComponent,
 } from '../PageLink';
 
 import type {
-  LinkComponent,
   PageLinkProps,
 } from '../../types';
 
-const Link: LinkComponent = () => <div />;
+function Link(): ReactElement {
+  return <div />;
+}
 
 type PageObject = {
-  getPageLinkComponentProp: (propName: string) => any;
+  getPageLinkComponentProp: <Key extends keyof ComponentProps<typeof PageLinkComponent>>(
+    propName: Key,
+  ) => ComponentProps<typeof PageLinkComponent>[Key];
 };
 
 const setup = (props: Omit<PageLinkProps, 'rootProps' | 'Link'>): PageObject => {
-  const wrapper: ShallowWrapper = shallow(
+  const renderer = createRenderer();
+
+  renderer.render(
     <PageLink
       rootProps={rootProps}
       Link={Link}
@@ -31,12 +39,11 @@ const setup = (props: Omit<PageLinkProps, 'rootProps' | 'Link'>): PageObject => 
     />,
   );
 
-  const getPageLinkComponent = (): ShallowWrapper => wrapper.find(PageLinkComponent);
-
-  const getPageLinkComponentProp = (propName: string): any => getPageLinkComponent().prop(propName);
+  const result = renderer
+    .getRenderOutput() as ReactElement<ComponentProps<typeof PageLinkComponent>, FC>;
 
   return {
-    getPageLinkComponentProp,
+    getPageLinkComponentProp: (propName) => result.props[propName],
   };
 };
 

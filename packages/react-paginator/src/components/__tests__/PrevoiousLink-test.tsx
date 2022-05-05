@@ -1,43 +1,48 @@
-/* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
+/* eslint-disable react/jsx-props-no-spreading */
+import type {
+  ComponentProps,
+  FC,
+  ReactElement,
+} from 'react';
+
+import { createRenderer } from 'react-test-renderer/shallow';
+
+import { rootProps } from '../../__fixtures__/rootProps';
 
 import {
-  shallow,
-  ShallowWrapper,
-} from 'enzyme';
-
-import rootProps from '../../__fixtures__/rootProps';
-
-import PreviousLink, {
+  PreviousLink,
   PreviousLinkComponent,
 } from '../PreviousLink';
 
 import type {
-  LinkComponent,
   PreviousLinkProps,
 } from '../../types';
 
-const Link: LinkComponent = () => <div />;
+function Link(): ReactElement {
+  return <div />;
+}
 
 type PageObject = {
-  getPreviousLinkComponentProp: (propName: string) => any;
+  getPreviousLinkComponentProp: <Key extends keyof ComponentProps<typeof PreviousLinkComponent>>(
+    propName: Key,
+  ) => ComponentProps<typeof PreviousLinkComponent>[Key];
 };
 
 const setup = (props: Omit<PreviousLinkProps, 'rootProps'>): PageObject => {
-  const wrapper: ShallowWrapper = shallow(
+  const renderer = createRenderer();
+
+  renderer.render(
     <PreviousLink
       rootProps={rootProps}
       {...props}
     />,
   );
 
-  const getPreviousLinkComponent = (): ShallowWrapper => wrapper.find(PreviousLinkComponent);
-
-  const getPreviousLinkComponentProp = (
-    propName: string,
-  ): any => getPreviousLinkComponent().prop(propName);
+  const result = renderer
+    .getRenderOutput() as ReactElement<ComponentProps<typeof PreviousLinkComponent>, FC>;
 
   return {
-    getPreviousLinkComponentProp,
+    getPreviousLinkComponentProp: (propName) => result.props[propName],
   };
 };
 

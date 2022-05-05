@@ -1,12 +1,27 @@
+import type {
+  ReactElement,
+  ReactNode,
+} from 'react';
+
 import styled from 'styled-components';
 
-import getStyle from './getStyle';
+import { getStyle } from './getStyle';
 
 import type {
-  PreviousLinkComponent as PreviousLinkComponentType,
+  LinkInnerProps,
+  PreviousLinkProps,
+  RootProps,
 } from '../types';
 
-export const PreviousLinkComponent = styled.a((props) => {
+export type InnerPreviousLinkComponentProps =
+  & LinkInnerProps
+  & {
+    isDisabled?: boolean;
+    rootProps: RootProps;
+    children?: ReactNode;
+  };
+
+export const PreviousLinkComponent = styled.a<InnerPreviousLinkComponentProps>((props) => {
   const {
     isDisabled,
   } = props;
@@ -36,22 +51,22 @@ export const PreviousLinkComponent = styled.a((props) => {
   );
 });
 
-const PreviousLink: PreviousLinkComponentType = ({
+export function PreviousLink({
   /* eslint-disable-next-line @typescript-eslint/naming-convention */
   Link,
   isDisabled,
   rootProps,
   innerProps,
   children,
-}) => (
-  <PreviousLinkComponent
-    as={Link}
-    {...innerProps}
-    isDisabled={isDisabled}
-    rootProps={rootProps}
-  >
-    {children}
-  </PreviousLinkComponent>
-);
-
-export default PreviousLink;
+}: PreviousLinkProps): ReactElement {
+  return (
+    <PreviousLinkComponent
+      as={Link}
+      {...innerProps}
+      isDisabled={isDisabled}
+      rootProps={rootProps}
+    >
+      {children}
+    </PreviousLinkComponent>
+  );
+}

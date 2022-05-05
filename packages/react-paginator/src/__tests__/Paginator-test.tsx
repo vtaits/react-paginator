@@ -1,33 +1,35 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
-
-import {
-  shallow,
-} from 'enzyme';
 import type {
-  ShallowWrapper,
-} from 'enzyme';
+  FC,
+  ReactElement,
+} from 'react';
 
-import components from '../components';
+import { createRenderer } from 'react-test-renderer/shallow';
 
-import NextLinkWrapper from '../NextLinkWrapper';
-import PreviousLinkWrapper from '../PreviousLinkWrapper';
-import PageLinkGroupWrapper from '../PageLinkGroupWrapper';
+import { components } from '../components';
+
+import type {
+  NextLinkWrapperProps,
+} from '../NextLinkWrapper';
+import type {
+  PreviousLinkWrapperProps,
+} from '../PreviousLinkWrapper';
+import { PageLinkGroupWrapper } from '../PageLinkGroupWrapper';
+import type {
+  PageLinkGroupWrapperProps,
+} from '../PageLinkGroupWrapper';
 
 import {
   PAGES,
   BREAK,
 } from '../constants';
 
-import Paginator from '../Paginator';
+import { Paginator } from '../Paginator';
 
 import type {
-  LinkComponent,
-  PreviousLinkComponent,
-  ContainerComponent,
-  NextLinkComponent,
-  BreakComponent,
-  PageLinkComponent,
-  PageLinkGroupComponent,
+  BreakComponentProps,
+  ContainerComponentProps,
+  PagesProps,
   GetPages,
 } from '../types';
 
@@ -38,55 +40,65 @@ const defaultProps = {
 };
 
 type PageObject = {
-  wrapper: ShallowWrapper;
-  getPreviousLinkWrapperProp: (propName: string) => any;
-  getNextLinkWrapperProp: (propName: string) => any;
-  getPageLinkGroupWrapper: () => ShallowWrapper;
-  getPageLinkGroupWrapperProp: (propName: string) => any;
+  getRootNode: () => ReactElement<ContainerComponentProps, FC>;
+
+  getPreviousLinkWrapperProp: <Key extends keyof PreviousLinkWrapperProps>(
+    propName: Key,
+  ) => PreviousLinkWrapperProps[Key];
+
+  getNextLinkWrapperProp: <Key extends keyof NextLinkWrapperProps>(
+    propName: Key,
+  ) => NextLinkWrapperProps[Key];
+
+  getRenderedPages: () => Array<ReactElement>;
 };
 
 const setup = (props: Record<string, any>): PageObject => {
-  const wrapper: ShallowWrapper = shallow(
+  const renderer = createRenderer();
+
+  renderer.render(
     <Paginator
       {...defaultProps}
       {...props}
     />,
   );
 
-  const getPreviousLinkWrapper = (): ShallowWrapper => wrapper.find(PreviousLinkWrapper);
-  const getPreviousLinkWrapperProp = (
-    propName: string,
-  ): any => getPreviousLinkWrapper().prop(propName);
+  const result = renderer.getRenderOutput() as ReactElement<ContainerComponentProps, FC>;
 
-  const getNextLinkWrapper = (): ShallowWrapper => wrapper.find(NextLinkWrapper);
-  const getNextLinkWrapperProp = (
-    propName: string,
-  ): any => getNextLinkWrapper().prop(propName);
+  const getPreviousLinkWrapper = () => result
+    .props.children[0] as ReactElement<PreviousLinkWrapperProps, FC>;
 
-  const getPageLinkGroupWrapper = (): ShallowWrapper => wrapper.find(PageLinkGroupWrapper);
-  const getPageLinkGroupWrapperProp = (
-    propName: string,
-  ): any => getPageLinkGroupWrapper().prop(propName);
+  const getNextLinkWrapper = () => result
+    .props.children[2] as ReactElement<NextLinkWrapperProps, FC>;
+
+  const getPagesNode = () => result.props.children[1] as ReactElement<PagesProps, FC>;
+
+  const getRenderedPages = () => getPagesNode().props.children as Array<ReactElement>;
 
   return {
-    wrapper,
-    getPreviousLinkWrapperProp,
-    getNextLinkWrapperProp,
-    getPageLinkGroupWrapper,
-    getPageLinkGroupWrapperProp,
+    getRootNode: () => result,
+
+    getPreviousLinkWrapperProp: (propName) => getPreviousLinkWrapper().props[propName],
+
+    getNextLinkWrapperProp: (propName) => getNextLinkWrapper().props[propName],
+
+    getRenderedPages,
   };
 };
 
 test('should render default container', () => {
   const page = setup({});
 
-  const containerNode = page.wrapper.find(components.Container);
+  const containerNode = page.getRootNode();
 
-  expect(containerNode.prop('rootProps')).toBeTruthy();
+  expect(containerNode.type).toBe(components.Container);
+  expect(containerNode.props.rootProps).toBeTruthy();
 });
 
 test('should render redefined container', () => {
-  const TestComponent: ContainerComponent = () => <div />;
+  function TestComponent(): ReactElement {
+    return <div />;
+  }
 
   const page = setup({
     components: {
@@ -94,9 +106,10 @@ test('should render redefined container', () => {
     },
   });
 
-  const containerNode = page.wrapper.find(TestComponent);
+  const containerNode = page.getRootNode();
 
-  expect(containerNode.prop('rootProps')).toBeTruthy();
+  expect(containerNode.type).toBe(TestComponent);
+  expect(containerNode.props.rootProps).toBeTruthy();
 });
 
 test('should render PreviousLinkWrapper with default props', () => {
@@ -119,8 +132,13 @@ test('should render PreviousLinkWrapper with redefined components', () => {
   const onPageChange = jest.fn();
   const hrefBuilder = jest.fn();
 
-  const Link: LinkComponent = () => <div />;
-  const PreviousLink: PreviousLinkComponent = () => <div />;
+  function Link(): ReactElement {
+    return <div />;
+  }
+
+  function PreviousLink(): ReactElement {
+    return <div />;
+  }
 
   const page = setup({
     onPageChange,
@@ -163,8 +181,13 @@ test('should render NextLinkWrapper with redefined components', () => {
   const onPageChange = jest.fn();
   const hrefBuilder = jest.fn();
 
-  const Link: LinkComponent = () => <div />;
-  const NextLink: NextLinkComponent = () => <div />;
+  function Link(): ReactElement {
+    return <div />;
+  }
+
+  function NextLink(): ReactElement {
+    return <div />;
+  }
 
   const page = setup({
     onPageChange,
@@ -203,22 +226,29 @@ test('should render Break with default props', () => {
     getPages,
   });
 
-  const breakNode = page.wrapper.find(components.Break);
+  const breakNode = page.getRenderedPages()[0] as ReactElement<BreakComponentProps, FC>;
 
-  expect(breakNode.prop('previous')).toBe(4);
-  expect(breakNode.prop('next')).toBe(8);
-  expect(breakNode.prop('Link')).toBe(components.Link);
-  expect(breakNode.prop('onPageChange')).toBe(onPageChange);
-  expect(breakNode.prop('hrefBuilder')).toBeFalsy();
-  expect(breakNode.prop('rootProps')).toBeTruthy();
+  expect(breakNode.type).toBe(components.Break);
+
+  expect(breakNode.props.previous).toBe(4);
+  expect(breakNode.props.next).toBe(8);
+  expect(breakNode.props.Link).toBe(components.Link);
+  expect(breakNode.props.onPageChange).toBe(onPageChange);
+  expect(breakNode.props.hrefBuilder).toBeFalsy();
+  expect(breakNode.props.rootProps).toBeTruthy();
 });
 
 test('should render Break with redefined props', () => {
   const onPageChange = jest.fn();
   const hrefBuilder = jest.fn();
 
-  const Break: BreakComponent = () => <div />;
-  const Link: LinkComponent = () => <div />;
+  function Break(): ReactElement {
+    return <div />;
+  }
+
+  function Link(): ReactElement {
+    return <div />;
+  }
 
   const getPages: GetPages = () => [
     {
@@ -239,14 +269,16 @@ test('should render Break with redefined props', () => {
     },
   });
 
-  const breakNode = page.wrapper.find(Break);
+  const breakNode = page.getRenderedPages()[0] as ReactElement<BreakComponentProps, FC>;
 
-  expect(breakNode.prop('previous')).toBe(4);
-  expect(breakNode.prop('next')).toBe(8);
-  expect(breakNode.prop('Link')).toBe(Link);
-  expect(breakNode.prop('onPageChange')).toBe(onPageChange);
-  expect(breakNode.prop('hrefBuilder')).toBe(hrefBuilder);
-  expect(breakNode.prop('rootProps')).toBeTruthy();
+  expect(breakNode.type).toBe(Break);
+
+  expect(breakNode.props.previous).toBe(4);
+  expect(breakNode.props.next).toBe(8);
+  expect(breakNode.props.Link).toBe(Link);
+  expect(breakNode.props.onPageChange).toBe(onPageChange);
+  expect(breakNode.props.hrefBuilder).toBe(hrefBuilder);
+  expect(breakNode.props.rootProps).toBeTruthy();
 });
 
 test('should render PageLinkGroupWrapper with default props', () => {
@@ -265,15 +297,20 @@ test('should render PageLinkGroupWrapper with default props', () => {
     getPages,
   });
 
-  expect(page.getPageLinkGroupWrapperProp('start')).toBe(4);
-  expect(page.getPageLinkGroupWrapperProp('end')).toBe(8);
-  expect(page.getPageLinkGroupWrapperProp('page')).toBe(3);
-  expect(page.getPageLinkGroupWrapperProp('Link')).toBe(components.Link);
-  expect(page.getPageLinkGroupWrapperProp('PageLink')).toBe(components.PageLink);
-  expect(page.getPageLinkGroupWrapperProp('PageLinkGroup')).toBe(components.PageLinkGroup);
-  expect(page.getPageLinkGroupWrapperProp('onPageChange')).toBe(onPageChange);
-  expect(page.getPageLinkGroupWrapperProp('hrefBuilder')).toBeFalsy();
-  expect(page.getPageLinkGroupWrapperProp('rootProps')).toBeTruthy();
+  const groupWrapperNode = page
+    .getRenderedPages()[0] as ReactElement<PageLinkGroupWrapperProps, FC>;
+
+  expect(groupWrapperNode.type).toBe(PageLinkGroupWrapper);
+
+  expect(groupWrapperNode.props.start).toBe(4);
+  expect(groupWrapperNode.props.end).toBe(8);
+  expect(groupWrapperNode.props.page).toBe(3);
+  expect(groupWrapperNode.props.Link).toBe(components.Link);
+  expect(groupWrapperNode.props.PageLink).toBe(components.PageLink);
+  expect(groupWrapperNode.props.PageLinkGroup).toBe(components.PageLinkGroup);
+  expect(groupWrapperNode.props.onPageChange).toBe(onPageChange);
+  expect(groupWrapperNode.props.hrefBuilder).toBeFalsy();
+  expect(groupWrapperNode.props.rootProps).toBeTruthy();
 });
 
 test('should render PageLinkGroupWrapper with redefined props', () => {
@@ -288,9 +325,17 @@ test('should render PageLinkGroupWrapper with redefined props', () => {
     },
   ];
 
-  const Link: LinkComponent = () => <div />;
-  const PageLink: PageLinkComponent = () => <div />;
-  const PageLinkGroup: PageLinkGroupComponent = () => <div />;
+  function Link(): ReactElement {
+    return <div />;
+  }
+
+  function PageLink(): ReactElement {
+    return <div />;
+  }
+
+  function PageLinkGroup(): ReactElement {
+    return <div />;
+  }
 
   const page = setup({
     onPageChange,
@@ -304,15 +349,20 @@ test('should render PageLinkGroupWrapper with redefined props', () => {
     },
   });
 
-  expect(page.getPageLinkGroupWrapperProp('start')).toBe(4);
-  expect(page.getPageLinkGroupWrapperProp('end')).toBe(8);
-  expect(page.getPageLinkGroupWrapperProp('page')).toBe(3);
-  expect(page.getPageLinkGroupWrapperProp('Link')).toBe(Link);
-  expect(page.getPageLinkGroupWrapperProp('PageLink')).toBe(PageLink);
-  expect(page.getPageLinkGroupWrapperProp('PageLinkGroup')).toBe(PageLinkGroup);
-  expect(page.getPageLinkGroupWrapperProp('onPageChange')).toBe(onPageChange);
-  expect(page.getPageLinkGroupWrapperProp('hrefBuilder')).toBe(hrefBuilder);
-  expect(page.getPageLinkGroupWrapperProp('rootProps')).toBeTruthy();
+  const groupWrapperNode = page
+    .getRenderedPages()[0] as ReactElement<PageLinkGroupWrapperProps, FC>;
+
+  expect(groupWrapperNode.type).toBe(PageLinkGroupWrapper);
+
+  expect(groupWrapperNode.props.start).toBe(4);
+  expect(groupWrapperNode.props.end).toBe(8);
+  expect(groupWrapperNode.props.page).toBe(3);
+  expect(groupWrapperNode.props.Link).toBe(Link);
+  expect(groupWrapperNode.props.PageLink).toBe(PageLink);
+  expect(groupWrapperNode.props.PageLinkGroup).toBe(PageLinkGroup);
+  expect(groupWrapperNode.props.onPageChange).toBe(onPageChange);
+  expect(groupWrapperNode.props.hrefBuilder).toBe(hrefBuilder);
+  expect(groupWrapperNode.props.rootProps).toBeTruthy();
 });
 
 test('should render multiple page groups and breaks', () => {
@@ -343,6 +393,11 @@ test('should render multiple page groups and breaks', () => {
     getPages,
   });
 
-  expect(page.getPageLinkGroupWrapper().length).toBe(2);
-  expect(page.wrapper.find(components.Break).length).toBe(1);
+  const renderedPages = page.getRenderedPages();
+
+  expect(renderedPages.length).toBe(3);
+
+  expect(renderedPages[0].type).toBe(PageLinkGroupWrapper);
+  expect(renderedPages[1].type).toBe(components.Break);
+  expect(renderedPages[2].type).toBe(PageLinkGroupWrapper);
 });

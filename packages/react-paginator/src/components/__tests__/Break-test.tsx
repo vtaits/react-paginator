@@ -1,37 +1,42 @@
-/* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
+/* eslint-disable react/jsx-props-no-spreading */
+import type {
+  FC,
+  ReactElement,
+} from 'react';
 
-import {
-  shallow,
-  ShallowWrapper,
-} from 'enzyme';
+import { createRenderer } from 'react-test-renderer/shallow';
 
-import rootProps from '../../__fixtures__/rootProps';
+import { rootProps } from '../../__fixtures__/rootProps';
 
-import Break, {
-  BreakComponent,
+import { Break } from '../Break';
+import type {
+  InnerBreakProps,
 } from '../Break';
+
 import type {
   BreakComponentProps,
 } from '../../types';
 
 type PageObject = {
-  getBreakComponentProp: (propName: string) => any;
+  getBreakComponentProp: <Key extends keyof InnerBreakProps>(
+    propName: Key,
+  ) => InnerBreakProps[Key];
 };
 
 const setup = (props: Omit<BreakComponentProps, 'rootProps'>): PageObject => {
-  const wrapper: ShallowWrapper = shallow(
+  const renderer = createRenderer();
+
+  renderer.render(
     <Break
       rootProps={rootProps}
       {...props}
     />,
   );
 
-  const getBreakComponent = (): ShallowWrapper => wrapper.find(BreakComponent);
-
-  const getBreakComponentProp = (propName: string): any => getBreakComponent().prop(propName);
+  const result = renderer.getRenderOutput() as ReactElement<InnerBreakProps, FC>;
 
   return {
-    getBreakComponentProp,
+    getBreakComponentProp: (propName) => result.props[propName],
   };
 };
 
@@ -40,7 +45,7 @@ test('should provide correct props to BreakComponent', () => {
     children: 'test',
     previous: 0,
     next: 10,
-    onPageChange: () => {},
+    onPageChange: () => undefined,
     Link: () => null,
   });
 

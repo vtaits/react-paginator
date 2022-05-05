@@ -1,8 +1,12 @@
 import type {
-  LinkComponent,
+  ReactElement,
+} from 'react';
+
+import type {
+  LinkComponentProps,
 } from '../types';
 
-const Link: LinkComponent = (props) => {
+export function Link(props: LinkComponentProps): ReactElement {
   const {
     disabled,
     href,
@@ -48,7 +52,7 @@ const Link: LinkComponent = (props) => {
       {children}
     </a>
   );
-};
+}
 
 Link.defaultProps = {
   disabled: false,
@@ -57,5 +61,3 @@ Link.defaultProps = {
   className: undefined,
   style: undefined,
 };
-
-export default Link;

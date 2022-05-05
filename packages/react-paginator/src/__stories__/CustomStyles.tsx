@@ -1,6 +1,8 @@
 import {
   useState,
-  FC,
+} from 'react';
+import type {
+  ReactElement,
 } from 'react';
 
 import {
@@ -25,7 +27,7 @@ const styles: Styles = {
   }),
 };
 
-const Example: FC = () => {
+function Example(): ReactElement {
   const [page, setPage] = useState(1);
 
   return (
@@ -36,6 +38,6 @@ const Example: FC = () => {
       styles={styles}
     />
   );
-};
+}
 
 export default Example;

@@ -1,29 +1,38 @@
-/* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
+/* eslint-disable react/jsx-props-no-spreading */
+import type {
+  HTMLProps,
+} from 'react';
 
-import {
-  shallow,
-  ShallowWrapper,
-} from 'enzyme';
+import { createRenderer } from 'react-test-renderer/shallow';
 
-import rootProps from '../../__fixtures__/rootProps';
+import { rootProps } from '../../__fixtures__/rootProps';
 
-import Link from '../Link';
+import { Link } from '../Link';
+
+import type {
+  LinkComponentProps,
+} from '../../types';
 
 const style = {};
 const className = 'test-class-name';
 
-const defaultProps = {
+const defaultProps: Omit<LinkComponentProps, 'rootProps'> = {
   children: 'test',
   style: {},
 };
 
 type PageObject = {
-  getButtonProp: (propName: string) => any;
-  getLinkProp: (propName: string) => any;
+  getButtonProp: <Key extends keyof HTMLProps<'button'>>(
+    propName: Key,
+  ) => HTMLProps<'button'>[Key];
+
+  getLinkProp: <Key extends keyof HTMLProps<'a'>>(propName: Key) => HTMLProps<'a'>[Key];
 };
 
-const setup = (props: Record<string, any>): PageObject => {
-  const wrapper: ShallowWrapper = shallow(
+const setup = (props: Partial<LinkComponentProps>): PageObject => {
+  const renderer = createRenderer();
+
+  renderer.render(
     <Link
       rootProps={rootProps}
       {...defaultProps}
@@ -31,15 +40,24 @@ const setup = (props: Record<string, any>): PageObject => {
     />,
   );
 
-  const getButtonComponent = (): ShallowWrapper => wrapper.find('button');
-  const getLinkComponent = (): ShallowWrapper => wrapper.find('a');
-
-  const getButtonProp = (propName: string): any => getButtonComponent().prop(propName);
-  const getLinkProp = (propName: string): any => getLinkComponent().prop(propName);
+  const result = renderer.getRenderOutput();
 
   return {
-    getButtonProp,
-    getLinkProp,
+    getButtonProp: (propName) => {
+      if (result.type !== 'button') {
+        throw new Error('Rendered component should be an `button` element');
+      }
+
+      return (result.props as HTMLProps<'button'>)[propName];
+    },
+
+    getLinkProp: (propName) => {
+      if (result.type !== 'a') {
+        throw new Error('Rendered component should be an `a` element');
+      }
+
+      return (result.props as HTMLProps<'a'>)[propName];
+    },
   };
 };
 

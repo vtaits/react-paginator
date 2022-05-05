@@ -1,12 +1,23 @@
+import type {
+  ReactElement,
+  ReactNode,
+} from 'react';
+
 import styled from 'styled-components';
 
-import getStyle from './getStyle';
+import { getStyle } from './getStyle';
 
 import type {
-  ContainerComponent as ContainerComponentType,
+  ContainerComponentProps,
+  RootProps,
 } from '../types';
 
-export const ContainerComponent = styled.div((props) => getStyle(
+export type InnerContainerProps = {
+  rootProps: RootProps;
+  children?: ReactNode;
+};
+
+export const InnerContainer = styled.div<InnerContainerProps>((props) => getStyle(
   'container',
 
   {
@@ -16,15 +27,15 @@ export const ContainerComponent = styled.div((props) => getStyle(
   props,
 ));
 
-const Container: ContainerComponentType = ({
+export function Container({
   rootProps,
   children,
-}) => (
-  <ContainerComponent
-    rootProps={rootProps}
-  >
-    {children}
-  </ContainerComponent>
-);
-
-export default Container;
+}: ContainerComponentProps): ReactElement {
+  return (
+    <InnerContainer
+      rootProps={rootProps}
+    >
+      {children}
+    </InnerContainer>
+  );
+}

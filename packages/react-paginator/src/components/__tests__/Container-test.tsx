@@ -1,36 +1,42 @@
-/* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
+/* eslint-disable react/jsx-props-no-spreading */
+import type {
+  FC,
+  ReactElement,
+} from 'react';
 
-import {
-  shallow,
-  ShallowWrapper,
-} from 'enzyme';
+import { createRenderer } from 'react-test-renderer/shallow';
 
-import rootProps from '../../__fixtures__/rootProps';
+import { rootProps } from '../../__fixtures__/rootProps';
 
-import Container, {
-  ContainerComponent,
+import { Container } from '../Container';
+import type {
+  InnerContainerProps,
 } from '../Container';
 
+import type {
+  ContainerComponentProps,
+} from '../../types';
+
 type PageObject = {
-  getContainerComponentProp: (propName: string) => any;
+  getContainerComponentProp: <Key extends keyof InnerContainerProps>(
+    propName: Key,
+  ) => InnerContainerProps[Key];
 };
 
-const setup = (props: Record<string, any>): PageObject => {
-  const wrapper: ShallowWrapper = shallow(
+const setup = (props: Partial<ContainerComponentProps>): PageObject => {
+  const renderer = createRenderer();
+
+  renderer.render(
     <Container
       rootProps={rootProps}
       {...props}
     />,
   );
 
-  const getContainerComponent = (): ShallowWrapper => wrapper.find(ContainerComponent);
-
-  const getContainerComponentProp = (
-    propName: string,
-  ): any => getContainerComponent().prop(propName);
+  const result = renderer.getRenderOutput() as ReactElement<InnerContainerProps, FC>;
 
   return {
-    getContainerComponentProp,
+    getContainerComponentProp: (propName) => result.props[propName],
   };
 };
 

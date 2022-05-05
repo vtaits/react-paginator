@@ -1,37 +1,45 @@
-/* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
+/* eslint-disable react/jsx-props-no-spreading */
+import type {
+  FC,
+  ReactElement,
+} from 'react';
+
+import { createRenderer } from 'react-test-renderer/shallow';
+
+import { rootProps } from '../../__fixtures__/rootProps';
 
 import {
-  shallow,
-  ShallowWrapper,
-} from 'enzyme';
-
-import rootProps from '../../__fixtures__/rootProps';
-
-import Pages, {
-  PagesComponent,
+  Pages,
 } from '../Pages';
+import type {
+  InnerPagesComponentProps,
+} from '../Pages';
+
 import type {
   PagesProps,
 } from '../../types';
 
 type PageObject = {
-  getPagesComponentProp: (propName: string) => any;
+  getPagesComponentProp: <Key extends keyof InnerPagesComponentProps>(
+    propName: Key,
+  ) => InnerPagesComponentProps[Key];
 };
 
 const setup = (props: Omit<PagesProps, 'rootProps'>): PageObject => {
-  const wrapper: ShallowWrapper = shallow(
+  const renderer = createRenderer();
+
+  renderer.render(
     <Pages
       rootProps={rootProps}
       {...props}
     />,
   );
 
-  const getPagesComponent = (): ShallowWrapper => wrapper.find(PagesComponent);
-
-  const getPagesComponentProp = (propName: string): any => getPagesComponent().prop(propName);
+  const result = renderer
+    .getRenderOutput() as ReactElement<InnerPagesComponentProps, FC>;
 
   return {
-    getPagesComponentProp,
+    getPagesComponentProp: (propName) => result.props[propName],
   };
 };
 

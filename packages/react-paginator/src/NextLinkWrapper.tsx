@@ -16,7 +16,7 @@ import type {
   NextLinkComponent,
 } from './types';
 
-type Props = {
+export type NextLinkWrapperProps = {
   Link: LinkComponent;
   NextLink: NextLinkComponent;
   onPageChange: OnPageChange;
@@ -27,7 +27,7 @@ type Props = {
   rootProps: RootProps;
 };
 
-const NextLinkWrapper: FC<Props> = memo(({
+export const NextLinkWrapper: FC<NextLinkWrapperProps> = memo(({
   /* eslint-disable-next-line @typescript-eslint/naming-convention */
   Link,
   /* eslint-disable-next-line @typescript-eslint/naming-convention */
@@ -73,5 +73,3 @@ const NextLinkWrapper: FC<Props> = memo(({
 NextLinkWrapper.defaultProps = {
   hrefBuilder: null,
 };
-
-export default NextLinkWrapper;

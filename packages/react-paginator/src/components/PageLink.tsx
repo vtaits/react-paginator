@@ -1,12 +1,27 @@
+import type {
+  ReactElement,
+  ReactNode,
+} from 'react';
+
 import styled from 'styled-components';
 
-import getStyle from './getStyle';
+import { getStyle } from './getStyle';
 
 import type {
-  PageLinkComponent as PageLinkComponentType,
+  LinkInnerProps,
+  PageLinkProps,
+  RootProps,
 } from '../types';
 
-export const PageLinkComponent = styled.a((props) => {
+export type InnerPageLinkComponentProps =
+  & LinkInnerProps
+  & {
+    isCurrent?: boolean;
+    rootProps: RootProps;
+    children?: ReactNode;
+  };
+
+export const PageLinkComponent = styled.a<InnerPageLinkComponentProps>((props) => {
   const {
     isCurrent,
   } = props;
@@ -50,22 +65,22 @@ export const PageLinkComponent = styled.a((props) => {
   );
 });
 
-const PageLink: PageLinkComponentType = ({
+export function PageLink({
   /* eslint-disable-next-line @typescript-eslint/naming-convention */
   Link,
   isCurrent,
   rootProps,
   innerProps,
   children,
-}) => (
-  <PageLinkComponent
-    as={Link}
-    {...innerProps}
-    isCurrent={isCurrent}
-    rootProps={rootProps}
-  >
-    {children}
-  </PageLinkComponent>
-);
-
-export default PageLink;
+}: PageLinkProps): ReactElement {
+  return (
+    <PageLinkComponent
+      as={Link}
+      {...innerProps}
+      isCurrent={isCurrent}
+      rootProps={rootProps}
+    >
+      {children}
+    </PageLinkComponent>
+  );
+}

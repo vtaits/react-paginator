@@ -6,7 +6,7 @@ import type {
   ReactNode,
 } from 'react';
 
-import PageLinkWrapper from './PageLinkWrapper';
+import { PageLinkWrapper } from './PageLinkWrapper';
 
 import type {
   OnPageChange,
@@ -17,7 +17,7 @@ import type {
   PageLinkGroupComponent,
 } from './types';
 
-type Props = {
+export type PageLinkGroupWrapperProps = {
   Link: LinkComponent;
   PageLink: PageLinkComponent;
   PageLinkGroup: PageLinkGroupComponent;
@@ -29,7 +29,7 @@ type Props = {
   rootProps: RootProps;
 };
 
-const PageLinkGroupWrapper: FC<Props> = memo(({
+export const PageLinkGroupWrapper: FC<PageLinkGroupWrapperProps> = memo(({
   /* eslint-disable-next-line @typescript-eslint/naming-convention */
   Link,
   /* eslint-disable-next-line @typescript-eslint/naming-convention */
@@ -44,7 +44,7 @@ const PageLinkGroupWrapper: FC<Props> = memo(({
   rootProps,
 }) => {
   const renderedPages: ReactNode[] = [];
-  for (let pageForLink: number = start; pageForLink <= end; ++pageForLink) {
+  for (let pageForLink = start; pageForLink <= end; ++pageForLink) {
     renderedPages.push(
       <PageLinkWrapper
         Link={Link}
@@ -73,5 +73,3 @@ const PageLinkGroupWrapper: FC<Props> = memo(({
 PageLinkGroupWrapper.defaultProps = {
   hrefBuilder: null,
 };
-
-export default PageLinkGroupWrapper;

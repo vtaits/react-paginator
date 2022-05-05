@@ -1,12 +1,23 @@
+import type {
+  ReactElement,
+  ReactNode,
+} from 'react';
+
 import styled from 'styled-components';
 
-import getStyle from './getStyle';
+import { getStyle } from './getStyle';
 
 import type {
-  BreakComponent as BreakComponentType,
+  BreakComponentProps,
+  RootProps,
 } from '../types';
 
-export const BreakComponent = styled.div((props) => getStyle(
+export type InnerBreakProps = {
+  rootProps: RootProps;
+  children?: ReactNode;
+};
+
+export const InnerBreak = styled.div<InnerBreakProps>((props) => getStyle(
   'break',
 
   {
@@ -17,15 +28,15 @@ export const BreakComponent = styled.div((props) => getStyle(
   props,
 ));
 
-const Break: BreakComponentType = ({
+export function Break({
   rootProps,
   children,
-}) => (
-  <BreakComponent
-    rootProps={rootProps}
-  >
-    {children}
-  </BreakComponent>
-);
-
-export default Break;
+}: BreakComponentProps): ReactElement {
+  return (
+    <InnerBreak
+      rootProps={rootProps}
+    >
+      {children}
+    </InnerBreak>
+  );
+}

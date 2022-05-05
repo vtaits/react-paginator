@@ -1,51 +1,58 @@
 /* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
-
-import {
-  shallow,
-} from 'enzyme';
 import type {
-  ShallowWrapper,
-} from 'enzyme';
+  FC,
+  SyntheticEvent,
+  ReactElement,
+} from 'react';
 
-import rootProps from '../__fixtures__/rootProps';
+import { createRenderer } from 'react-test-renderer/shallow';
 
-import PageLinkWrapper from '../PageLinkWrapper';
+import { rootProps } from '../__fixtures__/rootProps';
+
+import { PageLinkWrapper } from '../PageLinkWrapper';
+import type {
+  PageLinkWrapperProps,
+} from '../PageLinkWrapper';
 
 import type {
-  LinkComponent,
-  PageLinkComponent,
+  PageLinkProps,
 } from '../types';
 
-const Link: LinkComponent = () => <div />;
-const PageLink: PageLinkComponent = () => <div />;
+function Link(): ReactElement {
+  return <div />;
+}
+
+function PageLink(): ReactElement {
+  return <div />;
+}
 
 type PageObject = {
-  getProp: (propName: string) => any;
+  getProp: <Key extends keyof PageLinkProps>(propName: Key) => PageLinkProps[Key];
 };
 
-const defaultProps = {
+const defaultProps: PageLinkWrapperProps = {
   Link,
   PageLink,
-  onPageChange: (): void => {},
+  onPageChange: (): void => undefined,
   page: 3,
   pageForLink: 5,
   rootProps,
 };
 
-const setup = (props: Record<string, any>): PageObject => {
-  const wrapper: ShallowWrapper = shallow(
+const setup = (props: Partial<PageLinkWrapperProps>): PageObject => {
+  const renderer = createRenderer();
+
+  renderer.render(
     <PageLinkWrapper
       {...defaultProps}
       {...props}
     />,
   );
 
-  const getComponent = (): ShallowWrapper => wrapper.find(PageLink);
-
-  const getProp = (propName: string): any => getComponent().prop(propName);
+  const result = renderer.getRenderOutput() as ReactElement<PageLinkProps, FC>;
 
   return {
-    getProp,
+    getProp: (propName) => result.props[propName],
   };
 };
 
@@ -109,12 +116,12 @@ test('should set next page on click', () => {
 
   page.getProp('innerProps').onClick({
     preventDefault,
-  });
+  } as unknown as SyntheticEvent<Element, Event>);
 
-  expect(preventDefault.mock.calls.length).toBe(1);
+  expect(preventDefault).toHaveBeenCalledTimes(1);
 
-  expect(onPageChange.mock.calls.length).toBe(1);
-  expect(onPageChange.mock.calls[0][0]).toBe(5);
+  expect(onPageChange).toHaveBeenCalledTimes(1);
+  expect(onPageChange).toHaveBeenCalledWith(5);
 });
 
 test('should render disabled component', () => {
