@@ -47,7 +47,7 @@ const components: Partial<Components> = {
   PageLink,
 };
 
-function Example(): ReactElement {
+export function CustomComponents(): ReactElement {
   const [page, setPage] = useState(1);
 
   return (
@@ -59,5 +59,3 @@ function Example(): ReactElement {
     />
   );
 }
-
-export default Example;

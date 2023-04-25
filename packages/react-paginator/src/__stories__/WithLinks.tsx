@@ -14,7 +14,7 @@ import type {
 
 const hrefBuilder: HrefBuilder = (page) => `/url/?page=${page}`;
 
-function Example(): ReactElement {
+export function WithLinks(): ReactElement {
   const [page, setPage] = useState(1);
 
   return (
@@ -26,5 +26,3 @@ function Example(): ReactElement {
     />
   );
 }
-
-export default Example;
