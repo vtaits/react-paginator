@@ -1,6 +1,6 @@
 {
   "name": "@vtaits/react-paginator",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "Simple customizable pagination component for react applications",
   "files": [
     "dist"
