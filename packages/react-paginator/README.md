@@ -1,6 +1,5 @@
 [![NPM](https://img.shields.io/npm/v/@vtaits/react-paginator.svg)](https://www.npmjs.com/package/@vtaits/react-paginator)
-[![dependencies status](https://david-dm.org/vtaits/react-paginator/status.svg?path=packages/react-paginator)](https://david-dm.org/vtaits/react-paginator?path=packages/react-paginator)
-[![devDependencies status](https://david-dm.org/vtaits/react-paginator/dev-status.svg?path=packages/react-paginator)](https://david-dm.org/vtaits/react-paginator?path=packages/react-paginator&type=dev)
+![dependencies status](https://img.shields.io/librariesio/release/npm/@vtaits/react-paginator)
 [![Types](https://img.shields.io/npm/types/@vtaits/react-paginator.svg)](https://www.npmjs.com/package/@vtaits/react-paginator)
 
 # @vtaits/react-paginator
@@ -33,12 +32,12 @@ yarn add @vtaits/react-paginator
 
 ## Usage
 
-```javascript
-import React, { useState } from 'react';
+```typescript
+import { useState } from 'react';
 
 import { Paginator } from '@vtaits/react-paginator';
 
-const Example = () => {
+function Example() {
   const [page, setPage] = useState(1);
 
   return (
@@ -48,7 +47,7 @@ const Example = () => {
       onPageChange={setPage}
     />
   );
-};
+}
 ```
 
 ## Props
@@ -63,9 +62,10 @@ const Example = () => {
 | previousLabel | react node | Label for the previous button. | `'prev'` |
 | nextLabel | react node | Label for the next button. | `'next'` |
 | breakLabel | react node | Label for break between buttons. | `'...'` |
-| hrefBuilder | `(page: number) => string` | The method is called to generate the `href` attribute value on tag `a` of each page element. | `null` |
-| components | `Object` | Custom components | `null` |
+| hrefBuilder | `(page: number) => string` | The method is called to generate the `href` attribute value on tag `a` of each page element. | `undefined` |
+| components | `Object` | Custom components | `undefined` |
 | styles | `Object` | Custom styles | `{}` |
+| payload | generic | Additional prop for custom components and styles | `undefined` |
 
 ## Styling
 
@@ -73,8 +73,8 @@ const Example = () => {
 
 Redefining like in [react-select](https://react-select.com/styles).
 
-```javascript
-import React, { useState } from 'react';
+```typescript
+import { useState } from 'react';
 
 import { Paginator } from '@vtaits/react-paginator';
 
@@ -92,7 +92,7 @@ const styles = {
   }),
 };
 
-const Example = () => {
+function Example() {
   const [page, setPage] = useState(1);
 
   return (
@@ -103,7 +103,7 @@ const Example = () => {
       styles={styles}
     />
   );
-};
+}
 ```
 
 #### Style keys
@@ -120,43 +120,45 @@ const Example = () => {
 
 Redefining like in [react-select](https://react-select.com/components).
 
-```
-import React, { useState } from 'react';
+```typescript
+import { useState } from 'react';
 
 import { Paginator } from '@vtaits/react-paginator';
 
-const PageLink = ({
+function PageLink({
   page,
   isCurrent,
   rootProps,
-}) => (
-  <label
-    style={{
-      textAlign: 'center',
-      padding: '0 4px',
-    }}
-  >
-    <div>
-      {page}
-    </div>
+}) {
+  return (
+    <label
+      style={{
+        textAlign: 'center',
+        padding: '0 4px',
+      }}
+    >
+      <div>
+        {page}
+      </div>
 
-    <div>
-      <input
-        type="radio"
-        onChange={() => {
-          rootProps.onPageChange(page);
-        }}
-        checked={isCurrent}
-      />
-    </div>
-  </label>
-);
+      <div>
+        <input
+          type="radio"
+          onChange={() => {
+            rootProps.onPageChange(page);
+          }}
+          checked={isCurrent}
+        />
+      </div>
+    </label>
+  );
+}
 
 const components = {
   PageLink,
 };
 
-const Example = () => {
+function Example() {
   const [page, setPage] = useState(1);
 
   return (
@@ -167,7 +169,7 @@ const Example = () => {
       components={components}
     />
   );
-};
+}
 ```
 
 #### Components keys
