@@ -30,8 +30,8 @@ function PageLinkGroup(): ReactElement {
 }
 
 type PageObject = {
-  getPageLinkGroupProps: () => PageLinkGroupProps;
-  getPageLinks: () => Array<ReactElement<PageLinkWrapperProps, FC>>;
+  getPageLinkGroupProps: () => PageLinkGroupProps<unknown>;
+  getPageLinks: () => Array<ReactElement<PageLinkWrapperProps<unknown>, FC>>;
 };
 
 const defaultProps = {
@@ -55,12 +55,12 @@ const setup = (props: Record<string, any>): PageObject => {
     />,
   );
 
-  const result = renderer.getRenderOutput() as ReactElement<PageLinkGroupProps, FC>;
+  const result = renderer.getRenderOutput() as ReactElement<PageLinkGroupProps<unknown>, FC>;
 
   const getPageLinkGroupProps = () => result.props;
 
   const getPageLinks = () => getPageLinkGroupProps()
-    .children as Array<ReactElement<PageLinkWrapperProps, FC>>;
+    .children as Array<ReactElement<PageLinkWrapperProps<unknown>, FC>>;
 
   return {
     getPageLinkGroupProps,

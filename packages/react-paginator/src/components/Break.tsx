@@ -11,6 +11,7 @@ import type {
   StylingBreakProps,
 } from '../types';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const InnerBreak = styled.div<StylingBreakProps<any>>((props) => getStyle(
   'break',
 

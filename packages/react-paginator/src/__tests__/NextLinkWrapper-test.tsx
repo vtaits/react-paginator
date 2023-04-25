@@ -27,10 +27,12 @@ function NextLink(): ReactElement {
 }
 
 type PageObject = {
-  getProp: <Key extends keyof NextLinkProps>(propName: Key) => NextLinkProps[Key];
+  getProp: <
+  Key extends keyof NextLinkProps<unknown>,
+  >(propName: Key) => NextLinkProps<unknown>[Key];
 };
 
-const defaultProps: NextLinkWrapperProps = {
+const defaultProps: NextLinkWrapperProps<unknown> = {
   Link,
   NextLink,
   onPageChange: (): void => undefined,
@@ -40,7 +42,7 @@ const defaultProps: NextLinkWrapperProps = {
   rootProps,
 };
 
-const setup = (props: Partial<NextLinkWrapperProps>): PageObject => {
+const setup = (props: Partial<NextLinkWrapperProps<unknown>>): PageObject => {
   const renderer = createRenderer();
 
   renderer.render(
@@ -50,7 +52,7 @@ const setup = (props: Partial<NextLinkWrapperProps>): PageObject => {
     />,
   );
 
-  const result = renderer.getRenderOutput() as ReactElement<NextLinkProps, FC>;
+  const result = renderer.getRenderOutput() as ReactElement<NextLinkProps<unknown>, FC>;
 
   return {
     getProp: (propName) => result.props[propName],
@@ -106,7 +108,15 @@ test('should set next page on click', () => {
     page: 3,
   });
 
-  page.getProp('innerProps').onClick({
+  const {
+    onClick,
+  } = page.getProp('innerProps');
+
+  if (!onClick) {
+    throw new Error('`onClick` is not defined');
+  }
+
+  onClick({
     preventDefault,
   } as unknown as SyntheticEvent<Element, Event>);
 

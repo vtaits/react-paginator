@@ -11,21 +11,19 @@ import { rootProps } from '../../__fixtures__/rootProps';
 import {
   Pages,
 } from '../Pages';
-import type {
-  InnerPagesComponentProps,
-} from '../Pages';
 
 import type {
   PagesProps,
+  StylingPagesComponentProps,
 } from '../../types';
 
 type PageObject = {
-  getPagesComponentProp: <Key extends keyof InnerPagesComponentProps>(
+  getPagesComponentProp: <Key extends keyof StylingPagesComponentProps<unknown>>(
     propName: Key,
-  ) => InnerPagesComponentProps[Key];
+  ) => StylingPagesComponentProps<unknown>[Key];
 };
 
-const setup = (props: Omit<PagesProps, 'rootProps'>): PageObject => {
+const setup = (props: Omit<PagesProps<unknown>, 'rootProps'>): PageObject => {
   const renderer = createRenderer();
 
   renderer.render(
@@ -36,7 +34,7 @@ const setup = (props: Omit<PagesProps, 'rootProps'>): PageObject => {
   );
 
   const result = renderer
-    .getRenderOutput() as ReactElement<InnerPagesComponentProps, FC>;
+    .getRenderOutput() as ReactElement<StylingPagesComponentProps<unknown>, FC>;
 
   return {
     getPagesComponentProp: (propName) => result.props[propName],

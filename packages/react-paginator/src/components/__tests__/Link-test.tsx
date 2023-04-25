@@ -16,7 +16,7 @@ import type {
 const style = {};
 const className = 'test-class-name';
 
-const defaultProps: Omit<LinkComponentProps, 'rootProps'> = {
+const defaultProps: Omit<LinkComponentProps<unknown>, 'rootProps'> = {
   children: 'test',
   style: {},
 };
@@ -29,7 +29,7 @@ type PageObject = {
   getLinkProp: <Key extends keyof HTMLProps<'a'>>(propName: Key) => HTMLProps<'a'>[Key];
 };
 
-const setup = (props: Partial<LinkComponentProps>): PageObject => {
+const setup = (props: Partial<LinkComponentProps<unknown>>): PageObject => {
   const renderer = createRenderer();
 
   renderer.render(

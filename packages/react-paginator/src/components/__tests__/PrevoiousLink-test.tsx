@@ -28,7 +28,7 @@ type PageObject = {
   ) => ComponentProps<typeof PreviousLinkComponent>[Key];
 };
 
-const setup = (props: Omit<PreviousLinkProps, 'rootProps'>): PageObject => {
+const setup = (props: Omit<PreviousLinkProps<unknown>, 'rootProps'>): PageObject => {
   const renderer = createRenderer();
 
   renderer.render(

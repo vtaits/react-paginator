@@ -11,6 +11,7 @@ import type {
   StylingContainerProps,
 } from '../types';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const InnerContainer = styled.div<StylingContainerProps<any>>((props) => getStyle(
   'container',
 

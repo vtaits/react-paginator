@@ -1,9 +1,10 @@
+import type {
+  CSSObject,
+} from 'styled-components';
+
 import { getStyle } from '../getStyle';
 
 import { rootProps } from '../../__fixtures__/rootProps';
-import type {
-  CSSObject,
-} from '../../types';
 
 test('should return base state if custom style not defined', () => {
   const baseStyle: CSSObject = {
@@ -19,6 +20,8 @@ test('should return base state if custom style not defined', () => {
         }),
       },
     },
+
+    theme: null,
   });
 
   expect(result).toBe(baseStyle);
@@ -37,6 +40,8 @@ test('should return computed style', () => {
         break: styleFn,
       },
     },
+
+    theme: null,
   };
 
   const baseStyle: CSSObject = {

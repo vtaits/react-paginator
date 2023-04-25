@@ -23,7 +23,7 @@ type PageObject = {
   ) => ComponentProps<typeof PageLinkGroupComponent>[Key];
 };
 
-const setup = (props: Omit<PageLinkGroupProps, 'rootProps'>): PageObject => {
+const setup = (props: Omit<PageLinkGroupProps<unknown>, 'rootProps'>): PageObject => {
   const renderer = createRenderer();
 
   renderer.render(

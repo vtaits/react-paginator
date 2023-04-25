@@ -6,39 +6,40 @@ import type {
   RootProps,
 } from '../types';
 
-function Break(): ReactElement {
+function Break(): ReactElement | null {
   return null;
 }
 
-function Container(): ReactElement {
+function Container(): ReactElement | null {
   return null;
 }
 
-function Link(): ReactElement {
+function Link(): ReactElement | null {
   return null;
 }
 
-function NextLink(): ReactElement {
+function NextLink(): ReactElement | null {
   return null;
 }
 
-function PageLink(): ReactElement {
+function PageLink(): ReactElement | null {
   return null;
 }
 
-function PageLinkGroup(): ReactElement {
+function PageLinkGroup(): ReactElement | null {
   return null;
 }
 
-function Pages(): ReactElement {
+function Pages(): ReactElement | null {
   return null;
 }
 
-function PreviousLink(): ReactElement {
+function PreviousLink(): ReactElement | null {
   return null;
 }
 
-export const rootProps: RootProps = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const rootProps: RootProps<any> = {
   pageCount: 10,
   pageRangeDisplayed: 5,
   marginPagesDisplayed: 2,
@@ -47,7 +48,7 @@ export const rootProps: RootProps = {
   breakLabel: 'break',
   page: 3,
   onPageChange: () => undefined,
-  hrefBuilder: null,
+  hrefBuilder: undefined,
 
   components: {
     Break,

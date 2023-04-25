@@ -1,8 +1,7 @@
 import type {
   CSSObject,
+  StyledProps,
 } from 'styled-components';
-
-import type { StyledProps } from 'styled-components';
 
 import type {
   Styles,
@@ -11,7 +10,7 @@ import type {
 
 export function getStyle<
 Payload,
-ComponentName extends keyof Styles<Payload>
+ComponentName extends keyof Styles<Payload>,
 >(
   componentName: ComponentName,
   baseStyle: CSSObject,

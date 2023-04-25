@@ -40,15 +40,15 @@ const defaultProps = {
 };
 
 type PageObject = {
-  getRootNode: () => ReactElement<ContainerComponentProps, FC>;
+  getRootNode: () => ReactElement<ContainerComponentProps<unknown>, FC>;
 
-  getPreviousLinkWrapperProp: <Key extends keyof PreviousLinkWrapperProps>(
+  getPreviousLinkWrapperProp: <Key extends keyof PreviousLinkWrapperProps<unknown>>(
     propName: Key,
-  ) => PreviousLinkWrapperProps[Key];
+  ) => PreviousLinkWrapperProps<unknown>[Key];
 
-  getNextLinkWrapperProp: <Key extends keyof NextLinkWrapperProps>(
+  getNextLinkWrapperProp: <Key extends keyof NextLinkWrapperProps<unknown>>(
     propName: Key,
-  ) => NextLinkWrapperProps[Key];
+  ) => NextLinkWrapperProps<unknown>[Key];
 
   getRenderedPages: () => Array<ReactElement>;
 };
@@ -63,15 +63,34 @@ const setup = (props: Record<string, any>): PageObject => {
     />,
   );
 
-  const result = renderer.getRenderOutput() as ReactElement<ContainerComponentProps, FC>;
+  const result = renderer.getRenderOutput() as ReactElement<ContainerComponentProps<unknown>, FC>;
 
-  const getPreviousLinkWrapper = () => result
-    .props.children[0] as ReactElement<PreviousLinkWrapperProps, FC>;
+  const getChildren = () => {
+    const {
+      children,
+    } = result.props;
 
-  const getNextLinkWrapper = () => result
-    .props.children[2] as ReactElement<NextLinkWrapperProps, FC>;
+    if (!Array.isArray(children)) {
+      throw new Error('`children` is not an array');
+    }
 
-  const getPagesNode = () => result.props.children[1] as ReactElement<PagesProps, FC>;
+    return children;
+  };
+
+  const getPreviousLinkWrapper = () => getChildren()[0] as ReactElement<
+  PreviousLinkWrapperProps<unknown>,
+  FC
+  >;
+
+  const getNextLinkWrapper = () => getChildren()[2] as ReactElement<
+  NextLinkWrapperProps<unknown>,
+  FC
+  >;
+
+  const getPagesNode = () => getChildren()[1] as ReactElement<
+  PagesProps<unknown>,
+  FC
+  >;
 
   const getRenderedPages = () => getPagesNode().props.children as Array<ReactElement>;
 
@@ -226,7 +245,7 @@ test('should render Break with default props', () => {
     getPages,
   });
 
-  const breakNode = page.getRenderedPages()[0] as ReactElement<BreakComponentProps, FC>;
+  const breakNode = page.getRenderedPages()[0] as ReactElement<BreakComponentProps<unknown>, FC>;
 
   expect(breakNode.type).toBe(components.Break);
 
@@ -269,7 +288,7 @@ test('should render Break with redefined props', () => {
     },
   });
 
-  const breakNode = page.getRenderedPages()[0] as ReactElement<BreakComponentProps, FC>;
+  const breakNode = page.getRenderedPages()[0] as ReactElement<BreakComponentProps<unknown>, FC>;
 
   expect(breakNode.type).toBe(Break);
 
@@ -298,7 +317,7 @@ test('should render PageLinkGroupWrapper with default props', () => {
   });
 
   const groupWrapperNode = page
-    .getRenderedPages()[0] as ReactElement<PageLinkGroupWrapperProps, FC>;
+    .getRenderedPages()[0] as ReactElement<PageLinkGroupWrapperProps<unknown>, FC>;
 
   expect(groupWrapperNode.type).toBe(PageLinkGroupWrapper);
 
@@ -350,7 +369,7 @@ test('should render PageLinkGroupWrapper with redefined props', () => {
   });
 
   const groupWrapperNode = page
-    .getRenderedPages()[0] as ReactElement<PageLinkGroupWrapperProps, FC>;
+    .getRenderedPages()[0] as ReactElement<PageLinkGroupWrapperProps<unknown>, FC>;
 
   expect(groupWrapperNode.type).toBe(PageLinkGroupWrapper);
 

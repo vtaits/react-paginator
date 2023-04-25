@@ -11,6 +11,7 @@ import type {
   StylingNextLinkComponentProps,
 } from '../types';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const NextLinkComponent = styled.a<StylingNextLinkComponentProps<any>>((props) => {
   const {
     isDisabled,

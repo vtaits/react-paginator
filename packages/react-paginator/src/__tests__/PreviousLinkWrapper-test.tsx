@@ -27,10 +27,12 @@ function PreviousLink(): ReactElement {
 }
 
 type PageObject = {
-  getProp: <Key extends keyof PreviousLinkProps>(propName: Key) => PreviousLinkProps[Key];
+  getProp: <
+  Key extends keyof PreviousLinkProps<unknown>,
+  >(propName: Key) => PreviousLinkProps<unknown>[Key];
 };
 
-const defaultProps: PreviousLinkWrapperProps = {
+const defaultProps: PreviousLinkWrapperProps<unknown> = {
   Link,
   PreviousLink,
   onPageChange: (): void => undefined,
@@ -39,7 +41,7 @@ const defaultProps: PreviousLinkWrapperProps = {
   rootProps,
 };
 
-const setup = (props: Partial<PreviousLinkWrapperProps>): PageObject => {
+const setup = (props: Partial<PreviousLinkWrapperProps<unknown>>): PageObject => {
   const renderer = createRenderer();
 
   renderer.render(
@@ -49,7 +51,7 @@ const setup = (props: Partial<PreviousLinkWrapperProps>): PageObject => {
     />,
   );
 
-  const result = renderer.getRenderOutput() as ReactElement<PreviousLinkProps, FC>;
+  const result = renderer.getRenderOutput() as ReactElement<PreviousLinkProps<unknown>, FC>;
 
   return {
     getProp: (propName) => result.props[propName],
@@ -103,7 +105,15 @@ test('should set previous page on click', () => {
     page: 3,
   });
 
-  page.getProp('innerProps').onClick({
+  const {
+    onClick,
+  } = page.getProp('innerProps');
+
+  if (!onClick) {
+    throw new Error('`onClick` is not defined');
+  }
+
+  onClick({
     preventDefault,
   } as unknown as SyntheticEvent<Element, Event>);
 

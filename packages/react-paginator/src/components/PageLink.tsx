@@ -11,6 +11,7 @@ import type {
   StylingPageLinkComponentProps,
 } from '../types';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const PageLinkComponent = styled.a<StylingPageLinkComponentProps<any>>((props) => {
   const {
     isCurrent,

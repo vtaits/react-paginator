@@ -11,6 +11,7 @@ import { PageLinkGroup } from './PageLinkGroup';
 import { Pages } from './Pages';
 import { PreviousLink } from './PreviousLink';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const components: Components<any> = {
   Break,
   Container,

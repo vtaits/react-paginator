@@ -14,7 +14,7 @@ module.exports = {
   ],
   plugins: ['react', 'jest', '@typescript-eslint'],
   parserOptions: {
-    project: './tsconfig.validate.json'
+    project: './tsconfig.json'
   },
   settings: {
     'import/resolver': {
@@ -40,6 +40,11 @@ module.exports = {
     }],
     'react/prop-types': 'off',
     'react/jsx-uses-react': 'off',
-    'react/react-in-jsx-scope': 'off'
+    'react/react-in-jsx-scope': 'off',
+    'react/require-default-props': ['error', {
+      forbidDefaultForRequired: true,
+      classes: 'defaultProps',
+      functions: 'defaultArguments',
+    }],
   }
 };

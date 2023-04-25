@@ -9,21 +9,19 @@ import { createRenderer } from 'react-test-renderer/shallow';
 import { rootProps } from '../../__fixtures__/rootProps';
 
 import { Container } from '../Container';
-import type {
-  InnerContainerProps,
-} from '../Container';
 
 import type {
   ContainerComponentProps,
+  StylingContainerProps,
 } from '../../types';
 
 type PageObject = {
-  getContainerComponentProp: <Key extends keyof InnerContainerProps>(
+  getContainerComponentProp: <Key extends keyof StylingContainerProps<unknown>>(
     propName: Key,
-  ) => InnerContainerProps[Key];
+  ) => StylingContainerProps<unknown>[Key];
 };
 
-const setup = (props: Partial<ContainerComponentProps>): PageObject => {
+const setup = (props: Partial<ContainerComponentProps<unknown>>): PageObject => {
   const renderer = createRenderer();
 
   renderer.render(
@@ -33,7 +31,7 @@ const setup = (props: Partial<ContainerComponentProps>): PageObject => {
     />,
   );
 
-  const result = renderer.getRenderOutput() as ReactElement<InnerContainerProps, FC>;
+  const result = renderer.getRenderOutput() as ReactElement<StylingContainerProps<unknown>, FC>;
 
   return {
     getContainerComponentProp: (propName) => result.props[propName],

@@ -11,6 +11,7 @@ import type {
   StylingPageLinkGroupComponentProps,
 } from '../types';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const PageLinkGroupComponent = styled.div<StylingPageLinkGroupComponentProps<any>>(
   (props) => getStyle(
     'pageLinkGroup',

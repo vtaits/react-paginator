@@ -5,15 +5,18 @@ import type {
   ReactElement,
 } from 'react';
 
+import type {
+  CSSObject,
+} from 'styled-components';
+
 import {
   Paginator,
 } from '..';
 import type {
   Styles,
-  CSSObject,
 } from '..';
 
-const styles: Styles = {
+const styles: Styles<unknown> = {
   container: (baseStyle: CSSObject): CSSObject => ({
     ...baseStyle,
     backgroundColor: '#EEE',

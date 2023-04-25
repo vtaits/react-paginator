@@ -18,7 +18,7 @@ function PageLink({
   page,
   isCurrent,
   rootProps,
-}: PageLinkProps): ReactElement {
+}: PageLinkProps<unknown>): ReactElement {
   return (
     <label
       style={{
@@ -43,7 +43,7 @@ function PageLink({
   );
 }
 
-const components: Partial<Components> = {
+const components: Partial<Components<unknown>> = {
   PageLink,
 };
 

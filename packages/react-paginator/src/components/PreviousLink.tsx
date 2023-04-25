@@ -1,6 +1,5 @@
 import type {
   ReactElement,
-  ReactNode,
 } from 'react';
 
 import styled from 'styled-components';
@@ -8,20 +7,12 @@ import styled from 'styled-components';
 import { getStyle } from './getStyle';
 
 import type {
-  LinkInnerProps,
   PreviousLinkProps,
-  RootProps,
+  StylingPreviousLinkComponentProps,
 } from '../types';
 
-export type InnerPreviousLinkComponentProps<Payload> =
-  & LinkInnerProps
-  & {
-    isDisabled?: boolean;
-    rootProps: RootProps<Payload>;
-    children?: ReactNode;
-  };
-
-export const PreviousLinkComponent = styled.a<InnerPreviousLinkComponentProps<any>>((props) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const PreviousLinkComponent = styled.a<StylingPreviousLinkComponentProps<any>>((props) => {
   const {
     isDisabled,
   } = props;
