@@ -166,18 +166,18 @@ export type GetComponentStyle<ComponentProps> = (
 ) => CSSObject;
 
 export type StylesParams<Payload> = {
-  break?: StylingBreakProps<Payload>;
-  container?: StylingContainerProps<Payload>;
-  nextLink?: StylingNextLinkComponentProps<Payload>;
-  pageLink?: StylingPageLinkComponentProps<Payload>;
-  pageLinkGroup?: StylingPageLinkGroupComponentProps<Payload>;
-  pages?: StylingPagesComponentProps<Payload>;
-  previousLink?: StylingPreviousLinkComponentProps<Payload>;
+  break: StylingBreakProps<Payload>;
+  container: StylingContainerProps<Payload>;
+  nextLink: StylingNextLinkComponentProps<Payload>;
+  pageLink: StylingPageLinkComponentProps<Payload>;
+  pageLinkGroup: StylingPageLinkGroupComponentProps<Payload>;
+  pages: StylingPagesComponentProps<Payload>;
+  previousLink: StylingPreviousLinkComponentProps<Payload>;
 };
 
-export type Styles<Payload> = {
-  [key in keyof StylesParams<Payload>]: GetComponentStyle<StylesParams<Payload>>;
-};
+export type Styles<Payload> = Partial<{
+  [Key in keyof StylesParams<Payload>]: GetComponentStyle<StylesParams<Payload>[Key]>;
+}>;
 
 export type GetPagesParams = {
   pageCount: number;
