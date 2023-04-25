@@ -13,15 +13,15 @@ import type {
   RootProps,
 } from '../types';
 
-export type InnerPreviousLinkComponentProps =
+export type InnerPreviousLinkComponentProps<Payload> =
   & LinkInnerProps
   & {
     isDisabled?: boolean;
-    rootProps: RootProps;
+    rootProps: RootProps<Payload>;
     children?: ReactNode;
   };
 
-export const PreviousLinkComponent = styled.a<InnerPreviousLinkComponentProps>((props) => {
+export const PreviousLinkComponent = styled.a<InnerPreviousLinkComponentProps<any>>((props) => {
   const {
     isDisabled,
   } = props;
@@ -51,14 +51,14 @@ export const PreviousLinkComponent = styled.a<InnerPreviousLinkComponentProps>((
   );
 });
 
-export function PreviousLink({
+export function PreviousLink<Payload>({
   /* eslint-disable-next-line @typescript-eslint/naming-convention */
   Link,
   isDisabled,
   rootProps,
   innerProps,
   children,
-}: PreviousLinkProps): ReactElement {
+}: PreviousLinkProps<Payload>): ReactElement {
   return (
     <PreviousLinkComponent
       as={Link}

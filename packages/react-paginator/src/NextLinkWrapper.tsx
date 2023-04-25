@@ -2,7 +2,7 @@ import {
   memo,
 } from 'react';
 import type {
-  FC,
+  ReactElement,
   ReactNode,
   SyntheticEvent,
 } from 'react';
@@ -16,29 +16,29 @@ import type {
   NextLinkComponent,
 } from './types';
 
-export type NextLinkWrapperProps = {
-  Link: LinkComponent;
-  NextLink: NextLinkComponent;
+export type NextLinkWrapperProps<Payload> = {
+  Link: LinkComponent<Payload>;
+  NextLink: NextLinkComponent<Payload>;
   onPageChange: OnPageChange;
   hrefBuilder?: HrefBuilder;
   nextLabel: ReactNode;
   page: number;
   pageCount: number;
-  rootProps: RootProps;
+  rootProps: RootProps<Payload>;
 };
 
-export const NextLinkWrapper: FC<NextLinkWrapperProps> = memo(({
+function NextLinkWrapperInner<Payload>({
   /* eslint-disable-next-line @typescript-eslint/naming-convention */
   Link,
   /* eslint-disable-next-line @typescript-eslint/naming-convention */
   NextLink,
   onPageChange,
-  hrefBuilder,
+  hrefBuilder = undefined,
   nextLabel,
   page,
   pageCount,
   rootProps,
-}) => {
+}: NextLinkWrapperProps<Payload>): ReactElement {
   const isDisabled = page === pageCount;
 
   const onClick = (event: SyntheticEvent): void => {
@@ -68,8 +68,6 @@ export const NextLinkWrapper: FC<NextLinkWrapperProps> = memo(({
       {nextLabel}
     </NextLink>
   );
-});
+}
 
-NextLinkWrapper.defaultProps = {
-  hrefBuilder: null,
-};
+export const NextLinkWrapper = memo(NextLinkWrapperInner) as typeof NextLinkWrapperInner;

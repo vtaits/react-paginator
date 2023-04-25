@@ -1,6 +1,5 @@
 import type {
   ReactElement,
-  ReactNode,
 } from 'react';
 
 import styled from 'styled-components';
@@ -9,15 +8,10 @@ import { getStyle } from './getStyle';
 
 import type {
   PageLinkGroupProps,
-  RootProps,
+  StylingPageLinkGroupComponentProps,
 } from '../types';
 
-export type InnerPageLinkGroupComponentProps = {
-  rootProps: RootProps;
-  children?: ReactNode;
-};
-
-export const PageLinkGroupComponent = styled.div<InnerPageLinkGroupComponentProps>(
+export const PageLinkGroupComponent = styled.div<StylingPageLinkGroupComponentProps<any>>(
   (props) => getStyle(
     'pageLinkGroup',
 
@@ -29,10 +23,10 @@ export const PageLinkGroupComponent = styled.div<InnerPageLinkGroupComponentProp
   ),
 );
 
-export function PageLinkGroup({
+export function PageLinkGroup<Payload>({
   rootProps,
   children,
-}: PageLinkGroupProps): ReactElement {
+}: PageLinkGroupProps<Payload>): ReactElement {
   return (
     <PageLinkGroupComponent
       rootProps={rootProps}

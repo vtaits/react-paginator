@@ -11,7 +11,7 @@ import { PageLinkGroup } from './PageLinkGroup';
 import { Pages } from './Pages';
 import { PreviousLink } from './PreviousLink';
 
-export const components: Components = {
+export const components: Components<any> = {
   Break,
   Container,
   Link,

@@ -2,7 +2,7 @@ import {
   memo,
 } from 'react';
 import type {
-  FC,
+  ReactElement,
   SyntheticEvent,
 } from 'react';
 
@@ -15,27 +15,27 @@ import type {
   PageLinkComponent,
 } from './types';
 
-export type PageLinkWrapperProps = {
-  Link: LinkComponent;
-  PageLink: PageLinkComponent;
+export type PageLinkWrapperProps<Payload> = {
+  Link: LinkComponent<Payload>;
+  PageLink: PageLinkComponent<Payload>;
   onPageChange: OnPageChange;
   hrefBuilder?: HrefBuilder;
   page: number;
   pageForLink: number;
-  rootProps: RootProps;
+  rootProps: RootProps<Payload>;
 };
 
-export const PageLinkWrapper: FC<PageLinkWrapperProps> = memo(({
+function PageLinkWrapperInner<Payload>({
   /* eslint-disable-next-line @typescript-eslint/naming-convention */
   Link,
   /* eslint-disable-next-line @typescript-eslint/naming-convention */
   PageLink,
   onPageChange,
-  hrefBuilder,
+  hrefBuilder = undefined,
   page,
   pageForLink,
   rootProps,
-}) => {
+}: PageLinkWrapperProps<Payload>): ReactElement {
   const isCurrent = page === pageForLink;
 
   const onClick = (event: SyntheticEvent): void => {
@@ -66,8 +66,6 @@ export const PageLinkWrapper: FC<PageLinkWrapperProps> = memo(({
       {pageForLink}
     </PageLink>
   );
-});
+}
 
-PageLinkWrapper.defaultProps = {
-  hrefBuilder: null,
-};
+export const PageLinkWrapper = memo(PageLinkWrapperInner) as typeof PageLinkWrapperInner;

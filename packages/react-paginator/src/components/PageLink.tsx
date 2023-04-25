@@ -1,6 +1,5 @@
 import type {
   ReactElement,
-  ReactNode,
 } from 'react';
 
 import styled from 'styled-components';
@@ -8,20 +7,11 @@ import styled from 'styled-components';
 import { getStyle } from './getStyle';
 
 import type {
-  LinkInnerProps,
   PageLinkProps,
-  RootProps,
+  StylingPageLinkComponentProps,
 } from '../types';
 
-export type InnerPageLinkComponentProps =
-  & LinkInnerProps
-  & {
-    isCurrent?: boolean;
-    rootProps: RootProps;
-    children?: ReactNode;
-  };
-
-export const PageLinkComponent = styled.a<InnerPageLinkComponentProps>((props) => {
+export const PageLinkComponent = styled.a<StylingPageLinkComponentProps<any>>((props) => {
   const {
     isCurrent,
   } = props;
@@ -65,14 +55,14 @@ export const PageLinkComponent = styled.a<InnerPageLinkComponentProps>((props) =
   );
 });
 
-export function PageLink({
+export function PageLink<Payload>({
   /* eslint-disable-next-line @typescript-eslint/naming-convention */
   Link,
   isCurrent,
   rootProps,
   innerProps,
   children,
-}: PageLinkProps): ReactElement {
+}: PageLinkProps<Payload>): ReactElement {
   return (
     <PageLinkComponent
       as={Link}

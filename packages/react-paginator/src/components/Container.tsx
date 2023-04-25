@@ -1,6 +1,5 @@
 import type {
   ReactElement,
-  ReactNode,
 } from 'react';
 
 import styled from 'styled-components';
@@ -9,15 +8,10 @@ import { getStyle } from './getStyle';
 
 import type {
   ContainerComponentProps,
-  RootProps,
+  StylingContainerProps,
 } from '../types';
 
-export type InnerContainerProps = {
-  rootProps: RootProps;
-  children?: ReactNode;
-};
-
-export const InnerContainer = styled.div<InnerContainerProps>((props) => getStyle(
+export const InnerContainer = styled.div<StylingContainerProps<any>>((props) => getStyle(
   'container',
 
   {
@@ -27,10 +21,10 @@ export const InnerContainer = styled.div<InnerContainerProps>((props) => getStyl
   props,
 ));
 
-export function Container({
+export function Container<Payload>({
   rootProps,
   children,
-}: ContainerComponentProps): ReactElement {
+}: ContainerComponentProps<Payload>): ReactElement {
   return (
     <InnerContainer
       rootProps={rootProps}

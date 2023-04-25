@@ -8,7 +8,7 @@ import type {
   PagesBlock,
 } from './types';
 
-const getPages: GetPages = ({
+export const getPages: GetPages = ({
   pageCount,
   pageRangeDisplayed,
   marginPagesDisplayed,
@@ -97,5 +97,3 @@ const getPages: GetPages = ({
 
   return result;
 };
-
-export default getPages;

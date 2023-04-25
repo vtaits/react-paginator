@@ -2,22 +2,26 @@ import type {
   CSSObject,
 } from 'styled-components';
 
+import type { StyledProps } from 'styled-components';
+
 import type {
-  RootProps,
+  Styles,
+  StylesParams,
 } from '../types';
 
-export const getStyle = (
-  componentName: string,
+export function getStyle<
+Payload,
+ComponentName extends keyof Styles<Payload>
+>(
+  componentName: ComponentName,
   baseStyle: CSSObject,
-  componentProps: {
-    rootProps: RootProps;
-  },
-): CSSObject => {
-  const componentStyles = componentProps.rootProps.styles[componentName];
+  componentProps: StyledProps<StylesParams<Payload>[ComponentName]>,
+): CSSObject {
+  const componentStyles = componentProps?.rootProps.styles[componentName];
 
   if (!componentStyles) {
     return baseStyle;
   }
 
   return componentStyles(baseStyle, componentProps);
-};
+}

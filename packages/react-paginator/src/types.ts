@@ -1,16 +1,19 @@
 import type {
+  CSSProperties,
   ComponentType,
   ReactNode,
   SyntheticEvent,
 } from 'react';
 
 import type {
+  CSSObject,
+  StyledProps,
+} from 'styled-components';
+
+import type {
   PAGES,
   BREAK,
 } from './constants';
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type CSSObject = Record<string, any>;
 
 export type GetPages = (params: GetPagesParams) => PagesBlock[];
 
@@ -24,109 +27,156 @@ export type LinkInnerProps = {
   href?: string;
 };
 
-export type BreakComponentProps = {
-  Link: LinkComponent;
+export type StylingBreakProps<Payload> = {
+  rootProps: RootProps<Payload>;
+  children?: ReactNode;
+};
+
+export type BreakComponentProps<Payload> = {
+  Link: LinkComponent<Payload>;
   previous: number;
   next: number;
   onPageChange: OnPageChange;
   hrefBuilder?: HrefBuilder;
-  rootProps: RootProps;
+  rootProps: RootProps<Payload>;
   children?: ReactNode;
 };
 
-export type BreakComponent = ComponentType<BreakComponentProps>;
+export type BreakComponent<Payload> = ComponentType<BreakComponentProps<Payload>>;
 
-export type ContainerComponentProps = {
-  rootProps: RootProps;
+export type StylingContainerProps<Payload> = {
+  rootProps: RootProps<Payload>;
   children?: ReactNode;
 };
 
-export type ContainerComponent = ComponentType<ContainerComponentProps>;
+export type ContainerComponentProps<Payload> = {
+  rootProps: RootProps<Payload>;
+  children?: ReactNode;
+};
 
-export type PageLinkGroupProps = {
-  rootProps: RootProps;
+export type ContainerComponent<Payload> = ComponentType<ContainerComponentProps<Payload>>;
+
+export type StylingPageLinkGroupComponentProps<Payload> = {
+  rootProps: RootProps<Payload>;
+  children?: ReactNode;
+};
+
+export type PageLinkGroupProps<Payload> = {
+  rootProps: RootProps<Payload>;
   children?: ReactNode;
   start: number;
   end: number;
 };
 
-export type PageLinkGroupComponent = ComponentType<PageLinkGroupProps>;
+export type PageLinkGroupComponent<Payload> = ComponentType<PageLinkGroupProps<Payload>>;
 
-export type PagesProps = {
-  rootProps: RootProps;
+export type StylingPagesComponentProps<Payload> = {
+  rootProps: RootProps<Payload>;
   children?: ReactNode;
 };
 
-export type PagesComponent = ComponentType<PagesProps>;
+export type PagesProps<Payload> = {
+  rootProps: RootProps<Payload>;
+  children?: ReactNode;
+};
 
-export type LinkComponentProps = {
-  rootProps: RootProps;
+export type PagesComponent<Payload> = ComponentType<PagesProps<Payload>>;
+
+export type LinkComponentProps<Payload> = {
+  rootProps: RootProps<Payload>;
   disabled?: boolean;
   href?: string;
   onClick?: (event: SyntheticEvent) => void;
   children: ReactNode;
   className?: string;
-  style?: CSSObject;
+  style?: CSSProperties;
 };
 
-export type LinkComponent = ComponentType<LinkComponentProps>;
+export type LinkComponent<Payload> = ComponentType<LinkComponentProps<Payload>>;
 
-export type NextLinkProps = {
-  Link: LinkComponent;
+export type StylingNextLinkComponentProps<Payload> =
+  & LinkInnerProps
+  & {
+    isDisabled?: boolean;
+    rootProps: RootProps<Payload>;
+    children?: ReactNode;
+  };
+
+export type NextLinkProps<Payload> = {
+  Link: LinkComponent<Payload>;
   isDisabled: boolean;
   innerProps: LinkInnerProps;
-  rootProps: RootProps;
+  rootProps: RootProps<Payload>;
   children: ReactNode;
 };
 
-export type NextLinkComponent = ComponentType<NextLinkProps>;
+export type NextLinkComponent<Payload> = ComponentType<NextLinkProps<Payload>>;
 
-export type PreviousLinkProps = {
-  Link: LinkComponent;
+export type StylingPreviousLinkComponentProps<Payload> =
+  & LinkInnerProps
+  & {
+    isDisabled?: boolean;
+    rootProps: RootProps<Payload>;
+    children?: ReactNode;
+  };
+
+export type PreviousLinkProps<Payload> = {
+  Link: LinkComponent<Payload>;
   isDisabled: boolean;
   innerProps: LinkInnerProps;
-  rootProps: RootProps;
+  rootProps: RootProps<Payload>;
   children: ReactNode;
 };
 
-export type PreviousLinkComponent = ComponentType<PreviousLinkProps>;
+export type PreviousLinkComponent<Payload> = ComponentType<PreviousLinkProps<Payload>>;
 
-export type PageLinkProps = {
-  Link: LinkComponent;
+export type StylingPageLinkComponentProps<Payload> =
+  & LinkInnerProps
+  & {
+    isCurrent?: boolean;
+    rootProps: RootProps<Payload>;
+    children?: ReactNode;
+  };
+
+export type PageLinkProps<Payload> = {
+  Link: LinkComponent<Payload>;
   isCurrent: boolean;
   innerProps: LinkInnerProps;
-  rootProps: RootProps;
+  rootProps: RootProps<Payload>;
   page: number;
   children: ReactNode;
 };
 
-export type PageLinkComponent = ComponentType<PageLinkProps>;
+export type PageLinkComponent<Payload> = ComponentType<PageLinkProps<Payload>>;
 
-export type Components = {
-  Break: BreakComponent;
-  Container: ContainerComponent;
-  Link: LinkComponent;
-  NextLink: NextLinkComponent;
-  PageLink: PageLinkComponent;
-  PageLinkGroup: PageLinkGroupComponent;
-  Pages: PagesComponent;
-  PreviousLink: PreviousLinkComponent;
+export type Components<Payload> = {
+  Break: BreakComponent<Payload>;
+  Container: ContainerComponent<Payload>;
+  Link: LinkComponent<Payload>;
+  NextLink: NextLinkComponent<Payload>;
+  PageLink: PageLinkComponent<Payload>;
+  PageLinkGroup: PageLinkGroupComponent<Payload>;
+  Pages: PagesComponent<Payload>;
+  PreviousLink: PreviousLinkComponent<Payload>;
 };
 
-export type GetComponentStyle = (
+export type GetComponentStyle<ComponentProps> = (
   baseStyle: CSSObject,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  componentProps: Record<string, any>,
+  componentProps: StyledProps<ComponentProps>,
 ) => CSSObject;
 
-export type Styles = {
-  break?: GetComponentStyle;
-  container?: GetComponentStyle;
-  nextLink?: GetComponentStyle;
-  pageLink?: GetComponentStyle;
-  pageLinkGroup?: GetComponentStyle;
-  pages?: GetComponentStyle;
-  previousLink?: GetComponentStyle;
+export type StylesParams<Payload> = {
+  break?: StylingBreakProps<Payload>;
+  container?: StylingContainerProps<Payload>;
+  nextLink?: StylingNextLinkComponentProps<Payload>;
+  pageLink?: StylingPageLinkComponentProps<Payload>;
+  pageLinkGroup?: StylingPageLinkGroupComponentProps<Payload>;
+  pages?: StylingPagesComponentProps<Payload>;
+  previousLink?: StylingPreviousLinkComponentProps<Payload>;
+};
+
+export type Styles<Payload> = {
+  [key in keyof StylesParams<Payload>]: GetComponentStyle<StylesParams<Payload>>;
 };
 
 export type GetPagesParams = {
@@ -150,7 +200,7 @@ export type BreakBlock = {
 
 export type PagesBlock = LinksBlock | BreakBlock;
 
-export type PaginatorProps = {
+export type PaginatorProps<Payload> = {
   pageCount: number;
   pageRangeDisplayed?: number;
   marginPagesDisplayed?: number;
@@ -162,14 +212,13 @@ export type PaginatorProps = {
   hrefBuilder?: HrefBuilder;
   getPages?: GetPages;
 
-  components?: Partial<Components>;
-  styles?: Styles;
+  components?: Partial<Components<Payload>>;
+  styles?: Styles<Payload>;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
+  payload?: Payload;
 };
 
-export type RootProps = {
+export type RootProps<Payload> = {
   pageCount: number;
   pageRangeDisplayed: number;
   marginPagesDisplayed: number;
@@ -181,9 +230,8 @@ export type RootProps = {
   hrefBuilder?: HrefBuilder;
   getPages?: GetPages;
 
-  components?: Partial<Components>;
-  styles: Styles;
+  components?: Partial<Components<Payload>>;
+  styles: Styles<Payload>;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
+  payload?: Payload;
 };

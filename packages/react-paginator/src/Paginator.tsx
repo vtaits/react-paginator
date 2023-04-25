@@ -3,11 +3,11 @@ import {
   useMemo,
 } from 'react';
 import type {
-  FC,
+  ReactElement,
 } from 'react';
 
 import { components } from './components';
-import defaultGetPages from './getPages';
+import { getPages as defaultGetPages } from './getPages';
 
 import { NextLinkWrapper } from './NextLinkWrapper';
 import { PreviousLinkWrapper } from './PreviousLinkWrapper';
@@ -25,8 +25,26 @@ import type {
   RootProps,
 } from './types';
 
-export const Paginator: FC<PaginatorProps> = memo((props) => {
+const emptyObj = {};
+
+function PaginatorInner<Payload>(props: PaginatorProps<Payload>): ReactElement {
   const {
+    pageCount,
+    pageRangeDisplayed = 5,
+    marginPagesDisplayed = 2,
+    previousLabel = 'prev',
+    nextLabel = 'next',
+    breakLabel = '...',
+    page,
+    onPageChange,
+    hrefBuilder = undefined,
+    getPages = defaultGetPages,
+    components: componentsProp = undefined,
+    styles = emptyObj,
+    payload = undefined,
+  } = props;
+
+  const mergedProps = useMemo<RootProps<Payload>>(() => ({
     pageCount,
     pageRangeDisplayed,
     marginPagesDisplayed,
@@ -37,11 +55,26 @@ export const Paginator: FC<PaginatorProps> = memo((props) => {
     onPageChange,
     hrefBuilder,
     getPages,
+    components,
+    styles,
+    payload,
+  }), [
+    pageCount,
+    pageRangeDisplayed,
+    marginPagesDisplayed,
+    previousLabel,
+    nextLabel,
+    breakLabel,
+    page,
+    onPageChange,
+    hrefBuilder,
+    getPages,
+    components,
+    styles,
+    payload,
+  ]);
 
-    components: componentsProp,
-  } = props;
-
-  const mergedComponents: Components = useMemo(() => {
+  const mergedComponents = useMemo<Components<Payload>>(() => {
     if (componentsProp) {
       return {
         ...components,
@@ -52,7 +85,7 @@ export const Paginator: FC<PaginatorProps> = memo((props) => {
     return components;
   }, [componentsProp]);
 
-  const pages: PagesBlock[] = useMemo(() => getPages({
+  const pages = useMemo<PagesBlock[]>(() => getPages({
     pageCount,
     pageRangeDisplayed,
     marginPagesDisplayed,
@@ -77,7 +110,7 @@ export const Paginator: FC<PaginatorProps> = memo((props) => {
 
   return (
     <Container
-      rootProps={props as RootProps}
+      rootProps={mergedProps}
     >
       <PreviousLinkWrapper
         Link={Link}
@@ -86,11 +119,11 @@ export const Paginator: FC<PaginatorProps> = memo((props) => {
         hrefBuilder={hrefBuilder}
         previousLabel={previousLabel}
         page={page}
-        rootProps={props as RootProps}
+        rootProps={mergedProps}
       />
 
       <Pages
-        rootProps={props as RootProps}
+        rootProps={mergedProps}
       >
         {
           pages.map((pagesItem: PagesBlock, index) => {
@@ -103,7 +136,7 @@ export const Paginator: FC<PaginatorProps> = memo((props) => {
                     next={pagesItem.next}
                     onPageChange={onPageChange}
                     hrefBuilder={hrefBuilder}
-                    rootProps={props as RootProps}
+                    rootProps={mergedProps}
                     key={index}
                   >
                     {breakLabel}
@@ -121,7 +154,7 @@ export const Paginator: FC<PaginatorProps> = memo((props) => {
                     onPageChange={onPageChange}
                     hrefBuilder={hrefBuilder}
                     page={page}
-                    rootProps={props as RootProps}
+                    rootProps={mergedProps}
                     key={index}
                   />
                 );
@@ -143,23 +176,10 @@ export const Paginator: FC<PaginatorProps> = memo((props) => {
         nextLabel={nextLabel}
         page={page}
         pageCount={pageCount}
-        rootProps={props as RootProps}
+        rootProps={mergedProps}
       />
     </Container>
   );
-});
+}
 
-Paginator.displayName = 'Paginator';
-
-Paginator.defaultProps = {
-  pageRangeDisplayed: 5,
-  marginPagesDisplayed: 2,
-  previousLabel: 'prev',
-  nextLabel: 'next',
-  breakLabel: '...',
-  hrefBuilder: null,
-  getPages: defaultGetPages,
-
-  components: null,
-  styles: {},
-};
+export const Paginator = memo(PaginatorInner) as typeof PaginatorInner;

@@ -6,16 +6,14 @@ import type {
   LinkComponentProps,
 } from '../types';
 
-export function Link(props: LinkComponentProps): ReactElement {
-  const {
-    disabled,
-    href,
-    onClick,
-    children,
-    className,
-    style,
-  } = props;
-
+export function Link<Payload>({
+  children,
+  className = undefined,
+  disabled = false,
+  href = undefined,
+  onClick = undefined,
+  style = undefined,
+} : LinkComponentProps<Payload>): ReactElement {
   if (disabled) {
     return (
       <button
@@ -53,11 +51,3 @@ export function Link(props: LinkComponentProps): ReactElement {
     </a>
   );
 }
-
-Link.defaultProps = {
-  disabled: false,
-  href: null,
-  onClick: undefined,
-  className: undefined,
-  style: undefined,
-};

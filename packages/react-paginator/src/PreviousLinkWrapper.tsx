@@ -2,7 +2,7 @@ import {
   memo,
 } from 'react';
 import type {
-  FC,
+  ReactElement,
   ReactNode,
   SyntheticEvent,
 } from 'react';
@@ -16,27 +16,27 @@ import type {
   PreviousLinkComponent,
 } from './types';
 
-export type PreviousLinkWrapperProps = {
-  Link: LinkComponent;
-  PreviousLink: PreviousLinkComponent;
+export type PreviousLinkWrapperProps<Payload> = {
+  Link: LinkComponent<Payload>;
+  PreviousLink: PreviousLinkComponent<Payload>;
   onPageChange: OnPageChange;
   hrefBuilder?: HrefBuilder;
   previousLabel: ReactNode;
   page: number;
-  rootProps: RootProps;
+  rootProps: RootProps<Payload>;
 };
 
-export const PreviousLinkWrapper: FC<PreviousLinkWrapperProps> = memo(({
+function PreviousLinkWrapperInner<Payload>({
   /* eslint-disable-next-line @typescript-eslint/naming-convention */
   Link,
   /* eslint-disable-next-line @typescript-eslint/naming-convention */
   PreviousLink,
   onPageChange,
-  hrefBuilder,
+  hrefBuilder = undefined,
   previousLabel,
   page,
   rootProps,
-}) => {
+}: PreviousLinkWrapperProps<Payload>): ReactElement {
   const isDisabled: boolean = page === 1;
 
   const onClick = (event: SyntheticEvent): void => {
@@ -66,8 +66,8 @@ export const PreviousLinkWrapper: FC<PreviousLinkWrapperProps> = memo(({
       {previousLabel}
     </PreviousLink>
   );
-});
+}
 
-PreviousLinkWrapper.defaultProps = {
-  hrefBuilder: null,
-};
+export const PreviousLinkWrapper = memo(
+  PreviousLinkWrapperInner,
+) as typeof PreviousLinkWrapperInner;

@@ -1,4 +1,4 @@
-import getPages from '../getPages';
+import { getPages } from '../getPages';
 
 import {
   PAGES,

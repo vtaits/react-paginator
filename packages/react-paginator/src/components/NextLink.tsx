@@ -1,6 +1,5 @@
 import type {
   ReactElement,
-  ReactNode,
 } from 'react';
 
 import styled from 'styled-components';
@@ -8,20 +7,11 @@ import styled from 'styled-components';
 import { getStyle } from './getStyle';
 
 import type {
-  LinkInnerProps,
   NextLinkProps,
-  RootProps,
+  StylingNextLinkComponentProps,
 } from '../types';
 
-export type InnerNextLinkComponentProps =
-  & LinkInnerProps
-  & {
-    isDisabled?: boolean;
-    rootProps: RootProps;
-    children?: ReactNode;
-  };
-
-export const NextLinkComponent = styled.a<InnerNextLinkComponentProps>((props) => {
+export const NextLinkComponent = styled.a<StylingNextLinkComponentProps<any>>((props) => {
   const {
     isDisabled,
   } = props;
@@ -51,14 +41,14 @@ export const NextLinkComponent = styled.a<InnerNextLinkComponentProps>((props) =
   );
 });
 
-export function NextLink({
+export function NextLink<Payload>({
   /* eslint-disable-next-line @typescript-eslint/naming-convention */
   Link,
   isDisabled,
   rootProps,
   innerProps,
   children,
-}: NextLinkProps): ReactElement {
+}: NextLinkProps<Payload>): ReactElement {
   return (
     <NextLinkComponent
       as={Link}
