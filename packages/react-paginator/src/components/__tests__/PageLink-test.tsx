@@ -18,14 +18,20 @@ import type {
   PageLinkProps,
 } from '../../types';
 
+// fix missing `as` prop
+type StyledProps = ComponentProps<typeof PageLinkComponent> & {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  as?: string | FC<any>;
+};
+
 function Link(): ReactElement {
   return <div />;
 }
 
 type PageObject = {
-  getPageLinkComponentProp: <Key extends keyof ComponentProps<typeof PageLinkComponent>>(
+  getPageLinkComponentProp: <Key extends keyof StyledProps>(
     propName: Key,
-  ) => ComponentProps<typeof PageLinkComponent>[Key];
+  ) => StyledProps[Key];
 };
 
 const setup = (props: Omit<PageLinkProps<unknown>, 'rootProps' | 'Link'>): PageObject => {
@@ -40,7 +46,7 @@ const setup = (props: Omit<PageLinkProps<unknown>, 'rootProps' | 'Link'>): PageO
   );
 
   const result = renderer
-    .getRenderOutput() as ReactElement<ComponentProps<typeof PageLinkComponent>, FC>;
+    .getRenderOutput() as ReactElement<StyledProps, FC>;
 
   return {
     getPageLinkComponentProp: (propName) => result.props[propName],
@@ -60,8 +66,8 @@ test('should provide correct props to PageLinkComponent', () => {
   });
 
   expect(page.getPageLinkComponentProp('children')).toBe('test');
-  expect(page.getPageLinkComponentProp('rootProps')).toBe(rootProps);
+  expect(page.getPageLinkComponentProp('$rootProps')).toBe(rootProps);
   expect(page.getPageLinkComponentProp('href')).toBe('/test/');
-  expect(page.getPageLinkComponentProp('isCurrent')).toBe(true);
+  expect(page.getPageLinkComponentProp('$isCurrent')).toBe(true);
   expect(page.getPageLinkComponentProp('as')).toBe(Link);
 });

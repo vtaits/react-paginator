@@ -48,5 +48,5 @@ test('should provide correct props to BreakComponent', () => {
   });
 
   expect(page.getBreakComponentProp('children')).toBe('test');
-  expect(page.getBreakComponentProp('rootProps')).toBe(rootProps);
+  expect(page.getBreakComponentProp('$rootProps')).toBe(rootProps);
 });

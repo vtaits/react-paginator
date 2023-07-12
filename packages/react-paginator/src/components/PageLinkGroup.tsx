@@ -30,7 +30,7 @@ export function PageLinkGroup<Payload>({
 }: PageLinkGroupProps<Payload>): ReactElement {
   return (
     <PageLinkGroupComponent
-      rootProps={rootProps}
+      $rootProps={rootProps}
     >
       {children}
     </PageLinkGroupComponent>

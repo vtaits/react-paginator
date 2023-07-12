@@ -28,7 +28,7 @@ export function Container<Payload>({
 }: ContainerComponentProps<Payload>): ReactElement {
   return (
     <InnerContainer
-      rootProps={rootProps}
+      $rootProps={rootProps}
     >
       {children}
     </InnerContainer>

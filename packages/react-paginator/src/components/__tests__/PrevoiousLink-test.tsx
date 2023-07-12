@@ -18,14 +18,20 @@ import type {
   PreviousLinkProps,
 } from '../../types';
 
+// fix missing `as` prop
+type StyledProps = ComponentProps<typeof PreviousLinkComponent> & {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  as?: string | FC<any>;
+};
+
 function Link(): ReactElement {
   return <div />;
 }
 
 type PageObject = {
-  getPreviousLinkComponentProp: <Key extends keyof ComponentProps<typeof PreviousLinkComponent>>(
+  getPreviousLinkComponentProp: <Key extends keyof StyledProps>(
     propName: Key,
-  ) => ComponentProps<typeof PreviousLinkComponent>[Key];
+  ) => StyledProps[Key];
 };
 
 const setup = (props: Omit<PreviousLinkProps<unknown>, 'rootProps'>): PageObject => {
@@ -39,7 +45,7 @@ const setup = (props: Omit<PreviousLinkProps<unknown>, 'rootProps'>): PageObject
   );
 
   const result = renderer
-    .getRenderOutput() as ReactElement<ComponentProps<typeof PreviousLinkComponent>, FC>;
+    .getRenderOutput() as ReactElement<StyledProps, FC>;
 
   return {
     getPreviousLinkComponentProp: (propName) => result.props[propName],
@@ -58,8 +64,8 @@ test('should provide correct props to PreviousLinkComponent', () => {
   });
 
   expect(page.getPreviousLinkComponentProp('children')).toBe('test');
-  expect(page.getPreviousLinkComponentProp('rootProps')).toBe(rootProps);
+  expect(page.getPreviousLinkComponentProp('$rootProps')).toBe(rootProps);
   expect(page.getPreviousLinkComponentProp('href')).toBe('/test/');
-  expect(page.getPreviousLinkComponentProp('isDisabled')).toBe(true);
+  expect(page.getPreviousLinkComponentProp('$isDisabled')).toBe(true);
   expect(page.getPreviousLinkComponentProp('as')).toBe(Link);
 });

@@ -14,7 +14,7 @@ import type {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const PageLinkComponent = styled.a<StylingPageLinkComponentProps<any>>((props) => {
   const {
-    isCurrent,
+    $isCurrent,
   } = props;
 
   return getStyle(
@@ -22,33 +22,33 @@ export const PageLinkComponent = styled.a<StylingPageLinkComponentProps<any>>((p
 
     {
       boxSizing: 'border-box',
-      borderWidth: 1,
+      borderWidth: '1px',
       borderStyle: 'solid',
       fontFamily: 'Roboto,-apple-system,BlinkMacSystemFont,\'Helvetica Neue\',Helvetica,sans-serif',
       fontSize: '14px',
-      fontWeight: isCurrent ? 700 : 400,
+      fontWeight: $isCurrent ? 700 : 400,
       lineHeight: '18px',
-      padding: 7,
+      padding: '7px',
       textDecoration: 'none',
       outline: 'none',
-      minWidth: 36,
+      minWidth: '36px',
       textAlign: 'center',
-      cursor: isCurrent ? 'default' : 'pointer',
-      backgroundColor: isCurrent ? '#7ab4ff' : '#fff',
-      borderColor: isCurrent ? '#7ab4ff' : '#ccc',
-      color: isCurrent ? '#fff' : '#333',
-      marginLeft: -1,
-      position: isCurrent ? 'relative' : 'static',
+      cursor: $isCurrent ? 'default' : 'pointer',
+      backgroundColor: $isCurrent ? '#7ab4ff' : '#fff',
+      borderColor: $isCurrent ? '#7ab4ff' : '#ccc',
+      color: $isCurrent ? '#fff' : '#333',
+      marginLeft: '-1px',
+      position: $isCurrent ? 'relative' : 'static',
 
-      ':first-child': {
-        borderTopLeftRadius: 4,
-        borderBottomLeftRadius: 4,
+      '&:first-child': {
+        borderTopLeftRadius: '4px',
+        borderBottomLeftRadius: '4px',
         marginLeft: 0,
       },
 
-      ':last-child': {
-        borderTopRightRadius: 4,
-        borderBottomRightRadius: 4,
+      '&:last-child': {
+        borderTopRightRadius: '4px',
+        borderBottomRightRadius: '4px',
       },
     },
 
@@ -68,7 +68,8 @@ export function PageLink<Payload>({
     <PageLinkComponent
       as={Link}
       {...innerProps}
-      isCurrent={isCurrent}
+      $isCurrent={isCurrent}
+      $rootProps={rootProps}
       rootProps={rootProps}
     >
       {children}

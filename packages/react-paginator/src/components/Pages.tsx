@@ -29,7 +29,7 @@ export function Pages<Payload>({
 }: PagesProps<Payload>): ReactElement {
   return (
     <PagesComponent
-      rootProps={rootProps}
+      $rootProps={rootProps}
     >
       {children}
     </PagesComponent>

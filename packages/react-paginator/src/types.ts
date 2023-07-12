@@ -6,14 +6,13 @@ import type {
 } from 'react';
 
 import type {
-  CSSObject,
-  StyledProps,
-} from 'styled-components';
-
-import type {
   PAGES,
   BREAK,
 } from './constants';
+import type {
+  CSSObject,
+  StyledProps,
+} from './types.styled';
 
 export type GetPages = (params: GetPagesParams) => PagesBlock[];
 
@@ -28,7 +27,7 @@ export type LinkInnerProps = {
 };
 
 export type StylingBreakProps<Payload> = {
-  rootProps: RootProps<Payload>;
+  $rootProps: RootProps<Payload>;
   children?: ReactNode;
 };
 
@@ -45,7 +44,7 @@ export type BreakComponentProps<Payload> = {
 export type BreakComponent<Payload> = ComponentType<BreakComponentProps<Payload>>;
 
 export type StylingContainerProps<Payload> = {
-  rootProps: RootProps<Payload>;
+  $rootProps: RootProps<Payload>;
   children?: ReactNode;
 };
 
@@ -57,7 +56,7 @@ export type ContainerComponentProps<Payload> = {
 export type ContainerComponent<Payload> = ComponentType<ContainerComponentProps<Payload>>;
 
 export type StylingPageLinkGroupComponentProps<Payload> = {
-  rootProps: RootProps<Payload>;
+  $rootProps: RootProps<Payload>;
   children?: ReactNode;
 };
 
@@ -71,7 +70,7 @@ export type PageLinkGroupProps<Payload> = {
 export type PageLinkGroupComponent<Payload> = ComponentType<PageLinkGroupProps<Payload>>;
 
 export type StylingPagesComponentProps<Payload> = {
-  rootProps: RootProps<Payload>;
+  $rootProps: RootProps<Payload>;
   children?: ReactNode;
 };
 
@@ -97,8 +96,8 @@ export type LinkComponent<Payload> = ComponentType<LinkComponentProps<Payload>>;
 export type StylingNextLinkComponentProps<Payload> =
   & LinkInnerProps
   & {
-    isDisabled?: boolean;
-    rootProps: RootProps<Payload>;
+    $isDisabled?: boolean;
+    $rootProps: RootProps<Payload>;
     children?: ReactNode;
   };
 
@@ -115,8 +114,8 @@ export type NextLinkComponent<Payload> = ComponentType<NextLinkProps<Payload>>;
 export type StylingPreviousLinkComponentProps<Payload> =
   & LinkInnerProps
   & {
-    isDisabled?: boolean;
-    rootProps: RootProps<Payload>;
+    $isDisabled?: boolean;
+    $rootProps: RootProps<Payload>;
     children?: ReactNode;
   };
 
@@ -133,8 +132,8 @@ export type PreviousLinkComponent<Payload> = ComponentType<PreviousLinkProps<Pay
 export type StylingPageLinkComponentProps<Payload> =
   & LinkInnerProps
   & {
-    isCurrent?: boolean;
-    rootProps: RootProps<Payload>;
+    $isCurrent?: boolean;
+    $rootProps: RootProps<Payload>;
     children?: ReactNode;
   };
 

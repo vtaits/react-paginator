@@ -14,7 +14,7 @@ import type {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const PreviousLinkComponent = styled.a<StylingPreviousLinkComponentProps<any>>((props) => {
   const {
-    isDisabled,
+    $isDisabled,
   } = props;
 
   return getStyle(
@@ -30,12 +30,12 @@ export const PreviousLinkComponent = styled.a<StylingPreviousLinkComponentProps<
       padding: '7px 0',
       textDecoration: 'none',
       outline: 'none',
-      minWidth: 40,
+      minWidth: '40px',
       textAlign: 'center',
-      cursor: isDisabled ? 'default' : 'pointer',
+      cursor: $isDisabled ? 'default' : 'pointer',
       backgroundColor: 'transparent',
-      color: isDisabled ? '#999' : '#466db5',
-      paddingRight: 10,
+      color: $isDisabled ? '#999' : '#466db5',
+      paddingRight: '10px',
     },
 
     props,
@@ -54,7 +54,8 @@ export function PreviousLink<Payload>({
     <PreviousLinkComponent
       as={Link}
       {...innerProps}
-      isDisabled={isDisabled}
+      $isDisabled={isDisabled}
+      $rootProps={rootProps}
       rootProps={rootProps}
     >
       {children}

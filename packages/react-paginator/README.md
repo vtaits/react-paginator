@@ -21,13 +21,13 @@ Simple customizable pagination component for react applications.
 ## Installation
 
 ```
-npm install @vtaits/react-paginator --save
+npm install @vtaits/react-paginator styled-components --save
 ```
 
 or
 
 ```
-yarn add @vtaits/react-paginator
+yarn add @vtaits/react-paginator styled-components
 ```
 
 ## Usage

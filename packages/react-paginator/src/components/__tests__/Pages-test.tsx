@@ -47,5 +47,5 @@ test('should provide correct props to PagesComponent', () => {
   });
 
   expect(page.getPagesComponentProp('children')).toBe('test');
-  expect(page.getPagesComponentProp('rootProps')).toBe(rootProps);
+  expect(page.getPagesComponentProp('$rootProps')).toBe(rootProps);
 });

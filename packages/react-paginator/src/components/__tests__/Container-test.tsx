@@ -44,5 +44,5 @@ test('should provide correct props to ContainerComponent', () => {
   });
 
   expect(page.getContainerComponentProp('children')).toBe('test');
-  expect(page.getContainerComponentProp('rootProps')).toBe(rootProps);
+  expect(page.getContainerComponentProp('$rootProps')).toBe(rootProps);
 });

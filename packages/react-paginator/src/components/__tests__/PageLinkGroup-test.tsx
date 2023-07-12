@@ -49,5 +49,5 @@ test('should provide correct props to PageLinkGroupComponent', () => {
   });
 
   expect(page.getPageLinkGroupComponentProp('children')).toBe('test');
-  expect(page.getPageLinkGroupComponentProp('rootProps')).toBe(rootProps);
+  expect(page.getPageLinkGroupComponentProp('$rootProps')).toBe(rootProps);
 });

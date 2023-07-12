@@ -5,10 +5,6 @@ import type {
   ReactElement,
 } from 'react';
 
-import type {
-  CSSObject,
-} from 'styled-components';
-
 import {
   Paginator,
 } from '..';
@@ -17,13 +13,13 @@ import type {
 } from '..';
 
 const styles: Styles<unknown> = {
-  container: (baseStyle: CSSObject): CSSObject => ({
+  container: (baseStyle) => ({
     ...baseStyle,
     backgroundColor: '#EEE',
-    padding: 10,
+    padding: '10px',
   }),
 
-  pageLink: (baseStyle: CSSObject): CSSObject => ({
+  pageLink: (baseStyle) => ({
     ...baseStyle,
     borderWidth: 0,
     marginLeft: 0,

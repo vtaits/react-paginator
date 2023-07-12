@@ -29,7 +29,7 @@ export function Break<Payload>({
 }: BreakComponentProps<Payload>): ReactElement {
   return (
     <InnerBreak
-      rootProps={rootProps}
+      $rootProps={rootProps}
     >
       {children}
     </InnerBreak>

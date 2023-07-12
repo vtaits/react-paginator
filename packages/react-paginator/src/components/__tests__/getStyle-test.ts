@@ -1,8 +1,7 @@
+import { getStyle } from '../getStyle';
 import type {
   CSSObject,
-} from 'styled-components';
-
-import { getStyle } from '../getStyle';
+} from '../../types.styled';
 
 import { rootProps } from '../../__fixtures__/rootProps';
 
@@ -12,7 +11,7 @@ test('should return base state if custom style not defined', () => {
   };
 
   const result = getStyle('break', baseStyle, {
-    rootProps: {
+    $rootProps: {
       ...rootProps,
       styles: {
         pageLink: (): CSSObject => ({
@@ -21,7 +20,7 @@ test('should return base state if custom style not defined', () => {
       },
     },
 
-    theme: null,
+    theme: {},
   });
 
   expect(result).toBe(baseStyle);
@@ -34,14 +33,14 @@ test('should return computed style', () => {
   const styleFn = jest.fn(() => computedStyle);
 
   const componentProps = {
-    rootProps: {
+    $rootProps: {
       ...rootProps,
       styles: {
         break: styleFn,
       },
     },
 
-    theme: null,
+    theme: {},
   };
 
   const baseStyle: CSSObject = {
