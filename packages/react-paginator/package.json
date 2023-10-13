@@ -31,7 +31,8 @@
     "lint": "biome check src",
     "lint:fix": "biome check src --apply-unsafe",
     "format": "biome format src --write",
-    "test:unit": "jest",
+    "test:unit": "vitest run --coverage.enabled --coverage.all --coverage.include=src",
+    "test:unit:watch": "vitest",
     "test": "yarn test:unit",
     "prepare": "yarn clean && yarn build"
   },
@@ -43,13 +44,13 @@
     "@biomejs/biome": "^1.2.2",
     "@types/react-test-renderer": "^18.0.0",
     "@types/styled-components": "^5.1.26",
-    "jest": "^29.6.1",
+    "@vitest/coverage-v8": "^0.34.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-test-renderer": "^18.2.0",
     "styled-components": "^6.0.3",
-    "ts-jest": "^29.1.1",
     "tsup": "^7.1.0",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "vitest": "^0.34.6"
   }
 }

@@ -1,4 +1,5 @@
 import type { HTMLProps } from "react";
+import { expect, test, vi } from "vitest";
 
 import { createRenderer } from "react-test-renderer/shallow";
 
@@ -58,7 +59,7 @@ test("should render disabled button if disabled", () => {
 		style,
 		disabled: true,
 		href: "/test/",
-		onClick: jest.fn(),
+		onClick: vi.fn(),
 	});
 
 	expect(page.getButtonProp("className")).toBe(className);
@@ -70,7 +71,7 @@ test("should render disabled button if disabled", () => {
 });
 
 test("should render enabled button if href not specified", () => {
-	const onClick = jest.fn();
+	const onClick = vi.fn();
 
 	const page = setup({
 		className,
@@ -87,7 +88,7 @@ test("should render enabled button if href not specified", () => {
 });
 
 test("should render link if href specified", () => {
-	const onClick = jest.fn();
+	const onClick = vi.fn();
 
 	const page = setup({
 		className,

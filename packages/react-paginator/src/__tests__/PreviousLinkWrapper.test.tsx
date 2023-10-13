@@ -1,44 +1,47 @@
 import type { FC, ReactElement, SyntheticEvent } from "react";
+import { expect, test, vi } from "vitest";
 
 import { createRenderer } from "react-test-renderer/shallow";
 
 import { rootProps } from "../__fixtures__/rootProps";
 
-import { PageLinkWrapper } from "../PageLinkWrapper";
-import type { PageLinkWrapperProps } from "../PageLinkWrapper";
+import { PreviousLinkWrapper } from "../PreviousLinkWrapper";
+import type { PreviousLinkWrapperProps } from "../PreviousLinkWrapper";
 
-import type { PageLinkProps } from "../types";
+import type { PreviousLinkProps } from "../types";
 
 function Link(): ReactElement {
 	return <div />;
 }
 
-function PageLink(): ReactElement {
+function PreviousLink(): ReactElement {
 	return <div />;
 }
 
 type PageObject = {
-	getProp: <Key extends keyof PageLinkProps<unknown>,>(
+	getProp: <Key extends keyof PreviousLinkProps<unknown>,>(
 		propName: Key,
-	) => PageLinkProps<unknown>[Key];
+	) => PreviousLinkProps<unknown>[Key];
 };
 
-const defaultProps: PageLinkWrapperProps<unknown> = {
+const defaultProps: PreviousLinkWrapperProps<unknown> = {
 	Link,
-	PageLink,
+	PreviousLink,
 	onPageChange: (): void => undefined,
+	previousLabel: "test",
 	page: 3,
-	pageForLink: 5,
 	rootProps,
 };
 
-const setup = (props: Partial<PageLinkWrapperProps<unknown>>): PageObject => {
+const setup = (
+	props: Partial<PreviousLinkWrapperProps<unknown>>,
+): PageObject => {
 	const renderer = createRenderer();
 
-	renderer.render(<PageLinkWrapper {...defaultProps} {...props} />);
+	renderer.render(<PreviousLinkWrapper {...defaultProps} {...props} />);
 
 	const result = renderer.getRenderOutput() as ReactElement<
-		PageLinkProps<unknown>,
+		PreviousLinkProps<unknown>,
 		FC
 	>;
 
@@ -49,18 +52,10 @@ const setup = (props: Partial<PageLinkWrapperProps<unknown>>): PageObject => {
 
 test("should render children", () => {
 	const page = setup({
-		pageForLink: 5,
+		previousLabel: "prev",
 	});
 
-	expect(page.getProp("children")).toBe(5);
-});
-
-test("should provide current page", () => {
-	const page = setup({
-		pageForLink: 5,
-	});
-
-	expect(page.getProp("page")).toBe(5);
+	expect(page.getProp("children")).toBe("prev");
 });
 
 test("should provide rootProps", () => {
@@ -78,31 +73,28 @@ test("should provide Link", () => {
 test("should render enabled component", () => {
 	const page = setup({
 		page: 3,
-		pageForLink: 10,
 	});
 
-	expect(page.getProp("isCurrent")).toBe(false);
+	expect(page.getProp("isDisabled")).toBe(false);
 	expect(page.getProp("innerProps").disabled).toBeFalsy();
 });
 
 test("should render disabled component", () => {
 	const page = setup({
-		page: 3,
-		pageForLink: 3,
+		page: 1,
 	});
 
-	expect(page.getProp("isCurrent")).toBe(true);
+	expect(page.getProp("isDisabled")).toBe(true);
 	expect(page.getProp("innerProps").disabled).toBe(true);
 });
 
-test("should set next page on click", () => {
-	const preventDefault = jest.fn();
-	const onPageChange = jest.fn();
+test("should set previous page on click", () => {
+	const preventDefault = vi.fn();
+	const onPageChange = vi.fn();
 
 	const page = setup({
 		onPageChange,
 		page: 3,
-		pageForLink: 5,
 	});
 
 	const { onClick } = page.getProp("innerProps");
@@ -118,15 +110,14 @@ test("should set next page on click", () => {
 	expect(preventDefault).toHaveBeenCalledTimes(1);
 
 	expect(onPageChange).toHaveBeenCalledTimes(1);
-	expect(onPageChange).toHaveBeenCalledWith(5);
+	expect(onPageChange).toHaveBeenCalledWith(2);
 });
 
 test("should render disabled component", () => {
 	const page = setup({
 		page: 3,
-		pageForLink: 5,
 		hrefBuilder: (pageNumber) => `/test/${pageNumber}/`,
 	});
 
-	expect(page.getProp("innerProps").href).toBe("/test/5/");
+	expect(page.getProp("innerProps").href).toBe("/test/2/");
 });

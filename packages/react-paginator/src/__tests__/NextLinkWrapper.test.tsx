@@ -1,4 +1,5 @@
 import type { FC, ReactElement, SyntheticEvent } from "react";
+import { expect, test, vi } from "vitest";
 
 import { createRenderer } from "react-test-renderer/shallow";
 
@@ -89,8 +90,8 @@ test("should render disabled component", () => {
 });
 
 test("should set next page on click", () => {
-	const preventDefault = jest.fn();
-	const onPageChange = jest.fn();
+	const preventDefault = vi.fn();
+	const onPageChange = vi.fn();
 
 	const page = setup({
 		onPageChange,

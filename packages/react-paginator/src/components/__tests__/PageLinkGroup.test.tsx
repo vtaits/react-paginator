@@ -1,5 +1,5 @@
-/*  react/jsx-props-no-spreading */
 import type { ComponentProps, FC, ReactElement } from "react";
+import { expect, test } from "vitest";
 
 import { createRenderer } from "react-test-renderer/shallow";
 

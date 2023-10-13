@@ -1,4 +1,5 @@
 import type { FC, ReactElement } from "react";
+import { expect, test, vi } from "vitest";
 
 import { createRenderer } from "react-test-renderer/shallow";
 
@@ -113,7 +114,7 @@ test("should render redefined container", () => {
 });
 
 test("should render PreviousLinkWrapper with default props", () => {
-	const onPageChange = jest.fn();
+	const onPageChange = vi.fn();
 
 	const page = setup({
 		onPageChange,
@@ -131,8 +132,8 @@ test("should render PreviousLinkWrapper with default props", () => {
 });
 
 test("should render PreviousLinkWrapper with redefined components", () => {
-	const onPageChange = jest.fn();
-	const hrefBuilder = jest.fn();
+	const onPageChange = vi.fn();
+	const hrefBuilder = vi.fn();
 
 	function Link(): ReactElement {
 		return <div />;
@@ -164,7 +165,7 @@ test("should render PreviousLinkWrapper with redefined components", () => {
 });
 
 test("should render NextLinkWrapper with default props", () => {
-	const onPageChange = jest.fn();
+	const onPageChange = vi.fn();
 
 	const page = setup({
 		onPageChange,
@@ -180,8 +181,8 @@ test("should render NextLinkWrapper with default props", () => {
 });
 
 test("should render NextLinkWrapper with redefined components", () => {
-	const onPageChange = jest.fn();
-	const hrefBuilder = jest.fn();
+	const onPageChange = vi.fn();
+	const hrefBuilder = vi.fn();
 
 	function Link(): ReactElement {
 		return <div />;
@@ -213,7 +214,7 @@ test("should render NextLinkWrapper with redefined components", () => {
 });
 
 test("should render Break with default props", () => {
-	const onPageChange = jest.fn();
+	const onPageChange = vi.fn();
 
 	const getPages: GetPages = () => [
 		{
@@ -244,8 +245,8 @@ test("should render Break with default props", () => {
 });
 
 test("should render Break with redefined props", () => {
-	const onPageChange = jest.fn();
-	const hrefBuilder = jest.fn();
+	const onPageChange = vi.fn();
+	const hrefBuilder = vi.fn();
 
 	function Break(): ReactElement {
 		return <div />;
@@ -290,7 +291,7 @@ test("should render Break with redefined props", () => {
 });
 
 test("should render PageLinkGroupWrapper with default props", () => {
-	const onPageChange = jest.fn();
+	const onPageChange = vi.fn();
 
 	const getPages: GetPages = () => [
 		{
@@ -324,8 +325,8 @@ test("should render PageLinkGroupWrapper with default props", () => {
 });
 
 test("should render PageLinkGroupWrapper with redefined props", () => {
-	const onPageChange = jest.fn();
-	const hrefBuilder = jest.fn();
+	const onPageChange = vi.fn();
+	const hrefBuilder = vi.fn();
 
 	const getPages: GetPages = () => [
 		{
@@ -378,7 +379,7 @@ test("should render PageLinkGroupWrapper with redefined props", () => {
 });
 
 test("should render multiple page groups and breaks", () => {
-	const onPageChange = jest.fn();
+	const onPageChange = vi.fn();
 
 	const getPages: GetPages = () => [
 		{

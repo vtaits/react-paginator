@@ -1,4 +1,5 @@
 import type { FC, ReactElement } from "react";
+import { expect, test, vi } from "vitest";
 
 import { createRenderer } from "react-test-renderer/shallow";
 
@@ -74,8 +75,8 @@ test("should render PageLinkGroup with correct props", () => {
 });
 
 test("should render links", () => {
-	const onPageChange = jest.fn();
-	const hrefBuilder = jest.fn();
+	const onPageChange = vi.fn();
+	const hrefBuilder = vi.fn();
 
 	const page = setup({
 		onPageChange,

@@ -1,3 +1,4 @@
+import { expect, test, vi } from "vitest";
 import type { CSSObject } from "../../types.styled";
 import { getStyle } from "../getStyle";
 
@@ -28,7 +29,7 @@ test("should return computed style", () => {
 	const computedStyle: CSSObject = {
 		color: "#00ff00",
 	};
-	const styleFn = jest.fn(() => computedStyle);
+	const styleFn = vi.fn().mockReturnValue(computedStyle);
 
 	const componentProps = {
 		$rootProps: {
