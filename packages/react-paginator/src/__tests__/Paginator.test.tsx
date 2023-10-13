@@ -1,99 +1,56 @@
 import type { FC, ReactElement } from "react";
+import { create } from "react-test-engine";
 import { expect, test, vi } from "vitest";
-
-import { createRenderer } from "react-test-renderer/shallow";
 
 import { components } from "../components";
 
-import type { NextLinkWrapperProps } from "../NextLinkWrapper";
+import { NextLinkWrapper } from "../NextLinkWrapper";
 import { PageLinkGroupWrapper } from "../PageLinkGroupWrapper";
 import type { PageLinkGroupWrapperProps } from "../PageLinkGroupWrapper";
-import type { PreviousLinkWrapperProps } from "../PreviousLinkWrapper";
+import { PreviousLinkWrapper } from "../PreviousLinkWrapper";
 
 import { BREAK, PAGES } from "../constants";
 
 import { Paginator } from "../Paginator";
 
-import type {
-	BreakComponentProps,
-	ContainerComponentProps,
-	GetPages,
-	PagesProps,
-} from "../types";
+import type { BreakComponentProps, GetPages } from "../types";
 
-const defaultProps = {
-	pageCount: 10,
-	page: 3,
-	onPageChange: (): void => {},
-};
+const render = create(
+	Paginator,
+	{
+		pageCount: 10,
+		page: 3,
+		onPageChange: vi.fn(),
+	},
+	{
+		queries: {
+			container: {
+				component: components.Container,
+			},
 
-type PageObject = {
-	getRootNode: () => ReactElement<ContainerComponentProps<unknown>, FC>;
+			previousLink: {
+				component: PreviousLinkWrapper,
+			},
 
-	getPreviousLinkWrapperProp: <
-		Key extends keyof PreviousLinkWrapperProps<unknown>,
-	>(
-		propName: Key,
-	) => PreviousLinkWrapperProps<unknown>[Key];
+			nextLink: {
+				component: NextLinkWrapper,
+			},
 
-	getNextLinkWrapperProp: <Key extends keyof NextLinkWrapperProps<unknown>>(
-		propName: Key,
-	) => NextLinkWrapperProps<unknown>[Key];
+			pagesWrapper: {
+				component: components.Pages,
+			},
+		},
+	},
+);
 
-	getRenderedPages: () => Array<ReactElement>;
-};
-
-const setup = (props: Record<string, any>): PageObject => {
-	const renderer = createRenderer();
-
-	renderer.render(<Paginator {...defaultProps} {...props} />);
-
-	const result = renderer.getRenderOutput() as ReactElement<
-		ContainerComponentProps<unknown>,
-		FC
-	>;
-
-	const getChildren = () => {
-		const { children } = result.props;
-
-		if (!Array.isArray(children)) {
-			throw new Error("`children` is not an array");
-		}
-
-		return children;
-	};
-
-	const getPreviousLinkWrapper = () =>
-		getChildren()[0] as ReactElement<PreviousLinkWrapperProps<unknown>, FC>;
-
-	const getNextLinkWrapper = () =>
-		getChildren()[2] as ReactElement<NextLinkWrapperProps<unknown>, FC>;
-
-	const getPagesNode = () =>
-		getChildren()[1] as ReactElement<PagesProps<unknown>, FC>;
-
-	const getRenderedPages = () =>
-		getPagesNode().props.children as Array<ReactElement>;
-
-	return {
-		getRootNode: () => result,
-
-		getPreviousLinkWrapperProp: (propName) =>
-			getPreviousLinkWrapper().props[propName],
-
-		getNextLinkWrapperProp: (propName) => getNextLinkWrapper().props[propName],
-
-		getRenderedPages,
-	};
-};
+function getRenderedPages(engine: ReturnType<typeof render>) {
+	return engine.accessors.pagesWrapper.getProps().children as ReactElement[];
+}
 
 test("should render default container", () => {
-	const page = setup({});
+	const engine = render({});
 
-	const containerNode = page.getRootNode();
-
-	expect(containerNode.type).toBe(components.Container);
-	expect(containerNode.props.rootProps).toBeTruthy();
+	expect(engine.accessors.container.getProps().rootProps).toBeTruthy();
 });
 
 test("should render redefined container", () => {
@@ -101,34 +58,34 @@ test("should render redefined container", () => {
 		return <div />;
 	}
 
-	const page = setup({
+	const engine = render({
 		components: {
 			Container: TestComponent,
 		},
 	});
 
-	const containerNode = page.getRootNode();
+	const containerNode = engine.root;
 
-	expect(containerNode.type).toBe(TestComponent);
-	expect(containerNode.props.rootProps).toBeTruthy();
+	expect(containerNode?.type).toBe(TestComponent);
+	expect(containerNode?.props.rootProps).toBeTruthy();
 });
 
 test("should render PreviousLinkWrapper with default props", () => {
 	const onPageChange = vi.fn();
 
-	const page = setup({
+	const engine = render({
 		onPageChange,
 	});
 
-	expect(page.getPreviousLinkWrapperProp("Link")).toBe(components.Link);
-	expect(page.getPreviousLinkWrapperProp("PreviousLink")).toBe(
-		components.PreviousLink,
-	);
-	expect(page.getPreviousLinkWrapperProp("onPageChange")).toBe(onPageChange);
-	expect(page.getPreviousLinkWrapperProp("hrefBuilder")).toBeFalsy();
-	expect(page.getPreviousLinkWrapperProp("previousLabel")).toBe("prev");
-	expect(page.getPreviousLinkWrapperProp("page")).toBe(3);
-	expect(page.getPreviousLinkWrapperProp("rootProps")).toBeTruthy();
+	const previousLinkProps = engine.accessors.previousLink.getProps();
+
+	expect(previousLinkProps.Link).toBe(components.Link);
+	expect(previousLinkProps.PreviousLink).toBe(components.PreviousLink);
+	expect(previousLinkProps.onPageChange).toBe(onPageChange);
+	expect(previousLinkProps.hrefBuilder).toBeFalsy();
+	expect(previousLinkProps.previousLabel).toBe("prev");
+	expect(previousLinkProps.page).toBe(3);
+	expect(previousLinkProps.rootProps).toBeTruthy();
 });
 
 test("should render PreviousLinkWrapper with redefined components", () => {
@@ -143,7 +100,7 @@ test("should render PreviousLinkWrapper with redefined components", () => {
 		return <div />;
 	}
 
-	const page = setup({
+	const engine = render({
 		onPageChange,
 		hrefBuilder,
 
@@ -155,29 +112,33 @@ test("should render PreviousLinkWrapper with redefined components", () => {
 		previousLabel: "previous",
 	});
 
-	expect(page.getPreviousLinkWrapperProp("Link")).toBe(Link);
-	expect(page.getPreviousLinkWrapperProp("PreviousLink")).toBe(PreviousLink);
-	expect(page.getPreviousLinkWrapperProp("onPageChange")).toBe(onPageChange);
-	expect(page.getPreviousLinkWrapperProp("hrefBuilder")).toBe(hrefBuilder);
-	expect(page.getPreviousLinkWrapperProp("previousLabel")).toBe("previous");
-	expect(page.getPreviousLinkWrapperProp("page")).toBe(3);
-	expect(page.getPreviousLinkWrapperProp("rootProps")).toBeTruthy();
+	const previousLinkProps = engine.accessors.previousLink.getProps();
+
+	expect(previousLinkProps.Link).toBe(Link);
+	expect(previousLinkProps.PreviousLink).toBe(PreviousLink);
+	expect(previousLinkProps.onPageChange).toBe(onPageChange);
+	expect(previousLinkProps.hrefBuilder).toBe(hrefBuilder);
+	expect(previousLinkProps.previousLabel).toBe("previous");
+	expect(previousLinkProps.page).toBe(3);
+	expect(previousLinkProps.rootProps).toBeTruthy();
 });
 
 test("should render NextLinkWrapper with default props", () => {
 	const onPageChange = vi.fn();
 
-	const page = setup({
+	const engine = render({
 		onPageChange,
 	});
 
-	expect(page.getNextLinkWrapperProp("Link")).toBe(components.Link);
-	expect(page.getNextLinkWrapperProp("NextLink")).toBe(components.NextLink);
-	expect(page.getNextLinkWrapperProp("onPageChange")).toBe(onPageChange);
-	expect(page.getNextLinkWrapperProp("hrefBuilder")).toBeFalsy();
-	expect(page.getNextLinkWrapperProp("nextLabel")).toBe("next");
-	expect(page.getNextLinkWrapperProp("page")).toBe(3);
-	expect(page.getNextLinkWrapperProp("rootProps")).toBeTruthy();
+	const nextLinkProps = engine.accessors.nextLink.getProps();
+
+	expect(nextLinkProps.Link).toBe(components.Link);
+	expect(nextLinkProps.NextLink).toBe(components.NextLink);
+	expect(nextLinkProps.onPageChange).toBe(onPageChange);
+	expect(nextLinkProps.hrefBuilder).toBeFalsy();
+	expect(nextLinkProps.nextLabel).toBe("next");
+	expect(nextLinkProps.page).toBe(3);
+	expect(nextLinkProps.rootProps).toBeTruthy();
 });
 
 test("should render NextLinkWrapper with redefined components", () => {
@@ -192,7 +153,7 @@ test("should render NextLinkWrapper with redefined components", () => {
 		return <div />;
 	}
 
-	const page = setup({
+	const engine = render({
 		onPageChange,
 		hrefBuilder,
 
@@ -204,13 +165,15 @@ test("should render NextLinkWrapper with redefined components", () => {
 		nextLabel: "nextLabel",
 	});
 
-	expect(page.getNextLinkWrapperProp("Link")).toBe(Link);
-	expect(page.getNextLinkWrapperProp("NextLink")).toBe(NextLink);
-	expect(page.getNextLinkWrapperProp("onPageChange")).toBe(onPageChange);
-	expect(page.getNextLinkWrapperProp("hrefBuilder")).toBe(hrefBuilder);
-	expect(page.getNextLinkWrapperProp("nextLabel")).toBe("nextLabel");
-	expect(page.getNextLinkWrapperProp("page")).toBe(3);
-	expect(page.getNextLinkWrapperProp("rootProps")).toBeTruthy();
+	const nextLinkProps = engine.accessors.nextLink.getProps();
+
+	expect(nextLinkProps.Link).toBe(Link);
+	expect(nextLinkProps.NextLink).toBe(NextLink);
+	expect(nextLinkProps.onPageChange).toBe(onPageChange);
+	expect(nextLinkProps.hrefBuilder).toBe(hrefBuilder);
+	expect(nextLinkProps.nextLabel).toBe("nextLabel");
+	expect(nextLinkProps.page).toBe(3);
+	expect(nextLinkProps.rootProps).toBeTruthy();
 });
 
 test("should render Break with default props", () => {
@@ -224,12 +187,12 @@ test("should render Break with default props", () => {
 		},
 	];
 
-	const page = setup({
+	const engine = render({
 		onPageChange,
 		getPages,
 	});
 
-	const breakNode = page.getRenderedPages()[0] as ReactElement<
+	const breakNode = getRenderedPages(engine)[0] as ReactElement<
 		BreakComponentProps<unknown>,
 		FC
 	>;
@@ -264,7 +227,7 @@ test("should render Break with redefined props", () => {
 		},
 	];
 
-	const page = setup({
+	const engine = render({
 		onPageChange,
 		hrefBuilder,
 		getPages,
@@ -275,7 +238,7 @@ test("should render Break with redefined props", () => {
 		},
 	});
 
-	const breakNode = page.getRenderedPages()[0] as ReactElement<
+	const breakNode = getRenderedPages(engine)[0] as ReactElement<
 		BreakComponentProps<unknown>,
 		FC
 	>;
@@ -301,12 +264,12 @@ test("should render PageLinkGroupWrapper with default props", () => {
 		},
 	];
 
-	const page = setup({
+	const engine = render({
 		onPageChange,
 		getPages,
 	});
 
-	const groupWrapperNode = page.getRenderedPages()[0] as ReactElement<
+	const groupWrapperNode = getRenderedPages(engine)[0] as ReactElement<
 		PageLinkGroupWrapperProps<unknown>,
 		FC
 	>;
@@ -348,7 +311,7 @@ test("should render PageLinkGroupWrapper with redefined props", () => {
 		return <div />;
 	}
 
-	const page = setup({
+	const engine = render({
 		onPageChange,
 		hrefBuilder,
 		getPages,
@@ -360,7 +323,7 @@ test("should render PageLinkGroupWrapper with redefined props", () => {
 		},
 	});
 
-	const groupWrapperNode = page.getRenderedPages()[0] as ReactElement<
+	const groupWrapperNode = getRenderedPages(engine)[0] as ReactElement<
 		PageLinkGroupWrapperProps<unknown>,
 		FC
 	>;
@@ -401,12 +364,12 @@ test("should render multiple page groups and breaks", () => {
 		},
 	];
 
-	const page = setup({
+	const engine = render({
 		onPageChange,
 		getPages,
 	});
 
-	const renderedPages = page.getRenderedPages();
+	const renderedPages = getRenderedPages(engine);
 
 	expect(renderedPages.length).toBe(3);
 

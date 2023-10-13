@@ -1,45 +1,29 @@
-import type { FC, ReactElement } from "react";
+import { create } from "react-test-engine";
 import { expect, test } from "vitest";
-
-import { createRenderer } from "react-test-renderer/shallow";
 
 import { rootProps } from "../../__fixtures__/rootProps";
 
-import { Container } from "../Container";
+import { Container, InnerContainer } from "../Container";
 
-import type {
-	ContainerComponentProps,
-	StylingContainerProps,
-} from "../../types";
-
-type PageObject = {
-	getContainerComponentProp: <Key extends keyof StylingContainerProps<unknown>>(
-		propName: Key,
-	) => StylingContainerProps<unknown>[Key];
-};
-
-const setup = (
-	props: Partial<ContainerComponentProps<unknown>>,
-): PageObject => {
-	const renderer = createRenderer();
-
-	renderer.render(<Container rootProps={rootProps} {...props} />);
-
-	const result = renderer.getRenderOutput() as ReactElement<
-		StylingContainerProps<unknown>,
-		FC
-	>;
-
-	return {
-		getContainerComponentProp: (propName) => result.props[propName],
-	};
-};
+const render = create(
+	Container,
+	{
+		rootProps,
+	},
+	{
+		queries: {
+			root: {
+				component: InnerContainer,
+			},
+		},
+	},
+);
 
 test("should provide correct props to ContainerComponent", () => {
-	const page = setup({
+	const engine = render({
 		children: "test",
 	});
 
-	expect(page.getContainerComponentProp("children")).toBe("test");
-	expect(page.getContainerComponentProp("$rootProps")).toBe(rootProps);
+	expect(engine.accessors.root.getProps().children).toBe("test");
+	expect(engine.accessors.root.getProps().$rootProps).toBe(rootProps);
 });

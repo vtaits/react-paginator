@@ -1,12 +1,10 @@
-import type { FC, ReactElement, SyntheticEvent } from "react";
+import { type ReactElement, type SyntheticEvent, useDebugValue } from "react";
+import { create } from "react-test-engine";
 import { expect, test, vi } from "vitest";
-
-import { createRenderer } from "react-test-renderer/shallow";
 
 import { rootProps } from "../__fixtures__/rootProps";
 
 import { PreviousLinkWrapper } from "../PreviousLinkWrapper";
-import type { PreviousLinkWrapperProps } from "../PreviousLinkWrapper";
 
 import type { PreviousLinkProps } from "../types";
 
@@ -14,90 +12,79 @@ function Link(): ReactElement {
 	return <div />;
 }
 
-function PreviousLink(): ReactElement {
+function PreviousLink(props: PreviousLinkProps<unknown>): ReactElement {
+	useDebugValue(props);
+
 	return <div />;
 }
 
-type PageObject = {
-	getProp: <Key extends keyof PreviousLinkProps<unknown>,>(
-		propName: Key,
-	) => PreviousLinkProps<unknown>[Key];
-};
-
-const defaultProps: PreviousLinkWrapperProps<unknown> = {
-	Link,
-	PreviousLink,
-	onPageChange: (): void => undefined,
-	previousLabel: "test",
-	page: 3,
-	rootProps,
-};
-
-const setup = (
-	props: Partial<PreviousLinkWrapperProps<unknown>>,
-): PageObject => {
-	const renderer = createRenderer();
-
-	renderer.render(<PreviousLinkWrapper {...defaultProps} {...props} />);
-
-	const result = renderer.getRenderOutput() as ReactElement<
-		PreviousLinkProps<unknown>,
-		FC
-	>;
-
-	return {
-		getProp: (propName) => result.props[propName],
-	};
-};
+const render = create(
+	PreviousLinkWrapper,
+	{
+		Link,
+		PreviousLink,
+		onPageChange: vi.fn(),
+		previousLabel: "test",
+		page: 3,
+		rootProps,
+	},
+	{
+		queries: {
+			root: {
+				component: PreviousLink,
+			},
+		},
+	},
+);
 
 test("should render children", () => {
-	const page = setup({
+	const engine = render({
 		previousLabel: "prev",
 	});
 
-	expect(page.getProp("children")).toBe("prev");
+	expect(engine.accessors.root.getProps().children).toBe("prev");
 });
 
 test("should provide rootProps", () => {
-	const page = setup({});
+	const engine = render({});
 
-	expect(page.getProp("rootProps")).toBe(rootProps);
+	expect(engine.accessors.root.getProps().rootProps).toBe(rootProps);
 });
 
 test("should provide Link", () => {
-	const page = setup({});
+	const engine = render({});
 
-	expect(page.getProp("Link")).toBe(Link);
+	expect(engine.accessors.root.getProps().Link).toBe(Link);
 });
 
 test("should render enabled component", () => {
-	const page = setup({
+	const engine = render({
 		page: 3,
 	});
 
-	expect(page.getProp("isDisabled")).toBe(false);
-	expect(page.getProp("innerProps").disabled).toBeFalsy();
+	expect(engine.accessors.root.getProps().isDisabled).toBe(false);
+	expect(engine.accessors.root.getProps().innerProps.disabled).toBeFalsy();
 });
 
 test("should render disabled component", () => {
-	const page = setup({
+	const engine = render({
 		page: 1,
 	});
 
-	expect(page.getProp("isDisabled")).toBe(true);
-	expect(page.getProp("innerProps").disabled).toBe(true);
+	expect(engine.accessors.root.getProps().isDisabled).toBe(true);
+	expect(engine.accessors.root.getProps().innerProps.disabled).toBe(true);
 });
 
 test("should set previous page on click", () => {
 	const preventDefault = vi.fn();
 	const onPageChange = vi.fn();
 
-	const page = setup({
+	const engine = render({
 		onPageChange,
 		page: 3,
 	});
 
-	const { onClick } = page.getProp("innerProps");
+	const { onClick } = engine.accessors.root.getProps().innerProps;
 
 	if (!onClick) {
 		throw new Error("`onClick` is not defined");
@@ -114,10 +101,10 @@ test("should set previous page on click", () => {
 });
 
 test("should render disabled component", () => {
-	const page = setup({
+	const engine = render({
 		page: 3,
 		hrefBuilder: (pageNumber) => `/test/${pageNumber}/`,
 	});
 
-	expect(page.getProp("innerProps").href).toBe("/test/2/");
+	expect(engine.accessors.root.getProps().innerProps.href).toBe("/test/2/");
 });

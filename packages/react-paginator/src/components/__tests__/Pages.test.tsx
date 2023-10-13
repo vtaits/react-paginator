@@ -1,42 +1,31 @@
-import type { FC, ReactElement } from "react";
+import { create } from "react-test-engine";
 import { expect, test } from "vitest";
-
-import { createRenderer } from "react-test-renderer/shallow";
 
 import { rootProps } from "../../__fixtures__/rootProps";
 
-import { Pages } from "../Pages";
+import { Pages, PagesComponent } from "../Pages";
 
-import type { PagesProps, StylingPagesComponentProps } from "../../types";
-
-type PageObject = {
-	getPagesComponentProp: <
-		Key extends keyof StylingPagesComponentProps<unknown>,
-	>(
-		propName: Key,
-	) => StylingPagesComponentProps<unknown>[Key];
-};
-
-const setup = (props: Omit<PagesProps<unknown>, "rootProps">): PageObject => {
-	const renderer = createRenderer();
-
-	renderer.render(<Pages rootProps={rootProps} {...props} />);
-
-	const result = renderer.getRenderOutput() as ReactElement<
-		StylingPagesComponentProps<unknown>,
-		FC
-	>;
-
-	return {
-		getPagesComponentProp: (propName) => result.props[propName],
-	};
-};
+const render = create(
+	Pages,
+	{
+		rootProps,
+	},
+	{
+		queries: {
+			root: {
+				component: PagesComponent,
+			},
+		},
+	},
+);
 
 test("should provide correct props to PagesComponent", () => {
-	const page = setup({
+	const engine = render({
 		children: "test",
 	});
 
-	expect(page.getPagesComponentProp("children")).toBe("test");
-	expect(page.getPagesComponentProp("$rootProps")).toBe(rootProps);
+	const props = engine.accessors.root.getProps();
+
+	expect(props.children).toBe("test");
+	expect(props.$rootProps).toBe(rootProps);
 });

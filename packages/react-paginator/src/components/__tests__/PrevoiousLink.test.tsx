@@ -1,45 +1,38 @@
-import type { ComponentProps, FC, ReactElement } from "react";
+import type { ReactElement } from "react";
+import { create } from "react-test-engine";
 import { expect, test } from "vitest";
-
-import { createRenderer } from "react-test-renderer/shallow";
 
 import { rootProps } from "../../__fixtures__/rootProps";
 
 import { PreviousLink, PreviousLinkComponent } from "../PreviousLink";
 
-import type { PreviousLinkProps } from "../../types";
-
-// fix missing `as` prop
-type StyledProps = ComponentProps<typeof PreviousLinkComponent> & {
-	as?: string | FC<any>;
-};
-
 function Link(): ReactElement {
 	return <div />;
 }
 
-type PageObject = {
-	getPreviousLinkComponentProp: <Key extends keyof StyledProps>(
-		propName: Key,
-	) => StyledProps[Key];
-};
+const render = create(
+	PreviousLink,
+	{
+		Link,
+		children: "test",
+		isDisabled: true,
 
-const setup = (
-	props: Omit<PreviousLinkProps<unknown>, "rootProps">,
-): PageObject => {
-	const renderer = createRenderer();
-
-	renderer.render(<PreviousLink rootProps={rootProps} {...props} />);
-
-	const result = renderer.getRenderOutput() as ReactElement<StyledProps, FC>;
-
-	return {
-		getPreviousLinkComponentProp: (propName) => result.props[propName],
-	};
-};
+		innerProps: {
+			href: "/test/",
+		},
+		rootProps,
+	},
+	{
+		queries: {
+			root: {
+				component: PreviousLinkComponent,
+			},
+		},
+	},
+);
 
 test("should provide correct props to PreviousLinkComponent", () => {
-	const page = setup({
+	const engine = render({
 		Link,
 		children: "test",
 		isDisabled: true,
@@ -49,9 +42,11 @@ test("should provide correct props to PreviousLinkComponent", () => {
 		},
 	});
 
-	expect(page.getPreviousLinkComponentProp("children")).toBe("test");
-	expect(page.getPreviousLinkComponentProp("$rootProps")).toBe(rootProps);
-	expect(page.getPreviousLinkComponentProp("href")).toBe("/test/");
-	expect(page.getPreviousLinkComponentProp("$isDisabled")).toBe(true);
-	expect(page.getPreviousLinkComponentProp("as")).toBe(Link);
+	const props = engine.accessors.root.getProps();
+
+	expect(props.children).toBe("test");
+	expect(props.$rootProps).toBe(rootProps);
+	expect(props.href).toBe("/test/");
+	expect(props.$isDisabled).toBe(true);
+	expect(props.as).toBe(Link);
 });

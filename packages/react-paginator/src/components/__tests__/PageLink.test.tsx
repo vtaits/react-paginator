@@ -1,45 +1,40 @@
-import type { ComponentProps, FC, ReactElement } from "react";
+import type { ReactElement } from "react";
+import { create } from "react-test-engine";
 import { expect, test } from "vitest";
-
-import { createRenderer } from "react-test-renderer/shallow";
 
 import { rootProps } from "../../__fixtures__/rootProps";
 
 import { PageLink, PageLinkComponent } from "../PageLink";
 
-import type { PageLinkProps } from "../../types";
-
-// fix missing `as` prop
-type StyledProps = ComponentProps<typeof PageLinkComponent> & {
-	as?: string | FC<any>;
-};
-
 function Link(): ReactElement {
 	return <div />;
 }
 
-type PageObject = {
-	getPageLinkComponentProp: <Key extends keyof StyledProps>(
-		propName: Key,
-	) => StyledProps[Key];
-};
+const render = create(
+	PageLink,
+	{
+		children: "test",
+		isCurrent: true,
+		Link,
 
-const setup = (
-	props: Omit<PageLinkProps<unknown>, "rootProps" | "Link">,
-): PageObject => {
-	const renderer = createRenderer();
+		innerProps: {
+			href: "/test/",
+		},
 
-	renderer.render(<PageLink rootProps={rootProps} Link={Link} {...props} />);
-
-	const result = renderer.getRenderOutput() as ReactElement<StyledProps, FC>;
-
-	return {
-		getPageLinkComponentProp: (propName) => result.props[propName],
-	};
-};
+		page: 1,
+		rootProps,
+	},
+	{
+		queries: {
+			root: {
+				component: PageLinkComponent,
+			},
+		},
+	},
+);
 
 test("should provide correct props to PageLinkComponent", () => {
-	const page = setup({
+	const engine = render({
 		children: "test",
 		isCurrent: true,
 
@@ -50,9 +45,11 @@ test("should provide correct props to PageLinkComponent", () => {
 		page: 1,
 	});
 
-	expect(page.getPageLinkComponentProp("children")).toBe("test");
-	expect(page.getPageLinkComponentProp("$rootProps")).toBe(rootProps);
-	expect(page.getPageLinkComponentProp("href")).toBe("/test/");
-	expect(page.getPageLinkComponentProp("$isCurrent")).toBe(true);
-	expect(page.getPageLinkComponentProp("as")).toBe(Link);
+	const props = engine.accessors.root.getProps();
+
+	expect(props.children).toBe("test");
+	expect(props.$rootProps).toBe(rootProps);
+	expect(props.href).toBe("/test/");
+	expect(props.$isCurrent).toBe(true);
+	expect(props.as).toBe(Link);
 });

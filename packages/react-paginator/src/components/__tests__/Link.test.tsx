@@ -1,60 +1,35 @@
-import type { HTMLProps } from "react";
+import { create } from "react-test-engine";
 import { expect, test, vi } from "vitest";
-
-import { createRenderer } from "react-test-renderer/shallow";
 
 import { rootProps } from "../../__fixtures__/rootProps";
 
 import { Link } from "../Link";
 
-import type { LinkComponentProps } from "../../types";
-
 const style = {};
 const className = "test-class-name";
 
-const defaultProps: Omit<LinkComponentProps<unknown>, "rootProps"> = {
-	children: "test",
-	style: {},
-};
+const render = create(
+	Link,
+	{
+		children: "test",
+		rootProps,
+		style: {},
+	},
+	{
+		queries: {
+			a: {
+				component: "a",
+			},
 
-type PageObject = {
-	getButtonProp: <Key extends keyof HTMLProps<"button">>(
-		propName: Key,
-	) => HTMLProps<"button">[Key];
-
-	getLinkProp: <Key extends keyof HTMLProps<"a">>(
-		propName: Key,
-	) => HTMLProps<"a">[Key];
-};
-
-const setup = (props: Partial<LinkComponentProps<unknown>>): PageObject => {
-	const renderer = createRenderer();
-
-	renderer.render(<Link rootProps={rootProps} {...defaultProps} {...props} />);
-
-	const result = renderer.getRenderOutput();
-
-	return {
-		getButtonProp: (propName) => {
-			if (result.type !== "button") {
-				throw new Error("Rendered component should be an `button` element");
-			}
-
-			return (result.props as HTMLProps<"button">)[propName];
+			button: {
+				component: "button",
+			},
 		},
-
-		getLinkProp: (propName) => {
-			if (result.type !== "a") {
-				throw new Error("Rendered component should be an `a` element");
-			}
-
-			return (result.props as HTMLProps<"a">)[propName];
-		},
-	};
-};
+	},
+);
 
 test("should render disabled button if disabled", () => {
-	const page = setup({
+	const engine = render({
 		className,
 		style,
 		disabled: true,
@@ -62,44 +37,50 @@ test("should render disabled button if disabled", () => {
 		onClick: vi.fn(),
 	});
 
-	expect(page.getButtonProp("className")).toBe(className);
-	expect(page.getButtonProp("style")).toBe(style);
-	expect(page.getButtonProp("disabled")).toBe(true);
-	expect(page.getButtonProp("type")).toBe("button");
-	expect(page.getButtonProp("href")).toBeFalsy();
-	expect(page.getButtonProp("onClick")).toBeFalsy();
+	const buttonProps = engine.accessors.button.getProps();
+
+	expect(buttonProps.className).toBe(className);
+	expect(buttonProps.style).toBe(style);
+	expect(buttonProps.disabled).toBe(true);
+	expect(buttonProps.type).toBe("button");
+	expect(buttonProps).not.toHaveProperty("href");
+	expect(buttonProps.onClick).toBeFalsy();
 });
 
 test("should render enabled button if href not specified", () => {
 	const onClick = vi.fn();
 
-	const page = setup({
+	const engine = render({
 		className,
 		style,
 		onClick,
 	});
 
-	expect(page.getButtonProp("className")).toBe(className);
-	expect(page.getButtonProp("style")).toBe(style);
-	expect(page.getButtonProp("disabled")).toBeFalsy();
-	expect(page.getButtonProp("type")).toBe("button");
-	expect(page.getButtonProp("href")).toBeFalsy();
-	expect(page.getButtonProp("onClick")).toBe(onClick);
+	const buttonProps = engine.accessors.button.getProps();
+
+	expect(buttonProps.className).toBe(className);
+	expect(buttonProps.style).toBe(style);
+	expect(buttonProps.disabled).toBeFalsy();
+	expect(buttonProps.type).toBe("button");
+	expect(buttonProps).not.toHaveProperty("href");
+	expect(buttonProps.onClick).toBe(onClick);
 });
 
 test("should render link if href specified", () => {
 	const onClick = vi.fn();
 
-	const page = setup({
+	const engine = render({
 		className,
 		style,
 		onClick,
 		href: "/test/",
 	});
 
-	expect(page.getLinkProp("className")).toBe(className);
-	expect(page.getLinkProp("style")).toBe(style);
-	expect(page.getLinkProp("disabled")).toBeFalsy();
-	expect(page.getLinkProp("href")).toBe("/test/");
-	expect(page.getLinkProp("onClick")).toBe(onClick);
+	const aProps = engine.accessors.a.getProps();
+
+	expect(aProps.className).toBe(className);
+	expect(aProps.style).toBe(style);
+	expect(aProps).not.toHaveProperty("disabled");
+	expect(aProps.href).toBe("/test/");
+	expect(aProps.onClick).toBe(onClick);
 });

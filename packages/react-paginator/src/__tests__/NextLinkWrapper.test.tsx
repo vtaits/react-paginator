@@ -1,12 +1,10 @@
-import type { FC, ReactElement, SyntheticEvent } from "react";
+import { type ReactElement, type SyntheticEvent, useDebugValue } from "react";
+import { create } from "react-test-engine";
 import { expect, test, vi } from "vitest";
-
-import { createRenderer } from "react-test-renderer/shallow";
 
 import { rootProps } from "../__fixtures__/rootProps";
 
 import { NextLinkWrapper } from "../NextLinkWrapper";
-import type { NextLinkWrapperProps } from "../NextLinkWrapper";
 
 import type { NextLinkProps } from "../types";
 
@@ -14,91 +12,82 @@ function Link(): ReactElement {
 	return <div />;
 }
 
-function NextLink(): ReactElement {
+function NextLink(props: NextLinkProps<unknown>): ReactElement {
+	useDebugValue(props);
+
 	return <div />;
 }
 
-type PageObject = {
-	getProp: <Key extends keyof NextLinkProps<unknown>,>(
-		propName: Key,
-	) => NextLinkProps<unknown>[Key];
-};
-
-const defaultProps: NextLinkWrapperProps<unknown> = {
-	Link,
-	NextLink,
-	onPageChange: (): void => undefined,
-	nextLabel: "test",
-	page: 3,
-	pageCount: 10,
-	rootProps,
-};
-
-const setup = (props: Partial<NextLinkWrapperProps<unknown>>): PageObject => {
-	const renderer = createRenderer();
-
-	renderer.render(<NextLinkWrapper {...defaultProps} {...props} />);
-
-	const result = renderer.getRenderOutput() as ReactElement<
-		NextLinkProps<unknown>,
-		FC
-	>;
-
-	return {
-		getProp: (propName) => result.props[propName],
-	};
-};
+const render = create(
+	NextLinkWrapper,
+	{
+		Link,
+		NextLink,
+		onPageChange: vi.fn(),
+		nextLabel: "test",
+		page: 3,
+		pageCount: 10,
+		rootProps,
+	},
+	{
+		queries: {
+			root: {
+				component: NextLink,
+			},
+		},
+	},
+);
 
 test("should render children", () => {
-	const page = setup({
+	const engine = render({
 		nextLabel: "next",
 	});
 
-	expect(page.getProp("children")).toBe("next");
+	expect(engine.accessors.root.getProps().children).toBe("next");
 });
 
 test("should provide rootProps", () => {
-	const page = setup({});
+	const engine = render({});
 
-	expect(page.getProp("rootProps")).toBe(rootProps);
+	expect(engine.accessors.root.getProps().rootProps).toBe(rootProps);
 });
 
 test("should provide Link", () => {
-	const page = setup({});
+	const engine = render({});
 
-	expect(page.getProp("Link")).toBe(Link);
+	expect(engine.accessors.root.getProps().Link).toBe(Link);
 });
 
 test("should render enabled component", () => {
-	const page = setup({
+	const engine = render({
 		page: 3,
 		pageCount: 10,
 	});
 
-	expect(page.getProp("isDisabled")).toBe(false);
-	expect(page.getProp("innerProps").disabled).toBeFalsy();
+	expect(engine.accessors.root.getProps().isDisabled).toBe(false);
+	expect(engine.accessors.root.getProps().innerProps.disabled).toBeFalsy();
 });
 
 test("should render disabled component", () => {
-	const page = setup({
+	const engine = render({
 		page: 10,
 		pageCount: 10,
 	});
 
-	expect(page.getProp("isDisabled")).toBe(true);
-	expect(page.getProp("innerProps").disabled).toBe(true);
+	expect(engine.accessors.root.getProps().isDisabled).toBe(true);
+	expect(engine.accessors.root.getProps().innerProps.disabled).toBe(true);
 });
 
 test("should set next page on click", () => {
 	const preventDefault = vi.fn();
 	const onPageChange = vi.fn();
 
-	const page = setup({
+	const engine = render({
 		onPageChange,
 		page: 3,
 	});
 
-	const { onClick } = page.getProp("innerProps");
+	const { onClick } = engine.accessors.root.getProps().innerProps;
 
 	if (!onClick) {
 		throw new Error("`onClick` is not defined");
@@ -115,10 +104,10 @@ test("should set next page on click", () => {
 });
 
 test("should render disabled component", () => {
-	const page = setup({
+	const engine = render({
 		page: 3,
 		hrefBuilder: (pageNumber) => `/test/${pageNumber}/`,
 	});
 
-	expect(page.getProp("innerProps").href).toBe("/test/4/");
+	expect(engine.accessors.root.getProps().innerProps.href).toBe("/test/4/");
 });

@@ -1,46 +1,33 @@
-import type { FC, ReactElement } from "react";
-import { expect, test } from "vitest";
-
-import { createRenderer } from "react-test-renderer/shallow";
+import { create } from "react-test-engine";
+import { expect, test, vi } from "vitest";
 
 import { rootProps } from "../../__fixtures__/rootProps";
 
-import { Break } from "../Break";
+import { Break, InnerBreak } from "../Break";
 
-import type { BreakComponentProps, StylingBreakProps } from "../../types";
-
-type PageObject = {
-	getBreakComponentProp: <Key extends keyof StylingBreakProps<unknown>>(
-		propName: Key,
-	) => StylingBreakProps<unknown>[Key];
-};
-
-const setup = (
-	props: Omit<BreakComponentProps<unknown>, "rootProps">,
-): PageObject => {
-	const renderer = createRenderer();
-
-	renderer.render(<Break rootProps={rootProps} {...props} />);
-
-	const result = renderer.getRenderOutput() as ReactElement<
-		StylingBreakProps<unknown>,
-		FC
-	>;
-
-	return {
-		getBreakComponentProp: (propName) => result.props[propName],
-	};
-};
-
-test("should provide correct props to BreakComponent", () => {
-	const page = setup({
-		children: "test",
+const render = create(
+	Break,
+	{
 		previous: 0,
 		next: 10,
-		onPageChange: () => undefined,
-		Link: () => null,
+		onPageChange: vi.fn(),
+		Link: vi.fn(),
+		rootProps,
+	},
+	{
+		queries: {
+			root: {
+				component: InnerBreak,
+			},
+		},
+	},
+);
+
+test("should provide correct props to BreakComponent", () => {
+	const engine = render({
+		children: "test",
 	});
 
-	expect(page.getBreakComponentProp("children")).toBe("test");
-	expect(page.getBreakComponentProp("$rootProps")).toBe(rootProps);
+	expect(engine.accessors.root.getProps().children).toBe("test");
+	expect(engine.accessors.root.getProps().$rootProps).toBe(rootProps);
 });

@@ -31,7 +31,7 @@
     "lint": "biome check src",
     "lint:fix": "biome check src --apply-unsafe",
     "format": "biome format src --write",
-    "test:unit": "vitest run --coverage.enabled --coverage.all --coverage.include=src",
+    "test:unit": "vitest run --coverage.enabled --coverage.all --coverage.include=src --coverage.exclude=src/__fixtures__ --coverage.exclude=src/__stories__",
     "test:unit:watch": "vitest",
     "test": "yarn test:unit",
     "prepare": "yarn clean && yarn build"
@@ -42,11 +42,11 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.2.2",
-    "@types/react-test-renderer": "^18.0.3",
     "@types/styled-components": "^5.1.28",
     "@vitest/coverage-v8": "^0.34.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-test-engine": "^1.1.0",
     "react-test-renderer": "^18.2.0",
     "styled-components": "^6.0.9",
     "tsup": "^7.2.0",

@@ -1,45 +1,34 @@
-import type { ComponentProps, FC, ReactElement } from "react";
+import { create } from "react-test-engine";
 import { expect, test } from "vitest";
-
-import { createRenderer } from "react-test-renderer/shallow";
 
 import { rootProps } from "../../__fixtures__/rootProps";
 
-import type { PageLinkGroupProps } from "../../types";
 import { PageLinkGroup, PageLinkGroupComponent } from "../PageLinkGroup";
 
-type PageObject = {
-	getPageLinkGroupComponentProp: <
-		Key extends keyof ComponentProps<typeof PageLinkGroupComponent>,
-	>(
-		propName: Key,
-	) => ComponentProps<typeof PageLinkGroupComponent>[Key];
-};
-
-const setup = (
-	props: Omit<PageLinkGroupProps<unknown>, "rootProps">,
-): PageObject => {
-	const renderer = createRenderer();
-
-	renderer.render(<PageLinkGroup rootProps={rootProps} {...props} />);
-
-	const result = renderer.getRenderOutput() as ReactElement<
-		ComponentProps<typeof PageLinkGroupComponent>,
-		FC
-	>;
-
-	return {
-		getPageLinkGroupComponentProp: (propName) => result.props[propName],
-	};
-};
-
+const render = create(
+	PageLinkGroup,
+	{
+		start: 0,
+		end: 1,
+		rootProps,
+	},
+	{
+		queries: {
+			root: {
+				component: PageLinkGroupComponent,
+			},
+		},
+	},
+);
 test("should provide correct props to PageLinkGroupComponent", () => {
-	const page = setup({
+	const engine = render({
 		children: "test",
 		start: 0,
 		end: 1,
 	});
 
-	expect(page.getPageLinkGroupComponentProp("children")).toBe("test");
-	expect(page.getPageLinkGroupComponentProp("$rootProps")).toBe(rootProps);
+	const props = engine.accessors.root.getProps();
+
+	expect(props.children).toBe("test");
+	expect(props.$rootProps).toBe(rootProps);
 });
