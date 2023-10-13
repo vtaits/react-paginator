@@ -1,36 +1,26 @@
-import type {
-  ReactElement,
-} from 'react';
+import type { ReactElement } from "react";
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { getStyle } from './getStyle';
+import { getStyle } from "./getStyle";
 
-import type {
-  ContainerComponentProps,
-  StylingContainerProps,
-} from '../types';
+import type { ContainerComponentProps, StylingContainerProps } from "../types";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const InnerContainer = styled.div<StylingContainerProps<any>>((props) => getStyle(
-  'container',
+export const InnerContainer = styled.div<StylingContainerProps<any>>((props) =>
+	getStyle(
+		"container",
 
-  {
-    display: 'inline-flex',
-  },
+		{
+			display: "inline-flex",
+		},
 
-  props,
-));
+		props,
+	),
+);
 
 export function Container<Payload>({
-  rootProps,
-  children,
+	rootProps,
+	children,
 }: ContainerComponentProps<Payload>): ReactElement {
-  return (
-    <InnerContainer
-      $rootProps={rootProps}
-    >
-      {children}
-    </InnerContainer>
-  );
+	return <InnerContainer $rootProps={rootProps}>{children}</InnerContainer>;
 }

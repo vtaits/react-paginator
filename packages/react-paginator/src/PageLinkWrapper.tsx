@@ -1,71 +1,66 @@
-import {
-  memo,
-} from 'react';
-import type {
-  ReactElement,
-  SyntheticEvent,
-} from 'react';
+import { memo } from "react";
+import type { ReactElement, SyntheticEvent } from "react";
 
 import type {
-  OnPageChange,
-  HrefBuilder,
-  RootProps,
-  LinkInnerProps,
-  LinkComponent,
-  PageLinkComponent,
-} from './types';
+	HrefBuilder,
+	LinkComponent,
+	LinkInnerProps,
+	OnPageChange,
+	PageLinkComponent,
+	RootProps,
+} from "./types";
 
 export type PageLinkWrapperProps<Payload> = {
-  Link: LinkComponent<Payload>;
-  PageLink: PageLinkComponent<Payload>;
-  onPageChange: OnPageChange;
-  hrefBuilder?: HrefBuilder;
-  page: number;
-  pageForLink: number;
-  rootProps: RootProps<Payload>;
+	Link: LinkComponent<Payload>;
+	PageLink: PageLinkComponent<Payload>;
+	onPageChange: OnPageChange;
+	hrefBuilder?: HrefBuilder;
+	page: number;
+	pageForLink: number;
+	rootProps: RootProps<Payload>;
 };
 
 function PageLinkWrapperInner<Payload>({
-  /* eslint-disable-next-line @typescript-eslint/naming-convention */
-  Link,
-  /* eslint-disable-next-line @typescript-eslint/naming-convention */
-  PageLink,
-  onPageChange,
-  hrefBuilder = undefined,
-  page,
-  pageForLink,
-  rootProps,
+	Link,
+	PageLink,
+	onPageChange,
+	hrefBuilder = undefined,
+	page,
+	pageForLink,
+	rootProps,
 }: PageLinkWrapperProps<Payload>): ReactElement {
-  const isCurrent = page === pageForLink;
+	const isCurrent = page === pageForLink;
 
-  const onClick = (event: SyntheticEvent): void => {
-    event.preventDefault();
-    onPageChange(pageForLink);
-  };
+	const onClick = (event: SyntheticEvent): void => {
+		event.preventDefault();
+		onPageChange(pageForLink);
+	};
 
-  const innerProps: LinkInnerProps = {};
+	const innerProps: LinkInnerProps = {};
 
-  if (isCurrent) {
-    innerProps.disabled = true;
-  } else {
-    innerProps.onClick = onClick;
+	if (isCurrent) {
+		innerProps.disabled = true;
+	} else {
+		innerProps.onClick = onClick;
 
-    if (hrefBuilder) {
-      innerProps.href = hrefBuilder(pageForLink);
-    }
-  }
+		if (hrefBuilder) {
+			innerProps.href = hrefBuilder(pageForLink);
+		}
+	}
 
-  return (
-    <PageLink
-      Link={Link}
-      isCurrent={isCurrent}
-      innerProps={innerProps}
-      rootProps={rootProps}
-      page={pageForLink}
-    >
-      {pageForLink}
-    </PageLink>
-  );
+	return (
+		<PageLink
+			Link={Link}
+			isCurrent={isCurrent}
+			innerProps={innerProps}
+			rootProps={rootProps}
+			page={pageForLink}
+		>
+			{pageForLink}
+		</PageLink>
+	);
 }
 
-export const PageLinkWrapper = memo(PageLinkWrapperInner) as typeof PageLinkWrapperInner;
+export const PageLinkWrapper = memo(
+	PageLinkWrapperInner,
+) as typeof PageLinkWrapperInner;

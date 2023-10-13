@@ -28,7 +28,9 @@
     "clean": "rimraf dist",
     "build": "tsup src/index.ts --sourcemap --format esm,cjs --dts --legacy-output",
     "test:ts": "tsc --noEmit",
-    "lint": "eslint src --ext .ts,.tsx --ignore-path ../../.gitignore",
+    "lint": "biome check src",
+    "lint:fix": "biome check src --apply-unsafe",
+    "format": "biome format src --write",
     "test:unit": "jest",
     "test": "yarn test:unit",
     "prepare": "yarn clean && yarn build"
@@ -38,6 +40,7 @@
     "styled-components": "^5.0.0 || ^6.0.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.2.2",
     "@types/react-test-renderer": "^18.0.0",
     "@types/styled-components": "^5.1.26",
     "jest": "^29.6.1",

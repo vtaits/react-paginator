@@ -1,37 +1,28 @@
-import type {
-  ReactElement,
-} from 'react';
+import type { ReactElement } from "react";
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { getStyle } from './getStyle';
+import { getStyle } from "./getStyle";
 
-import type {
-  PagesProps,
-  StylingPagesComponentProps,
-} from '../types';
+import type { PagesProps, StylingPagesComponentProps } from "../types";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const PagesComponent = styled.div<StylingPagesComponentProps<any>>((props) => getStyle(
-  'pages',
+export const PagesComponent = styled.div<StylingPagesComponentProps<any>>(
+	(props) =>
+		getStyle(
+			"pages",
 
-  {
-    display: 'flex',
-    alignItems: 'center',
-  },
+			{
+				display: "flex",
+				alignItems: "center",
+			},
 
-  props,
-));
+			props,
+		),
+);
 
 export function Pages<Payload>({
-  rootProps,
-  children,
+	rootProps,
+	children,
 }: PagesProps<Payload>): ReactElement {
-  return (
-    <PagesComponent
-      $rootProps={rootProps}
-    >
-      {children}
-    </PagesComponent>
-  );
+	return <PagesComponent $rootProps={rootProps}>{children}</PagesComponent>;
 }

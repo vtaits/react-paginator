@@ -1,53 +1,45 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import type {
-  ComponentProps,
-  FC,
-  ReactElement,
-} from 'react';
+/*  react/jsx-props-no-spreading */
+import type { ComponentProps, FC, ReactElement } from "react";
 
-import { createRenderer } from 'react-test-renderer/shallow';
+import { createRenderer } from "react-test-renderer/shallow";
 
-import { rootProps } from '../../__fixtures__/rootProps';
+import { rootProps } from "../../__fixtures__/rootProps";
 
-import {
-  PageLinkGroup,
-  PageLinkGroupComponent,
-} from '../PageLinkGroup';
-import type {
-  PageLinkGroupProps,
-} from '../../types';
+import type { PageLinkGroupProps } from "../../types";
+import { PageLinkGroup, PageLinkGroupComponent } from "../PageLinkGroup";
 
 type PageObject = {
-  getPageLinkGroupComponentProp: <Key extends keyof ComponentProps<typeof PageLinkGroupComponent>>(
-    propName: Key,
-  ) => ComponentProps<typeof PageLinkGroupComponent>[Key];
+	getPageLinkGroupComponentProp: <
+		Key extends keyof ComponentProps<typeof PageLinkGroupComponent>,
+	>(
+		propName: Key,
+	) => ComponentProps<typeof PageLinkGroupComponent>[Key];
 };
 
-const setup = (props: Omit<PageLinkGroupProps<unknown>, 'rootProps'>): PageObject => {
-  const renderer = createRenderer();
+const setup = (
+	props: Omit<PageLinkGroupProps<unknown>, "rootProps">,
+): PageObject => {
+	const renderer = createRenderer();
 
-  renderer.render(
-    <PageLinkGroup
-      rootProps={rootProps}
-      {...props}
-    />,
-  );
+	renderer.render(<PageLinkGroup rootProps={rootProps} {...props} />);
 
-  const result = renderer
-    .getRenderOutput() as ReactElement<ComponentProps<typeof PageLinkGroupComponent>, FC>;
+	const result = renderer.getRenderOutput() as ReactElement<
+		ComponentProps<typeof PageLinkGroupComponent>,
+		FC
+	>;
 
-  return {
-    getPageLinkGroupComponentProp: (propName) => result.props[propName],
-  };
+	return {
+		getPageLinkGroupComponentProp: (propName) => result.props[propName],
+	};
 };
 
-test('should provide correct props to PageLinkGroupComponent', () => {
-  const page = setup({
-    children: 'test',
-    start: 0,
-    end: 1,
-  });
+test("should provide correct props to PageLinkGroupComponent", () => {
+	const page = setup({
+		children: "test",
+		start: 0,
+		end: 1,
+	});
 
-  expect(page.getPageLinkGroupComponentProp('children')).toBe('test');
-  expect(page.getPageLinkGroupComponentProp('$rootProps')).toBe(rootProps);
+	expect(page.getPageLinkGroupComponentProp("children")).toBe("test");
+	expect(page.getPageLinkGroupComponentProp("$rootProps")).toBe(rootProps);
 });

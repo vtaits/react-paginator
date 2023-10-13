@@ -1,2 +1,2 @@
-export const PAGES = 'PAGES';
-export const BREAK = 'BREAK';
+export const PAGES = "PAGES";
+export const BREAK = "BREAK";

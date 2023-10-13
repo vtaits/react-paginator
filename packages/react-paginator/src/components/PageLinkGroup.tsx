@@ -1,38 +1,35 @@
-import type {
-  ReactElement,
-} from 'react';
+import type { ReactElement } from "react";
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { getStyle } from './getStyle';
+import { getStyle } from "./getStyle";
 
 import type {
-  PageLinkGroupProps,
-  StylingPageLinkGroupComponentProps,
-} from '../types';
+	PageLinkGroupProps,
+	StylingPageLinkGroupComponentProps,
+} from "../types";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const PageLinkGroupComponent = styled.div<StylingPageLinkGroupComponentProps<any>>(
-  (props) => getStyle(
-    'pageLinkGroup',
+export const PageLinkGroupComponent = styled.div<
+	StylingPageLinkGroupComponentProps<any>
+>((props) =>
+	getStyle(
+		"pageLinkGroup",
 
-    {
-      display: 'flex',
-    },
+		{
+			display: "flex",
+		},
 
-    props,
-  ),
+		props,
+	),
 );
 
 export function PageLinkGroup<Payload>({
-  rootProps,
-  children,
+	rootProps,
+	children,
 }: PageLinkGroupProps<Payload>): ReactElement {
-  return (
-    <PageLinkGroupComponent
-      $rootProps={rootProps}
-    >
-      {children}
-    </PageLinkGroupComponent>
-  );
+	return (
+		<PageLinkGroupComponent $rootProps={rootProps}>
+			{children}
+		</PageLinkGroupComponent>
+	);
 }

@@ -1,73 +1,57 @@
-/* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/no-explicit-any */
-import type {
-  ComponentProps,
-  FC,
-  ReactElement,
-} from 'react';
+import type { ComponentProps, FC, ReactElement } from "react";
 
-import { createRenderer } from 'react-test-renderer/shallow';
+import { createRenderer } from "react-test-renderer/shallow";
 
-import { rootProps } from '../../__fixtures__/rootProps';
+import { rootProps } from "../../__fixtures__/rootProps";
 
-import {
-  PageLink,
-  PageLinkComponent,
-} from '../PageLink';
+import { PageLink, PageLinkComponent } from "../PageLink";
 
-import type {
-  PageLinkProps,
-} from '../../types';
+import type { PageLinkProps } from "../../types";
 
 // fix missing `as` prop
 type StyledProps = ComponentProps<typeof PageLinkComponent> & {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  as?: string | FC<any>;
+	as?: string | FC<any>;
 };
 
 function Link(): ReactElement {
-  return <div />;
+	return <div />;
 }
 
 type PageObject = {
-  getPageLinkComponentProp: <Key extends keyof StyledProps>(
-    propName: Key,
-  ) => StyledProps[Key];
+	getPageLinkComponentProp: <Key extends keyof StyledProps>(
+		propName: Key,
+	) => StyledProps[Key];
 };
 
-const setup = (props: Omit<PageLinkProps<unknown>, 'rootProps' | 'Link'>): PageObject => {
-  const renderer = createRenderer();
+const setup = (
+	props: Omit<PageLinkProps<unknown>, "rootProps" | "Link">,
+): PageObject => {
+	const renderer = createRenderer();
 
-  renderer.render(
-    <PageLink
-      rootProps={rootProps}
-      Link={Link}
-      {...props}
-    />,
-  );
+	renderer.render(<PageLink rootProps={rootProps} Link={Link} {...props} />);
 
-  const result = renderer
-    .getRenderOutput() as ReactElement<StyledProps, FC>;
+	const result = renderer.getRenderOutput() as ReactElement<StyledProps, FC>;
 
-  return {
-    getPageLinkComponentProp: (propName) => result.props[propName],
-  };
+	return {
+		getPageLinkComponentProp: (propName) => result.props[propName],
+	};
 };
 
-test('should provide correct props to PageLinkComponent', () => {
-  const page = setup({
-    children: 'test',
-    isCurrent: true,
+test("should provide correct props to PageLinkComponent", () => {
+	const page = setup({
+		children: "test",
+		isCurrent: true,
 
-    innerProps: {
-      href: '/test/',
-    },
+		innerProps: {
+			href: "/test/",
+		},
 
-    page: 1,
-  });
+		page: 1,
+	});
 
-  expect(page.getPageLinkComponentProp('children')).toBe('test');
-  expect(page.getPageLinkComponentProp('$rootProps')).toBe(rootProps);
-  expect(page.getPageLinkComponentProp('href')).toBe('/test/');
-  expect(page.getPageLinkComponentProp('$isCurrent')).toBe(true);
-  expect(page.getPageLinkComponentProp('as')).toBe(Link);
+	expect(page.getPageLinkComponentProp("children")).toBe("test");
+	expect(page.getPageLinkComponentProp("$rootProps")).toBe(rootProps);
+	expect(page.getPageLinkComponentProp("href")).toBe("/test/");
+	expect(page.getPageLinkComponentProp("$isCurrent")).toBe(true);
+	expect(page.getPageLinkComponentProp("as")).toBe(Link);
 });
