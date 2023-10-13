@@ -42,15 +42,15 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.2.2",
-    "@types/react-test-renderer": "^18.0.0",
-    "@types/styled-components": "^5.1.26",
+    "@types/react-test-renderer": "^18.0.3",
+    "@types/styled-components": "^5.1.28",
     "@vitest/coverage-v8": "^0.34.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-test-renderer": "^18.2.0",
-    "styled-components": "^6.0.3",
-    "tsup": "^7.1.0",
-    "typescript": "^5.1.6",
+    "styled-components": "^6.0.9",
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2",
     "vitest": "^0.34.6"
   }
 }
