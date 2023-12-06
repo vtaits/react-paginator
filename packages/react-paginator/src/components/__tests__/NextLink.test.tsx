@@ -48,5 +48,5 @@ test("should provide correct props to NextLinkComponent", () => {
 	expect(props.$rootProps).toBe(rootProps);
 	expect(props.href).toBe("/test/");
 	expect(props.$isDisabled).toBe(true);
-	expect(props.as).toBe(Link);
+	expect(props).toHaveProperty("as", Link);
 });

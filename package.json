@@ -5,10 +5,10 @@
   ],
   "scripts": {
     "start": "storybook dev -p 6006",
-    "build": "yarn workspaces run build",
-    "lint": "yarn workspaces run lint",
-    "test:unit": "yarn workspaces run test:unit",
-    "test:ts": "yarn workspaces run test:ts",
+    "build": "yarn workspaces foreach --all run build",
+    "lint": "yarn workspaces foreach --all run lint",
+    "test:unit": "yarn workspaces foreach --all run test:unit",
+    "test:ts": "yarn workspaces foreach --all run test:ts",
     "test": "yarn lint && yarn test:ts && yarn test:unit",
     "validate": "yarn test && yarn build"
   },

@@ -1,5 +1,4 @@
-import { memo, useMemo } from "react";
-import type { ReactElement } from "react";
+import { type ReactElement, memo, useMemo } from "react";
 
 import { components } from "./components";
 import { getPages as defaultGetPages } from "./getPages";
@@ -48,7 +47,7 @@ function PaginatorInner<Payload>(props: PaginatorProps<Payload>): ReactElement {
 			onPageChange,
 			hrefBuilder,
 			getPages,
-			components,
+			components: componentsProp,
 			styles,
 			payload,
 		}),
@@ -63,7 +62,7 @@ function PaginatorInner<Payload>(props: PaginatorProps<Payload>): ReactElement {
 			onPageChange,
 			hrefBuilder,
 			getPages,
-			components,
+			componentsProp,
 			styles,
 			payload,
 		],
@@ -88,7 +87,7 @@ function PaginatorInner<Payload>(props: PaginatorProps<Payload>): ReactElement {
 				marginPagesDisplayed,
 				page,
 			}),
-		[pageCount, pageRangeDisplayed, marginPagesDisplayed, page],
+		[getPages, pageCount, pageRangeDisplayed, marginPagesDisplayed, page],
 	);
 
 	const {

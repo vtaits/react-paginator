@@ -1,5 +1,11 @@
-.idea
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
 
+.idea
 coverage
 dist
 node_modules

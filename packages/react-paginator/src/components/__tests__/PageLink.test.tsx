@@ -51,5 +51,5 @@ test("should provide correct props to PageLinkComponent", () => {
 	expect(props.$rootProps).toBe(rootProps);
 	expect(props.href).toBe("/test/");
 	expect(props.$isCurrent).toBe(true);
-	expect(props.as).toBe(Link);
+	expect(props).toHaveProperty("as", Link);
 });

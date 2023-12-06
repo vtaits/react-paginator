@@ -76,7 +76,10 @@ test("should render links", () => {
 	const pageLinkNodes = engine.accessors.pageLinkWrapper.getAll();
 
 	expect(pageLinkNodes.length).toBe(7);
-	pageLinkNodes.forEach((pageLinkNode, index) => {
+
+	for (let index = 0; index < pageLinkNodes.length; ++index) {
+		const pageLinkNode = pageLinkNodes[index];
+
 		const { props: pageLinkProps } = pageLinkNode;
 
 		expect(pageLinkProps.Link).toBe(Link);
@@ -86,5 +89,5 @@ test("should render links", () => {
 		expect(pageLinkProps.page).toBe(6);
 		expect(pageLinkProps.pageForLink).toBe(4 + index);
 		expect(pageLinkProps.rootProps).toBe(rootProps);
-	});
+	}
 });
