@@ -32,7 +32,6 @@ export function Link<Payload>({
 	}
 
 	return (
-		// biome-ignore lint/a11y/useValidAnchor: support open in new tab
 		<a href={href} onClick={onClick} className={className} style={style}>
 			{children}
 		</a>
