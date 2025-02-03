@@ -28,9 +28,9 @@
     "clean": "rimraf dist",
     "build": "tsup src/index.ts --sourcemap --format esm,cjs --dts --legacy-output",
     "test:ts": "tsc --noEmit",
-    "lint": "biome check src",
-    "lint:fix": "biome check src --write --unsafe",
-    "format": "biome format src --write",
+    "lint": "biome check",
+    "lint:fix": "biome check --write --unsafe",
+    "format": "biome format --write",
     "test:unit": "vitest run --coverage.enabled --coverage.all --coverage.include=src --coverage.exclude=src/__fixtures__ --coverage.exclude=src/__stories__",
     "test:unit:watch": "vitest",
     "test": "bun run test:unit",
@@ -45,14 +45,18 @@
     "@storybook/react": "^8.5.3",
     "@types/react": "^19.0.8",
     "@types/styled-components": "^5.1.34",
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/browser": "^3.0.4",
     "@vitest/coverage-v8": "^3.0.4",
+    "playwright": "^1.50.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "styled-components": "^6.1.14",
     "tsup": "^8.3.6",
     "typescript": "^5.7.3",
     "vite": "^6.0.11",
-    "vitest": "^3.0.4"
+    "vitest": "^3.0.4",
+    "vitest-browser-react": "^0.0.4"
   },
   "dependencies": {
     "csstype": "^3.1.3"
