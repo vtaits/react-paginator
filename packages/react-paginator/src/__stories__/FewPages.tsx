@@ -1,6 +1,5 @@
 import { useState } from "react";
 import type { ReactElement } from "react";
-
 import { Paginator } from "..";
 
 export function FewPages(): ReactElement {
