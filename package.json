@@ -14,7 +14,10 @@
     "test": "bun run lint && bun run test:ts && bun run test:unit",
     "validate": "bun run test && bun run build"
   },
-  "repository": "git@github.com:vtaits/react-paginator.git",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:vtaits/react-paginator.git"
+  },
   "author": "Vadim Taits",
   "license": "MIT",
   "devDependencies": {

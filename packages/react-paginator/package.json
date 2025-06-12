@@ -21,7 +21,10 @@
     "pagination",
     "paginator"
   ],
-  "repository": "git@github.com:vtaits/react-paginator.git",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:vtaits/react-paginator.git"
+  },
   "author": "Vadim Taits",
   "license": "MIT",
   "scripts": {
