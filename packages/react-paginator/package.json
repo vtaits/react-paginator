@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "@vtaits/react-paginator",
   "version": "2.0.0",
   "description": "Simple customizable pagination component for react applications",
@@ -6,15 +7,14 @@
     "dist"
   ],
   "main": "./dist/index.js",
-  "module": "./dist/esm/index.js",
+  "module": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/esm/index.js",
-      "require": "./dist/index.js"
+      "import": "./dist/index.js"
     }
   },
-  "typings": "./dist/index.d.ts",
   "keywords": [
     "react",
     "ui",
@@ -26,7 +26,7 @@
   "license": "MIT",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "tsup src/index.ts --sourcemap --format esm,cjs --dts --legacy-output",
+    "build": "tsup src/index.ts --sourcemap --format esm --dts",
     "test:ts": "tsc --noEmit",
     "lint": "biome check",
     "lint:fix": "biome check --write --unsafe",
