@@ -1,13 +1,11 @@
-import { type ReactElement, memo, useMemo } from "react";
+import { memo, type ReactElement, useMemo } from "react";
 
 import { components } from "./components";
+import { BREAK, PAGES } from "./constants";
 import { getPages as defaultGetPages } from "./getPages";
-
 import { NextLinkWrapper } from "./NextLinkWrapper";
 import { PageLinkGroupWrapper } from "./PageLinkGroupWrapper";
 import { PreviousLinkWrapper } from "./PreviousLinkWrapper";
-
-import { BREAK, PAGES } from "./constants";
 
 import type {
 	Components,

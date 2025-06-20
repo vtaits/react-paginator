@@ -1,5 +1,5 @@
-import { memo } from "react";
 import type { ReactElement, ReactNode, SyntheticEvent } from "react";
+import { memo } from "react";
 
 import type {
 	HrefBuilder,

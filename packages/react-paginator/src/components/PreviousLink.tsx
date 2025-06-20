@@ -1,13 +1,11 @@
 import type { ReactElement } from "react";
 
 import styled from "styled-components";
-
-import { getStyle } from "./getStyle";
-
 import type {
 	PreviousLinkProps,
 	StylingPreviousLinkComponentProps,
 } from "../types";
+import { getStyle } from "./getStyle";
 
 export const PreviousLinkComponent = styled.a<
 	StylingPreviousLinkComponentProps<any>

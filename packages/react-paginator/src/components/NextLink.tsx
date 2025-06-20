@@ -1,10 +1,8 @@
 import type { ReactElement } from "react";
 
 import styled from "styled-components";
-
-import { getStyle } from "./getStyle";
-
 import type { NextLinkProps, StylingNextLinkComponentProps } from "../types";
+import { getStyle } from "./getStyle";
 
 export const NextLinkComponent = styled.a<StylingNextLinkComponentProps<any>>(
 	(props) => {

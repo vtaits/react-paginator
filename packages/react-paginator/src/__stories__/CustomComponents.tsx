@@ -1,7 +1,7 @@
-import { useState } from "react";
 import type { ReactElement } from "react";
-import { Paginator } from "..";
+import { useState } from "react";
 import type { Components, PageLinkProps } from "..";
+import { Paginator } from "..";
 
 function PageLink({
 	page,

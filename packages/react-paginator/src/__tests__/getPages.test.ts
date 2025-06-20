@@ -1,7 +1,6 @@
 import { expect, test } from "vitest";
-import { getPages } from "../getPages";
-
 import { BREAK, PAGES } from "../constants";
+import { getPages } from "../getPages";
 
 test("should render all pages if pageCount not bigger than pageRangeDisplayed", () => {
 	expect(

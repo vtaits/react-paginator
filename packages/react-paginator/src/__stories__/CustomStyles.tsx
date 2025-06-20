@@ -1,7 +1,7 @@
-import { useState } from "react";
 import type { ReactElement } from "react";
-import { Paginator } from "..";
+import { useState } from "react";
 import type { Styles } from "..";
+import { Paginator } from "..";
 
 const styles: Styles<unknown> = {
 	container: (baseStyle) => ({

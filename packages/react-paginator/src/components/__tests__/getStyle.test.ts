@@ -1,8 +1,7 @@
 import { expect, test, vi } from "vitest";
+import { rootProps } from "../../__fixtures__/rootProps";
 import type { CSSObject } from "../../types.styled";
 import { getStyle } from "../getStyle";
-
-import { rootProps } from "../../__fixtures__/rootProps";
 
 test("should return base state if custom style not defined", () => {
 	const baseStyle: CSSObject = {

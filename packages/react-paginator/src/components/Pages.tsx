@@ -1,10 +1,8 @@
 import type { ReactElement } from "react";
 
 import styled from "styled-components";
-
-import { getStyle } from "./getStyle";
-
 import type { PagesProps, StylingPagesComponentProps } from "../types";
+import { getStyle } from "./getStyle";
 
 export const PagesComponent = styled.div<StylingPagesComponentProps<any>>(
 	(props) =>

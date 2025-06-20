@@ -1,8 +1,7 @@
-import { useState } from "react";
 import type { ReactElement } from "react";
-
-import { Paginator } from "..";
+import { useState } from "react";
 import type { HrefBuilder } from "..";
+import { Paginator } from "..";
 
 const hrefBuilder: HrefBuilder = (page) => `/url/?page=${page}`;
 

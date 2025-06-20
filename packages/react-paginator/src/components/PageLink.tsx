@@ -1,10 +1,8 @@
 import type { ReactElement } from "react";
 
 import styled from "styled-components";
-
-import { getStyle } from "./getStyle";
-
 import type { PageLinkProps, StylingPageLinkComponentProps } from "../types";
+import { getStyle } from "./getStyle";
 
 export const PageLinkComponent = styled.a<StylingPageLinkComponentProps<any>>(
 	(props) => {

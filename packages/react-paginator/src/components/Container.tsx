@@ -1,10 +1,8 @@
 import type { ReactElement } from "react";
 
 import styled from "styled-components";
-
-import { getStyle } from "./getStyle";
-
 import type { ContainerComponentProps, StylingContainerProps } from "../types";
+import { getStyle } from "./getStyle";
 
 export const InnerContainer = styled.div<StylingContainerProps<any>>((props) =>
 	getStyle(

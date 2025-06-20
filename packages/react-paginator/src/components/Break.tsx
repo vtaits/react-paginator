@@ -1,10 +1,8 @@
 import type { ReactElement } from "react";
 
 import styled from "styled-components";
-
-import { getStyle } from "./getStyle";
-
 import type { BreakComponentProps, StylingBreakProps } from "../types";
+import { getStyle } from "./getStyle";
 
 export const InnerBreak = styled.div<StylingBreakProps<any>>((props) =>
 	getStyle(
