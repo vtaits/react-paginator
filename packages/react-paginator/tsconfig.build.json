@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"noEmit": false,
+		"declaration": true,
+		"emitDeclarationOnly": true,
+		"rootDir": "./src"
+	},
+	"extends": "./tsconfig.json",
+	"exclude": [
+		"node_modules",
+		"src/**/*.test.js",
+		"src/__fixtures__",
+		"src/__stories__",
+		"src/__tests__"
+	],
+	"include": ["src/**/*"]
+}
