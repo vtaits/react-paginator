@@ -17,7 +17,7 @@
     },
     "packages/react-paginator": {
       "name": "@vtaits/react-paginator",
-      "version": "3.0.0",
+      "version": "4.0.0",
       "devDependencies": {
         "@storybook/react-vite": "^10.6.6",
         "@types/react": "^19.3.0",
